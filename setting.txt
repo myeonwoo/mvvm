@@ -1,0 +1,57 @@
+
+-- STEP 1. 선행 작업 (로컬 개발 머신 환경)
+  npm, git
+
+-- STEP 2. nuxt 프로젝트 생성
+  가이드 페이지: https://nuxtjs.org/docs/get-started/installation
+  옵션 선택:
+    ✨  Generating Nuxt.js project in mvvm
+    ? Project name: mvvm
+    ? Programming language: JavaScript
+    ? Package manager: Npm
+    ? UI framework: None
+    ? Nuxt.js modules:
+    ? Linting tools: (Press <space> to select, <a> to toggle all, <i> to invert selection)
+    ? Testing framework: None
+    ? Rendering mode: Universal (SSR / SSG)
+    ? Deployment target: Server (Node.js hosting)
+    ? Development tools:
+    ? What is your GitHub username?
+    ? Version control system: Git
+
+  실행
+    npm init nuxt-app mvvm
+
+
+-- STEP 3. plugin 추가
+  이미 작업된 파일 수정 적용됨 (git)
+
+  npm install @nuxtjs/axios
+
+
+-- STEP 4. Git 소스 적용
+  git init .
+  git remote add origin git@github.com:myeonwoo/mvc.git
+  git fetch origin
+    git branch -f master origin/master
+  git reset .
+  git checkout -f
+
+-- STEP 5. 로컬 개발 서버 실행
+  npm run dev
+
+-- STEP 6. 개발 시작
+
+  개발 플로
+  1. 소스 수정
+  2. git push
+  3. build & deploy
+
+
+
+-- nuxt auth 설치
+npm install --save-exact @nuxtjs/auth-next
+수정 nuxt.config.js
+
+-- vee-validate 설치
+npm install vee-validate
