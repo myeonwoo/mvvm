@@ -26,12 +26,14 @@
 -- STEP 3. plugin 추가
   이미 작업된 파일 수정 적용됨 (git)
 
+  npm install @nuxtjs/vuetify -D
+
   npm install @nuxtjs/axios
 
 
 -- STEP 4. Git 소스 적용
   git init .
-  git remote add origin git@github.com:myeonwoo/mvc.git
+  git remote add origin git@github.com:myeonwoo/mvvm.git
   git fetch origin
     git branch -f master origin/master
   git reset .
