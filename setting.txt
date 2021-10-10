@@ -27,8 +27,18 @@
   이미 작업된 파일 수정 적용됨 (git)
 
   npm install @nuxtjs/vuetify -D
+    https://vuetifyjs.com/en/
+    https://materialdesignicons.com/
 
   npm install @nuxtjs/axios
+
+
+
+
+
+
+
+
 
 
 -- STEP 4. Git 소스 적용
