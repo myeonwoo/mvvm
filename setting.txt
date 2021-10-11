@@ -31,9 +31,10 @@
     https://materialdesignicons.com/
     https://pixabay.com/
 
-  npm install firebase
-  # npm install vue-textarea-autosize
+  npm install vue-textarea-autosize
 
+  npm install firebase
+  npm install @nuxtjs/firebase
   npm install @nuxtjs/axios
 
 

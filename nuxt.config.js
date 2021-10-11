@@ -33,9 +33,29 @@ export default {
     ['@nuxtjs/vuetify', { /* module options */ }]
   ],
 
-  // Modules: https://go.nuxtjs.dev/config-modules
+  // Modules: https://go.nuxtjs.dev/config-modules 
   modules: [
   ],
+  // modules: [
+  //   [
+  //     '@nuxtjs/firebase',
+  //     {
+  //       config: {
+  //         apiKey: "AIzaSyDAGChfMliWEkWEgyLaswnKG845QOf2ZGg",
+  //         authDomain: "vue-calendar-437bc.firebaseapp.com",
+  //         projectId: "vue-calendar-437bc",
+  //         storageBucket: "vue-calendar-437bc.appspot.com",
+  //         messagingSenderId: "225608021331",
+  //         appId: "1:225608021331:web:f8dd4b95375dfd88f91da6"
+  //         // measurementId: '<measurementId>'
+  //       },
+  //       services: {
+  //         firestore: true
+  //         // auth: true // Just as example. Can be any other service.
+  //       }
+  //     }
+  //   ]
+  // ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
