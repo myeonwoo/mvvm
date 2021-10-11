@@ -29,6 +29,10 @@
   npm install @nuxtjs/vuetify -D
     https://vuetifyjs.com/en/
     https://materialdesignicons.com/
+    https://pixabay.com/
+
+  npm install firebase
+  # npm install vue-textarea-autosize
 
   npm install @nuxtjs/axios
 
