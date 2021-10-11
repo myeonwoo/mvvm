@@ -2,7 +2,6 @@
   <v-app>
     <v-main>
       <!-- main -->
-      <h1>Calendar ab</h1>
       <v-row class="fill-height">
         <v-col>
           <v-sheet height="64">
@@ -89,7 +88,7 @@
                     <v-textarea
                       clearable
                       clear-icon="mdi-close-circle"
-                      label="Text"
+                      label="내용"
                       v-model="selectedEvent.details"
                     ></v-textarea>
                   </form>
@@ -159,6 +158,40 @@ export default {
 
       this.events = events;
     },
+    updateRange({ start, end }) {
+      console.log(['updateRange',start, end])
+      // this.start = start;
+      // this.end = end;
+      // return;
+
+      const events = []
+      if (this.events.length < 1) {
+        const min = new Date(`${start.date}T00:00:00`)
+        const max = new Date(`${end.date}T23:59:59`)
+        const days = (max.getTime() - min.getTime()) / 86400000
+        let eventCount = this.rnd(days, days + 20)
+        for (let i = 0; i < eventCount; i++) {
+          const allDay = this.rnd(0, 3) === 0
+          const firstTimestamp = this.rnd(min.getTime(), max.getTime())
+          const first = new Date(firstTimestamp - (firstTimestamp % 900000))
+          const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
+          const second = new Date(first.getTime() + secondTimestamp)
+          let name = this.names[this.rnd(0, this.names.length - 1)];
+          let newdata = {
+            name: name,
+            start: first,
+            end: second,
+            details: 'Have some fun for ' + name,
+            color: this.colors[this.rnd(0, this.colors.length - 1)],
+            timed: !allDay,
+          }
+          events.push(newdata)
+
+          console.log(newdata);
+        }
+        this.events = events
+      }
+    },
     async addEvent(){
       if(this.name && this.start && this.end){
         let newdata = {
@@ -184,6 +217,8 @@ export default {
       }
     },
     async updateEvent (ev) {
+      this.selectedOpen = false,
+      this.currentlyEditing = null
       return;
 
       // let snapshot = await getDocs(collection(db, 'calEvent'));
@@ -236,34 +271,6 @@ export default {
         open()
       }
       nativeEvent.stopPropagation()
-    },
-    updateRange({ start, end }) {
-      // this.start = start;
-      // this.end = end;
-      // return;
-
-      const events = []
-      const min = new Date(`${start.date}T00:00:00`)
-      const max = new Date(`${end.date}T23:59:59`)
-      const days = (max.getTime() - min.getTime()) / 86400000
-      let eventCount = this.rnd(days, days + 20)
-      eventCount = 10;
-      for (let i = 0; i < eventCount; i++) {
-        const allDay = this.rnd(0, 3) === 0
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-        const second = new Date(first.getTime() + secondTimestamp)
-        let newdata = {
-          name: this.names[this.rnd(0, this.names.length - 1)],
-          start: first,
-          end: second,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          timed: !allDay,
-        }
-        events.push(newdata)
-      }
-      this.events = events
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a

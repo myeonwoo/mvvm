@@ -30,12 +30,12 @@
     https://vuetifyjs.com/en/
     https://materialdesignicons.com/
     https://pixabay.com/
-
-  npm install vue-textarea-autosize
-
-  npm install firebase
-  npm install @nuxtjs/firebase
   npm install @nuxtjs/axios
+
+    npm install vue-textarea-autosize
+
+    npm install firebase
+    npm install @nuxtjs/firebase
 
 
 
@@ -50,7 +50,7 @@
   git init .
   git remote add origin git@github.com:myeonwoo/mvvm.git
   git fetch origin
-    git branch -f master origin/master
+  git branch -f master origin/master
   git reset .
   git checkout -f
 
