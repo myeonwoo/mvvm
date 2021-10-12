@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home mx-4 mt-5">
     <v-text-field
       outlined
       label="업무 추가"
@@ -48,13 +48,14 @@
 </template>
 <script>
 export default {
-  layout: 'todolist/default',
   data: () => ({
     newTaskTitke: '',
     tasks: [
       {id:1, title:'Wake up', done:false},
-      {id:2, title:'Get bananas', done:true},
+      {id:2, title:'Get bananas', done:false},
       {id:3, title:'Eat bananas', done:false},
+      {id:4, title:'Poo bananas', done:false},
+      {id:5, title:'Show Dr poo bananas', done:false},
     ]
   }),
   methods: {

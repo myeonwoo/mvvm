@@ -30,12 +30,14 @@
     https://vuetifyjs.com/en/
     https://materialdesignicons.com/
     https://pixabay.com/
-  npm install @nuxtjs/axios
+  
+    ++ npm install @nuxtjs/axios
+    ++ npm install --save-dev @nuxtjs/moment
 
-    npm install vue-textarea-autosize
 
-    npm install firebase
-    npm install @nuxtjs/firebase
+    -- npm install vue-textarea-autosize
+    -- npm install firebase
+    -- npm install @nuxtjs/firebase
 
 
 

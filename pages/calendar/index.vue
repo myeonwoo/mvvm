@@ -1,6 +1,5 @@
 <template>
-  <v-app>
-    <v-main>
+  <div class="ma-4">
       <!-- main -->
       <v-row class="fill-height">
         <v-col>
@@ -103,11 +102,9 @@
           </v-sheet>
         </v-col>
       </v-row>
-    </v-main>
-  </v-app>
+  </div>
 </template>
 <script>
-
 export default {
   data: () => ({
     today: new Date().toISOString().substr(0,10),
@@ -159,11 +156,6 @@ export default {
       this.events = events;
     },
     updateRange({ start, end }) {
-      console.log(['updateRange',start, end])
-      // this.start = start;
-      // this.end = end;
-      // return;
-
       const events = []
       if (this.events.length < 1) {
         const min = new Date(`${start.date}T00:00:00`)
