@@ -5,9 +5,9 @@
         <v-list-item>
           <v-list-item-content>
             <v-list-item-title class="text-h6">
-              Vuetify 앱
+              통합 어드민
             </v-list-item-title>
-            <v-list-item-subtitle>hello there</v-list-item-subtitle>
+            <v-list-item-subtitle>Best Site</v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
@@ -51,7 +51,7 @@ export default {
   data: () => ({
     drawer: true,
     items: [
-      { title: 'Login', icon: 'mdi-login', to: '/user/login' },
+      { title: '로그인/아웃', icon: 'mdi-login', to: '/user/login' },
       { title: 'Todo', icon: 'mdi-format-list-checks', to: '/todolist/viewlist' },
       { title: 'Calendar', icon: 'mdi-calendar', to: '/calendar' },
       { title: 'About', icon: 'mdi-help-box', to: '/todolist/about' },

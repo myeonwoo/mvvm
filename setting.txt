@@ -27,11 +27,13 @@
   이미 작업된 파일 수정 적용됨 (git)
 
   npm install @nuxtjs/vuetify -D
-    https://vuetifyjs.com/en/
-    https://materialdesignicons.com/
-    https://pixabay.com/
+    참고 https://vuetifyjs.com/en/
+    참고 https://materialdesignicons.com/
+    참고 https://pixabay.com/
+
+  npm install @nuxtjs/axios
+    수정 nuxt.config.js
   
-    ++ npm install @nuxtjs/axios
     ++ npm install --save-dev @nuxtjs/moment
 
 
