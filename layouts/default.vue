@@ -48,6 +48,9 @@
 </template>
 <script>
 export default {
+  head: {
+    title: '통합 어드민 가이드'
+  },
   data: () => ({
     drawer: true,
     items: [
@@ -55,6 +58,7 @@ export default {
       { title: 'Todo', icon: 'mdi-format-list-checks', to: '/todolist/viewlist' },
       { title: 'Calendar', icon: 'mdi-calendar', to: '/calendar' },
       { title: 'About', icon: 'mdi-help-box', to: '/todolist/about' },
+      { title: '미션 Form A', icon: 'mdi-bullseye-arrow', to: '/mission/formA' },
     ],
     right: null,
   })

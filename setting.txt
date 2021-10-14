@@ -34,12 +34,18 @@
   npm install @nuxtjs/axios
     수정 nuxt.config.js
   
+    ** TODO
+    ++ nuxt auth 설치
+    npm install --save-exact @nuxtjs/auth-next
     ++ npm install --save-dev @nuxtjs/moment
 
-
+    -- $ npm install @splidejs/vue-splide
     -- npm install vue-textarea-autosize
     -- npm install firebase
     -- npm install @nuxtjs/firebase
+    수정 nuxt.config.js
+    -- vee-validate 설치
+    npm install vee-validate
 
 
 
@@ -69,10 +75,9 @@
   3. build & deploy
 
 
+  -- Deploy
+    https://nuxtjs.org/deployments/
 
--- nuxt auth 설치
-npm install --save-exact @nuxtjs/auth-next
-수정 nuxt.config.js
 
--- vee-validate 설치
-npm install vee-validate
+
+
