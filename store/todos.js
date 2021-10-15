@@ -1,46 +1,61 @@
 export const state = () => ({
   // item: {id:1, user_id:1, userid:'mw.lim@gmail.com', title:'Wake up', completed:false}
-  list: []
+  list: [],
+  info: {
+    list: [],
+    paginations: {
+      page: 1,
+      limit: 10,
+      totalPage: 1,
+      totalcount:1
+    },
+  }
 })
 
 export const mutations = {
-  set_list(state, list) {
-    state.list = list;
-    // state.list.splice(0, state.list.length);
-    // list.forEach(todo => state.list.push(todo));
+  set_info(state, {list, paginations}) {
+    state.info.list = list;
+    state.info.paginations = paginations;
+  },
+  set_info_paginations(state, paginations) {
+    state.info.paginations = paginations;
+  },
 
-    // 즉시 반영 안되는 경우
-    // state.list = list;
+  set_list(state, list) {
+    state.info.list = list;
   },
   append_list(state, list) {
-    // list.forEach(todo => state.list.push(todo))
-
-    // 즉시 반영 안되는 경우
-    state.list = state.list.concat(list);
+    state.info.list = state.info.list.concat(list);
   },
   empty_list(state){
-    // state.list.splice(0, state.list.length)
-    state.list = []
+    state.info.list = []
   },
   add(state, todo) {
-    state.list.push(todo)
+    state.info.list.push(todo)
   },
   remove(state, todo) {
-    // state.list.splice(state.list.indexOf(todo), 1)
-
-    // 즉시 반영 안되는 경우
-    state.list = state.list.filter(task=> task.id !== todo.id)
+    state.info.list = state.info.list.filter(task=> task.id !== todo.id)
   },
   toggle(state, todo) {
     todo.completed = !todo.completed
   },
+  update_todo(state, i_todo) {
+    let s_todo = state.info.list.find(todo => todo.id == i_todo.id)
+    if (s_todo) Object.assign(s_todo, i_todo)
+  },
 }
 
 export const getters = {
+  get_info: state => {
+    return state.info
+  },
   getTodoById: (state) => (id) => {
-    return state.list.find(todo => todo.id == id)
+    return state.info.list.find(todo => todo.id == id)
   },
   getCompletedTodos: state => {
-    return state.list.filter(todo => todo.completed)
+    return state.info.list.filter(todo => todo.completed)
+  },
+  getAllTodos: state => {
+    return state.info.list
   },
 }

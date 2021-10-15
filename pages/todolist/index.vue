@@ -1,16 +1,16 @@
 <template>
   <div class="home mx-4 mt-5">
     <v-row>
-      <v-col cols="3">
+      <v-col cols="12" sm="3">
         <v-text-field v-model="newTodo.start_at" type="date" label="start"></v-text-field>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="12" sm="3">
         <v-text-field v-model="newTodo.end_at" type="date" label="end"></v-text-field>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12" sm="6">
         <v-text-field
           outlined
-          label="업무 추가"
+          label="TODO 추가"
           append-icon="mdi-plus"
           class="pa-3"
           hide-details
@@ -25,9 +25,9 @@
     <v-divider></v-divider>
     
     
-    <v-list flat class="pt-0">
+    <v-list flat class="pt-0" style="min-height: 700px;">
       <div
-        v-for="(todo, idx) in todos"
+        v-for="(todo, idx) in todoInfo.list"
         :key="todo.id"
       >
         <v-list-item
@@ -45,7 +45,8 @@
             </v-list-item-content>
 
             <v-btn icon
-              @click="selectTodo(todo), $event.stopPropagation()"
+              @click="$event.stopPropagation()"
+              :to="`/todolist/${todo.id}`"
             >
               <v-icon color="primary lighten-1">mdi-selection-search</v-icon>
             </v-btn>
@@ -64,16 +65,31 @@
       </div>
       
     </v-list>
-    <v-btn @click="append_more">append more</v-btn>
-    <v-btn @click="empty_list">empty list</v-btn>
-
-    <h4>선택된 TODO</h4>
-    <div>
-      {{selectedTodo}}
+    <div class="text-center">
+      <v-pagination
+        :value="todoInfo.paginations.page"
+        :length="todoInfo.paginations.totalpage"
+        :total-visible="9"
+        @input="selectPage"
+      ></v-pagination>
     </div>
-    <h4>완료 TODOs</h4>
-    <div>
-      {{completedTodos}}
+
+
+    <div v-if="true">
+      <v-btn @click="append_more">append more</v-btn>
+      <v-btn @click="empty_list">empty list</v-btn>
+      <v-btn @click="increment">increment counter({{counter}})</v-btn>
+      <v-btn @click="goPage">Go Page</v-btn>
+      <v-btn @click="set_info">set_info</v-btn>
+
+      <h4>todoInfo</h4>
+      <pre>
+        {{todoInfo}}
+      </pre>
+      <h4>완료 TODOs</h4>
+      <pre>
+        {{completedTodos}}
+      </pre>
     </div>
 
     <v-snackbar
@@ -93,6 +109,13 @@
       </template>
     </v-snackbar>
 
+    <v-overlay :value="overlay.window">
+      <v-progress-circular
+        indeterminate
+        size="64"
+      ></v-progress-circular>
+    </v-overlay>
+
   </div>
 </template>
 <script>
@@ -104,21 +127,26 @@ export default {
       open: false,
       text: 'It is snackbar'
     },
-    paginations: {
-      page: 1,
-      limit: 10,
-    },
     newTodo: {
       title:'',
       start_at:'',
       end_at:''
     },
+    overlay: {
+      window: false
+    },
     selectedTodoId: null
   }),
   computed: {
+    counter(){
+      return this.$store.state.counter
+    },
     todos () {
       // return this.$store.state.list
       return this.$store.state.todos.list
+    },
+    todoInfo () {
+      return this.$store.state.todos.info
     },
     selectedTodo () {
       return this.$store.getters['todos/getTodoById'](this.selectedTodoId);
@@ -129,9 +157,24 @@ export default {
   },
   methods: {
     ...mapMutations({
-      toggle: 'todos/toggle',
+      increment: 'increment',
+      // toggle: 'todos/toggle',
       empty_list: 'todos/empty_list',
     }),
+    set_info(){
+      let list = [1,2,3,4]
+      
+      this.$store.commit('todos/set_info', {list,paginations:this.paginations})
+    },
+    goPage(){
+      this.$router.go(1);
+    },
+    selectPage(page) {
+      let paginations = Object.assign({}, this.todoInfo.paginations)
+      paginations.page = page
+      this.$store.commit('todos/set_info_paginations', paginations)
+      this.init_todos()
+    },
     selectTodo(todo) {
       this.selectedTodoId = todo.id
     },
@@ -152,12 +195,17 @@ export default {
 
       // TODO: api 호출 리턴 데이타 입력
       let newTodo = await this.$axios.$post('http://127.0.0.1:8000/api/todo/store', {todo});
-      // 리스트 업데이트
-      this.init_todos()
 
       this.newTodo.title = ''
       this.newTodo.start_at = ''
       this.newTodo.end_at = ''
+
+      let paginations = Object.assign({},this.todoInfo.paginations)
+      paginations.page = 1
+      this.$store.commit('todos/set_info_paginations', paginations)
+
+      // 리스트 업데이트
+      this.init_todos()
 
       this.openSnackbar(`TODO: ${newTodo.title} 추가되었습니다.`)
     },
@@ -198,27 +246,45 @@ export default {
       this.openSnackbar(`리스트 추가되었습니다.`)
     },
     async init_todos() {
-      // TODO : api 호출
-      let todos = await this.$axios.$get('http://127.0.0.1:8000/api/todos', {params:{page:1, limit:20}})
-        .then(res => {
-          // success
-          return res
-        })
-        .catch((err, ctx) => {
-          console.log(['에러 발생',err, ctx])
+      this.overlay.window = true;
+      let params = {
+        page: this.todoInfo.paginations.page, 
+        limit: this.todoInfo.paginations.limit
+      }
 
-          alert('API 호출 에러 발생하여 임시 데이타 사용합니다.');
-          return {
-            result: [
-              {id:1, user_id:1, userid:'mw.lim@gmail.com', title:'Wake up', completed:true},
-              {id:2, user_id:1, userid:'mw.lim@gmail.com', title:'Get bananas', completed:false},
-              {id:3, user_id:1, userid:'mw.lim@gmail.com', title:'Eat bananas', completed:false},
-              {id:4, user_id:1, userid:'mw.lim@gmail.com', title:'Poo bananas', completed:false},
-              {id:5, user_id:1, userid:'mw.lim@gmail.com', title:'Show Dr poo bananas', completed:false},
-            ]
-          }
-        });
-      this.$store.commit('todos/set_list', todos.result)
+      /* start: TODO : api 호출 */
+      let todos = await this.$axios.$get('http://127.0.0.1:8000/api/todos', {
+        params: params
+      })
+      .then(res => {return res})
+      .catch((err, ctx) => {
+        alert('API 호출 에러 발생하여 임시 데이타 사용합니다.');
+        return {
+          totalpage: 1,
+          result: [
+            {id:1, user_id:1, userid:'mw.lim@gmail.com', title:'Wake up', completed:true},
+            {id:2, user_id:1, userid:'mw.lim@gmail.com', title:'Get bananas', completed:false},
+            {id:3, user_id:1, userid:'mw.lim@gmail.com', title:'Eat bananas', completed:false},
+            {id:4, user_id:1, userid:'mw.lim@gmail.com', title:'Poo bananas', completed:false},
+            {id:5, user_id:1, userid:'mw.lim@gmail.com', title:'Show Dr poo bananas', completed:false},
+          ]
+        }
+      });
+      /* end: TODO : api 호출 */
+
+      if (todos.result) {
+        // this.paginations.totalPage = todos.totalpage;
+        // this.$store.commit('todos/set_list', todos.result)
+
+        let list = todos.result
+        let paginations = Object.assign({},this.todoInfo.paginations)
+        paginations.totalpage = todos.totalpage;
+        console.log({todos,list,paginations});
+        this.$store.commit('todos/set_info', {list,paginations})
+      }
+
+
+      this.overlay.window = false;
     }
   },
   mounted(){

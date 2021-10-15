@@ -35,6 +35,10 @@
     수정 nuxt.config.js
   
     ** TODO
+    ++ vuetify-datetime-picker 설치
+    npm install --save vuetify-datetime-picker
+    ++ vee-validate 설치
+    npm install vee-validate
     ++ nuxt auth 설치
     npm install --save-exact @nuxtjs/auth-next
     ++ npm install --save-dev @nuxtjs/moment
@@ -44,8 +48,6 @@
     -- npm install firebase
     -- npm install @nuxtjs/firebase
     수정 nuxt.config.js
-    -- vee-validate 설치
-    npm install vee-validate
 
 
 

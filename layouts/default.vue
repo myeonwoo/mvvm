@@ -55,9 +55,9 @@ export default {
     drawer: true,
     items: [
       { title: '로그인/아웃', icon: 'mdi-login', to: '/user/login' },
-      { title: 'Todo', icon: 'mdi-format-list-checks', to: '/todolist/viewlist' },
+      { title: 'Todo', icon: 'mdi-format-list-checks', to: '/todolist' },
       { title: 'Calendar', icon: 'mdi-calendar', to: '/calendar' },
-      { title: 'About', icon: 'mdi-help-box', to: '/todolist/about' },
+      { title: 'About', icon: 'mdi-help-box', to: '/about' },
       { title: '미션 Form A', icon: 'mdi-bullseye-arrow', to: '/mission/formA' },
     ],
     right: null,
