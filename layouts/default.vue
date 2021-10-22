@@ -59,6 +59,7 @@ export default {
       { title: 'Calendar', icon: 'mdi-calendar', to: '/calendar' },
       { title: 'About', icon: 'mdi-help-box', to: '/about' },
       { title: '미션 Form A', icon: 'mdi-bullseye-arrow', to: '/mission/formA' },
+      { title: 'Vue-Tut', icon: 'mdi-bullseye-arrow', to: '/vuejs/tutorial/dataBinding' },
     ],
     right: null,
   })

@@ -1,5 +1,5 @@
 export default {
-  target: 'server',
+  // target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -41,11 +41,16 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules 
   modules: [
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    'bootstrap-vue/nuxt'
   ],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    // transpile: [
+    //   /(.+)(@company\/library\/src\/utils\/)(.+)(\.js)$/, // Transpile Unix paths for all utils files
+    //   /(.+)(@company\\library\\src\\utils\\)(.+)(\.js)$/ // Transpile Windows paths for all utils files
+    // ],
   },
 
   server: {

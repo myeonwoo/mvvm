@@ -1,0 +1,390 @@
+<template>
+  <div class="container">
+    <div class="row">
+      <h5 v-pre>Part2 - 메세지  Binding</h5>
+      <hr>
+      <div class="mb-3 row">
+        <label for="inputPart2Display" class="col-sm-2 col-form-label">message</label>
+        <div class="col-sm-10">
+          {{message}}
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <label for="inputPart2Input" class="col-sm-2 col-form-label">입력</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" id="inputPart2Input" v-model="message">
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <h5>Part 3: Vue Directives</h5>
+      <hr>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">Part 3-1 : v-cloak</label>
+        <label class="col-sm-10 col-form-label">{{message}}</label>
+      </div>
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">Part 3-2 : v-show</label>
+        <div class="col-sm-10">
+          <label class="col-sm-12 col-form-label" v-show="viewed">You have viewed this page - v-show</label>
+          <label class="col-sm-12 col-form-label" v-if="viewed">You have viewed this page - v-if</label>
+          <label class="col-sm-12 col-form-label" v-else>You have NOT viewed this page</label>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">Part 3-3 : v-html</label>
+        <label class="col-sm-10 col-form-label" v-html="intro"></label>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">Part 3-4 : v-if</label>
+        <div class="col-sm-10">
+          <label class="col-sm-12 col-form-label" v-if="viewed">viewed == true</label>
+          <label class="col-sm-12 col-form-label" v-if="viewed == viewed2">Viewed == viewed2</label>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">Part 3-5 : v-once</label>
+        <label class="col-sm-10 col-form-label"v-once>{{message}}</label>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">Part 3-6 : v-pre</label>
+        <label class="col-sm-10 col-form-label"v-pre>{{obj1}}</label>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">Part 3-7 : v-text</label>
+        <label class="col-sm-10 col-form-label"v-text="message">{{obj1}}</label>
+      </div>
+
+    </div>
+    <hr>
+
+    <div class="row">
+      <h5>Part 4: V-Bind Directive (v-bind)</h5>
+      <hr>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">:title</label>
+        <div class="col-sm-10">
+          <h6 :title="img.title">{{message}}</h6>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">:src,:alt,:title</label>
+        <div class="col-sm-10">
+          <img class="rounded float-start" :src="img.url" :alt="img.title" :title="img.title" />
+          <img class="rounded float-end" :src="img.url" :alt="img.title" :title="img.title" />
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <h5>Part 5: Looping</h5>
+      <hr>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">v-for="todo in todos"</label>
+        <div class="col-sm-10">
+          <ul>
+            <li v-for="todo in todos">todo #{{todo.id}} : {{todo.text}}</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+    <hr>
+
+    <div class="row">
+      <h5>Part 6: 2-Way Binding</h5>
+      <hr>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">v-model</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control" v-model="message" />
+        </div>
+      </div>
+
+    </div>
+    <hr>
+
+    <div class="row">
+      <h5>Part 7: Event Handling</h5>
+      <hr>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">카운터</label>
+        <div class="col-sm-10 row">
+          <div class="col-6">
+            <div class="btn-group" role="group" >
+              <div class="input-group-text">{{ counters.o1.num }}</div>
+              <button type="button" class="btn btn-sm btn-secondary" @click="countUp(counters.o1)">Count Up</button>
+              <button type="button" class="btn btn-sm btn-secondary" @click="countDown(counters.o1)">Count Down</button>
+              <button type="button" class="btn btn-sm btn-warning" 
+                @click="clearCounterInterval(counters.o1)"
+                v-if="counters.o1.intervalId"
+              >
+                Stop timer
+              </button>
+              <button type="button" class="btn btn-sm btn-danger"
+                @click="setCounterInterval(counters.o1)"
+                v-else
+                >
+                Start timer
+              </button>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="btn-group" role="group" >
+              <div class="input-group-text">{{ counters.o2.num }}</div>
+              <button type="button" class="btn btn-sm btn-secondary" @click="countUp(counters.o2)">Count Up</button>
+              <button type="button" class="btn btn-sm btn-secondary" @click="countDown(counters.o2)">Count Down</button>
+              <button type="button" class="btn btn-sm btn-warning" 
+                @click="clearCounterInterval(counters.o2)"
+                v-if="counters.o2.intervalId"
+              >
+                Stop timer
+              </button>
+              <button type="button" class="btn btn-sm btn-danger"
+                @click="setCounterInterval(counters.o2)"
+                v-else
+                >
+                Start timer
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <h5>Part 8: Computed Properties</h5>
+      <hr>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">유저</label>
+        <div class="col-sm-10 row">
+          <label class="col-2 col-form-label">firstname</label>
+          <label class="col-4 col-form-label bg-secondary text-white">{{user.firstname}}</label>
+          <label class="col-2 col-form-label">lastname</label>
+          <label class="col-4 col-form-label bg-secondary text-white">{{user.lastname}}</label>
+
+          <label class="col-sm-12 col-form-label">
+            Hello <span style="color: #D3ADAD" >{{fullname}}</span>
+          </label>
+
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="First Name" v-model="user.firstname"/>
+          </div>
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="Last Name" v-model="user.lastname"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <h5>Part 9: Getter & Setter Computed Properties</h5>
+      <hr>
+
+      <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">유저</label>
+        <div class="col-sm-10 row">
+          <label class="col-2 col-form-label">firstname</label>
+          <label class="col-4 col-form-label bg-secondary text-white">{{user.firstname}}</label>
+          <label class="col-2 col-form-label">lastname</label>
+          <label class="col-4 col-form-label bg-secondary text-white">{{user.lastname}}</label>
+
+          <div class="col-3">
+            <label>First Name:</label>
+            <input type="text" class="form-control" v-model="user.firstname"/>
+          </div>
+          <div class="col-3">
+            <label>Last Name:</label>
+            <input type="text" class="form-control" v-model="user.lastname" />
+          </div>
+          <div class="col-6">
+            <label>Full Name:</label>
+            <input type="text" class="form-control" v-model="fullnameAlt" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row">
+      <h5>Part 10: AJAX to External API</h5>
+      <hr>
+
+      <!-- <div class="mb-3 row">
+        <label class="col-sm-2 col-form-label fw-bolder">Fill Out This Form</label>
+        <div class="col-sm-10 row">
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="Starting Zip" v-model="startingZip">
+            <span class="city-span">{{startingCity}}</span>
+          </div>
+          <div class="col-6">
+            <input type="text" class="form-control" placeholder="Ending Zip" v-model="endingZip">
+            <span class="city-span">{{endingCity}}</span>
+          </div>
+        </div>
+      </div> -->
+
+    </div>
+    <hr>
+
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      message: 'Hello Vue World',
+      intro: "Welcome to the Tutorial <small>It is all about Vue.js</small>",
+      viewed: true,
+      viewed2: true,
+
+      img: {
+        title: "You loaded the page on " + new Date(),
+        url: "https://dummyimage.com/200x50/E0CECE/000",
+      },
+
+      todos: [
+        { id: 4, text: 'Learn Vue' },
+        { id: 2, text: 'Like the video' },
+        { id: 6, text: 'Subscribe to DevMarketer' }
+      ],
+
+      counters: {
+        o1: {num:0, intervalId:null},
+        o2: {num:0, intervalId:null},
+      },
+
+      user: {
+        xp: 10,
+        firstname:'',
+        lastname:'',
+      },
+
+      startingZip: '12121',
+      startingCity: '',
+      endingZip: '',
+      endingCity: '',
+    }
+  },
+  methods: {
+    countUp: function(o) {
+      o.num += 1
+    },
+    countDown: function(o) {
+      o.num -= 1
+    },
+    setCounterInterval: function(o) {
+      if (o.intervalId) clearInterval(o.intervalId);
+      o.intervalId = setInterval(()=>o.num++, 1000);
+    },
+    clearCounterInterval: function(o) {
+      clearInterval(o.intervalId);
+      o.intervalId = null;
+    },
+    addXP: function() {
+      return this.user.xp += 10
+    },
+    decreaseXP: function() {
+      return this.user.xp -= 10
+    },
+
+    // lookupStartingZip: _.debounce(function() {
+    //   var app = this
+    //   app.startingCity = "Searching..."
+    //   axios.get('http://ziptasticapi.com/' + app.startingZip)
+    //         .then(function (response) {
+    //           app.startingCity = response.data.city + ', ' + response.data.state
+    //         })
+    //         .catch(function (error) {
+    //           app.startingCity = "Invalid Zipcode"
+    //         })
+    // }, 500),
+    // lookupEndingZip: _.debounce(function() {
+    //   var app = this
+    //   app.endingCity = "Searching..."
+    //   axios.get('http://ziptasticapi.com/' + app.endingZip)
+    //         .then(function (response) {
+    //           app.endingCity = response.data.city + ', ' + response.data.state
+    //         })
+    //         .catch(function (error) {
+    //           app.endingCity = "Invalid Zipcode"
+    //         })
+    // }, 500)
+  },
+  computed: {
+    reversedMessage: function () {
+      // `this` points to the vm instance
+      return this.message.split('').reverse().join('')
+    },
+    fullname: function() {
+      return this.user.firstname + " " + this.user.lastname
+    },
+    userLevel: function() {
+      if (this.user.xp >= 200) {
+        return "Pro"
+      } else if (this.user.xp >= 100) {
+        return "Intermediate"
+      } else if (this.user.xp >= 0) {
+        return "Beginner"
+      } else {
+        return "Banned"
+      }
+    },
+    fullnameAlt: {
+      // getter function
+      get: function() {
+        return this.user.firstname + " " + this.user.lastname
+      },
+      // setter function
+      set: function(value) {
+        var name = value.split(' ')
+        this.user.firstname = name[0]
+        this.user.lastname = name[name.length - 1]
+      }
+    },
+  },
+  watch: {
+    // startingZip: function() {
+    //   this.startingCity = ''
+    //   if (this.startingZip.length == 5) {
+    //     this.lookupStartingZip()
+    //   }
+    // },
+    // endingZip: function() {
+    //   this.endingCity = ''
+    //   if (this.endingZip.length == 5) {
+    //     this.lookupEndingZip()
+    //   }
+    // }
+  },
+  mounted() {
+  }
+}
+</script>
+
+<style scoped>
+  [v-cloak] {
+    display: none;
+  }
+  textarea, pre {
+    background-color: #D1C0C0;
+    overflow: hidden;
+  }
+</style>

@@ -33,6 +33,9 @@
 
   npm install @nuxtjs/axios
     수정 nuxt.config.js
+
+  npm install bootstrap-vue
+    수정 nuxt.config.js
   
     ** TODO
     ++ vuetify-datetime-picker 설치
