@@ -1,248 +1,242 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <h5 v-pre>Part2 - 메세지  Binding</h5>
-      <hr>
-      <div class="mb-3 row">
-        <label for="inputPart2Display" class="col-sm-2 col-form-label">message</label>
-        <div class="col-sm-10">
-          {{message}}
-        </div>
-      </div>
-      <div class="mb-3 row">
-        <label for="inputPart2Input" class="col-sm-2 col-form-label">입력</label>
-        <div class="col-sm-10">
+  <div>
+    <v-container>
+      <div class="text-h6" v-pre>Part2 - 메세지  Binding</div>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">message</v-col>
+        <v-col cols="12" sm="6" md="9">{{message}}</v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">입력</v-col>
+        <v-col cols="12" sm="6" md="9">
           <input type="text" class="form-control" id="inputPart2Input" v-model="message">
-        </div>
-      </div>
-    </div>
-    <hr>
+        </v-col>
+      </v-row>
 
-    <div class="row">
-      <h5>Part 3: Vue Directives</h5>
-      <hr>
+      <div class="text-h6">Part 3: Vue Directives</div>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">Part 3-1 : v-cloak</v-col>
+        <v-col cols="12" sm="6" md="9" v-cloak>{{message}}</v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">Part 3-2 : v-show</v-col>
+        <v-col cols="12" sm="6" md="9">
+          <div v-show="viewed">You have viewed this page - v-show</div>
+          <div v-if="viewed">You have viewed this page - v-if</div>
+          <div v-else>You have NOT viewed this page</div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">Part 3-3 : v-html</v-col>
+        <v-col cols="12" sm="6" md="9" v-html="intro"></v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">Part 3-4 : v-if</v-col>
+        <v-col cols="12" sm="6" md="9">
+          <div v-if="viewed">viewed == true</div>
+          <div v-if="viewed == viewed2">Viewed == viewed2</div>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">Part 3-5 : v-once</v-col>
+        <v-col cols="12" sm="6" md="9" v-once>{{message}}</v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">Part 3-6 : v-pre</v-col>
+        <v-col cols="12" sm="6" md="9" v-pre>{{obj1}}</v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">Part 3-7 : v-text</v-col>
+        <v-col cols="12" sm="6" md="9" v-text="message"></v-col>
+      </v-row>
 
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">Part 3-1 : v-cloak</label>
-        <label class="col-sm-10 col-form-label">{{message}}</label>
-      </div>
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">Part 3-2 : v-show</label>
-        <div class="col-sm-10">
-          <label class="col-sm-12 col-form-label" v-show="viewed">You have viewed this page - v-show</label>
-          <label class="col-sm-12 col-form-label" v-if="viewed">You have viewed this page - v-if</label>
-          <label class="col-sm-12 col-form-label" v-else>You have NOT viewed this page</label>
-        </div>
-      </div>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">Part 3-3 : v-html</label>
-        <label class="col-sm-10 col-form-label" v-html="intro"></label>
-      </div>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">Part 3-4 : v-if</label>
-        <div class="col-sm-10">
-          <label class="col-sm-12 col-form-label" v-if="viewed">viewed == true</label>
-          <label class="col-sm-12 col-form-label" v-if="viewed == viewed2">Viewed == viewed2</label>
-        </div>
-      </div>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">Part 3-5 : v-once</label>
-        <label class="col-sm-10 col-form-label"v-once>{{message}}</label>
-      </div>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">Part 3-6 : v-pre</label>
-        <label class="col-sm-10 col-form-label"v-pre>{{obj1}}</label>
-      </div>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">Part 3-7 : v-text</label>
-        <label class="col-sm-10 col-form-label"v-text="message">{{obj1}}</label>
-      </div>
-
-    </div>
-    <hr>
-
-    <div class="row">
-      <h5>Part 4: V-Bind Directive (v-bind)</h5>
-      <hr>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">:title</label>
-        <div class="col-sm-10">
-          <h6 :title="img.title">{{message}}</h6>
-        </div>
-      </div>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">:src,:alt,:title</label>
-        <div class="col-sm-10">
+      <h5 >Part 4: V-Bind Directive (v-bind)</h5>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">:title</v-col>
+        <v-col cols="12" sm="6" md="9" :title="img.title">{{img.title}}</v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">:src,:alt,:title</v-col>
+        <v-col cols="12" sm="6" md="9">
           <img class="rounded float-start" :src="img.url" :alt="img.title" :title="img.title" />
           <img class="rounded float-end" :src="img.url" :alt="img.title" :title="img.title" />
-        </div>
-      </div>
-    </div>
+        </v-col>
+      </v-row>
 
-    <div class="row">
-      <h5>Part 5: Looping</h5>
-      <hr>
 
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">v-for="todo in todos"</label>
-        <div class="col-sm-10">
+      <div class="text-h6">Part 5: Looping</div>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">v-for="todo in todos"</v-col>
+        <v-col cols="12" sm="6" md="9">
           <ul>
             <li v-for="todo in todos">todo #{{todo.id}} : {{todo.text}}</li>
           </ul>
-        </div>
-      </div>
+        </v-col>
+      </v-row>
 
-    </div>
-    <hr>
-
-    <div class="row">
-      <h5>Part 6: 2-Way Binding</h5>
-      <hr>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">v-model</label>
-        <div class="col-sm-10">
+      <div class="text-h6">Part 6: 2-Way Binding</div>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">v-model</v-col>
+        <v-col cols="12" sm="6" md="9">
           <input type="text" class="form-control" v-model="message" />
-        </div>
-      </div>
+        </v-col>
+      </v-row>
 
-    </div>
-    <hr>
-
-    <div class="row">
-      <h5>Part 7: Event Handling</h5>
-      <hr>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">카운터</label>
-        <div class="col-sm-10 row">
-          <div class="col-6">
-            <div class="btn-group" role="group" >
-              <div class="input-group-text">{{ counters.o1.num }}</div>
-              <button type="button" class="btn btn-sm btn-secondary" @click="countUp(counters.o1)">Count Up</button>
-              <button type="button" class="btn btn-sm btn-secondary" @click="countDown(counters.o1)">Count Down</button>
-              <button type="button" class="btn btn-sm btn-warning" 
+      <div class="text-h6">Part 7: Event Handling</div>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">카운터</v-col>
+        <v-col cols="12" sm="6" md="9">
+          <v-row>
+            <v-col cols="12" sm="6" md="6">
+              <v-btn
+                color="primary" depressed x-small tile
+                @click="countUp(counters.o1)"
+              >Cnt +</v-btn>
+              <v-btn
+                color="warning" depressed x-small tile
+                @click="countDown(counters.o1)"
+              >Cnt -</v-btn>
+              <v-btn
+                depressed x-small tile
                 @click="clearCounterInterval(counters.o1)"
                 v-if="counters.o1.intervalId"
-              >
-                Stop timer
-              </button>
-              <button type="button" class="btn btn-sm btn-danger"
+              >1초 인터벌 종료</v-btn>
+              <v-btn
+                color="primary" depressed x-small tile
                 @click="setCounterInterval(counters.o1)"
                 v-else
-                >
-                Start timer
-              </button>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="btn-group" role="group" >
-              <div class="input-group-text">{{ counters.o2.num }}</div>
-              <button type="button" class="btn btn-sm btn-secondary" @click="countUp(counters.o2)">Count Up</button>
-              <button type="button" class="btn btn-sm btn-secondary" @click="countDown(counters.o2)">Count Down</button>
-              <button type="button" class="btn btn-sm btn-warning" 
+              >1초 인터벌 시작</v-btn>
+              {{ counters.o1.num }}
+            </v-col>
+            <v-col cols="12" sm="6" md="6">
+              <v-btn
+                color="primary" depressed x-small tile
+                @click="countUp(counters.o2)"
+              >Cnt +</v-btn>
+              <v-btn
+                color="warning" depressed x-small tile
+                @click="countDown(counters.o2)"
+              >Cnt -</v-btn>
+              <v-btn
+                depressed x-small tile
                 @click="clearCounterInterval(counters.o2)"
                 v-if="counters.o2.intervalId"
-              >
-                Stop timer
-              </button>
-              <button type="button" class="btn btn-sm btn-danger"
+              >1초 인터벌 종료</v-btn>
+              <v-btn
+                color="primary" depressed x-small tile
                 @click="setCounterInterval(counters.o2)"
                 v-else
-                >
-                Start timer
-              </button>
+              >1초 인터벌 시작</v-btn>
+              {{ counters.o2.num }}
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+
+      <div class="text-h6">Part 8: Computed Properties</div>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">유저</v-col>
+        <v-col cols="12" sm="6" md="9">
+          <v-row>
+            <v-col>
+              <input type="text" class="form-control" placeholder="First Name" v-model="user.firstname"/>
+            </v-col>
+            <v-col>
+              <input type="text" class="form-control" placeholder="Last Name" v-model="user.lastname"/>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6" md="2">firstname</v-col>
+            <v-col cols="12" sm="6" md="4">
+              <div class="bg-secondary text-white"> {{user.firstname}}</div>
+            </v-col>
+            <v-col cols="12" sm="6" md="2">lastname</v-col>
+            <v-col cols="12" sm="6" md="4">
+              <div class="bg-secondary text-white">{{user.lastname}}</div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              Hello <span style="color: #D3ADAD" > {{fullname}}</span>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+
+      <div class="text-h6">Part 9: Getter & Setter Computed Properties</div>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">유저</v-col>
+        <v-col cols="12" sm="6" md="9">
+          <v-row>
+            <v-col>
+              <label>First Name:</label>
+              <input type="text" class="form-control" v-model="user.firstname"/>
+            </v-col>
+            <v-col>
+              <label>Last Name:</label>
+              <input type="text" class="form-control" v-model="user.lastname"/>
+            </v-col>
+            <v-col>
+              <label>Full Name:</label>
+              <input type="text" class="form-control" v-model="fullnameAlt"/>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12" sm="6" md="2">firstname</v-col>
+            <v-col cols="12" sm="6" md="4">
+              <div class="bg-secondary text-white">{{user.firstname}}</div>
+            </v-col>
+            <v-col cols="12" sm="6" md="2">lastname</v-col>
+            <v-col cols="12" sm="6" md="4">
+              <div class="bg-secondary text-white">{{user.lastname}}</div>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              Hello <span style="color: #D3ADAD" > {{fullname}}</span>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+
+      <div class="text-h6">Part 10: AJAX to External API</div>
+      <v-row>
+        <v-col cols="12" sm="6" md="3">미국 zip 코드</v-col>
+        <v-col cols="12" sm="6" md="9">
+          <input type="text" class="form-control" placeholder="Starting Zip" v-model="startingZip">
+        </v-col>
+      </v-row>
+
+    </v-container>
+
+
+
+    <div class="container">
+
+
+
+      <div class="row">
+        <h5>Part 10: AJAX to External API</h5>
+        <hr>
+
+        <!-- <div class="mb-3 row">
+          <label class="col-sm-2 col-form-label fw-bolder">Fill Out This Form</label>
+          <div class="col-sm-10 row">
+            <div class="col-6">
+              <input type="text" class="form-control" placeholder="Starting Zip" v-model="startingZip">
+              <span class="city-span">{{startingCity}}</span>
+            </div>
+            <div class="col-6">
+              <input type="text" class="form-control" placeholder="Ending Zip" v-model="endingZip">
+              <span class="city-span">{{endingCity}}</span>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <hr>
+        </div> -->
 
-    <div class="row">
-      <h5>Part 8: Computed Properties</h5>
+      </div>
       <hr>
 
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">유저</label>
-        <div class="col-sm-10 row">
-          <label class="col-2 col-form-label">firstname</label>
-          <label class="col-4 col-form-label bg-secondary text-white">{{user.firstname}}</label>
-          <label class="col-2 col-form-label">lastname</label>
-          <label class="col-4 col-form-label bg-secondary text-white">{{user.lastname}}</label>
-
-          <label class="col-sm-12 col-form-label">
-            Hello <span style="color: #D3ADAD" >{{fullname}}</span>
-          </label>
-
-          <div class="col-6">
-            <input type="text" class="form-control" placeholder="First Name" v-model="user.firstname"/>
-          </div>
-          <div class="col-6">
-            <input type="text" class="form-control" placeholder="Last Name" v-model="user.lastname"/>
-          </div>
-        </div>
-      </div>
     </div>
-    <hr>
-
-    <div class="row">
-      <h5>Part 9: Getter & Setter Computed Properties</h5>
-      <hr>
-
-      <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">유저</label>
-        <div class="col-sm-10 row">
-          <label class="col-2 col-form-label">firstname</label>
-          <label class="col-4 col-form-label bg-secondary text-white">{{user.firstname}}</label>
-          <label class="col-2 col-form-label">lastname</label>
-          <label class="col-4 col-form-label bg-secondary text-white">{{user.lastname}}</label>
-
-          <div class="col-3">
-            <label>First Name:</label>
-            <input type="text" class="form-control" v-model="user.firstname"/>
-          </div>
-          <div class="col-3">
-            <label>Last Name:</label>
-            <input type="text" class="form-control" v-model="user.lastname" />
-          </div>
-          <div class="col-6">
-            <label>Full Name:</label>
-            <input type="text" class="form-control" v-model="fullnameAlt" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <hr>
-
-    <div class="row">
-      <h5>Part 10: AJAX to External API</h5>
-      <hr>
-
-      <!-- <div class="mb-3 row">
-        <label class="col-sm-2 col-form-label fw-bolder">Fill Out This Form</label>
-        <div class="col-sm-10 row">
-          <div class="col-6">
-            <input type="text" class="form-control" placeholder="Starting Zip" v-model="startingZip">
-            <span class="city-span">{{startingCity}}</span>
-          </div>
-          <div class="col-6">
-            <input type="text" class="form-control" placeholder="Ending Zip" v-model="endingZip">
-            <span class="city-span">{{endingCity}}</span>
-          </div>
-        </div>
-      </div> -->
-
-    </div>
-    <hr>
-
   </div>
 </template>
 
@@ -281,6 +275,8 @@ export default {
       startingCity: '',
       endingZip: '',
       endingCity: '',
+
+      obj1: {title:'test'},
     }
   },
   methods: {
@@ -386,5 +382,11 @@ export default {
   textarea, pre {
     background-color: #D1C0C0;
     overflow: hidden;
+  }
+  span.city-span {
+    color: (#444);
+    text-transform: uppercase;
+    margin-left: 5px;
+    margin-top: 10px;
   }
 </style>
