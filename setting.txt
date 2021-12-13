@@ -1,6 +1,6 @@
 
 -- STEP 1. 선행 작업 (로컬 개발 머신 환경)
-  npm, git
+  npm, git, more
 
 -- STEP 2. nuxt 프로젝트 생성
   가이드 페이지: https://nuxtjs.org/docs/get-started/installation
