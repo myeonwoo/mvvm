@@ -7,19 +7,15 @@
   <meta name="description" content="">
   <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
   <meta name="generator" content="Hugo 0.88.1">
-  <title>Offcanvas navbar template · Bootstrap v5.1</title>
+  <title>통합 어드민 관리</title>
 
-  <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/offcanvas-navbar/">
-
-  
 
   <!-- Bootstrap core CSS -->
   <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+  <script src="./assets/js/bootstrap.bundle.min.js"></script>
 
-  <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+  <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
   <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
-
-  
 
 </head>
 <body class="bg-light">
@@ -105,210 +101,310 @@
     .bg-purple {
       background-color: #6f42c1;
     }
+
+    .fade-enter-active, .fade-leave-active {
+      transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+      opacity: 0;
+    }
   </style>
-  
+
   <div id="app">
-  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Offcanvas navbar</a>
-      <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+    <!-- 상단 메뉴 -->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">통합 관리자</a>
+        <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-      <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Notifications</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Switch account</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">Settings</a>
-            <ul class="dropdown-menu" aria-labelledby="dropdown01">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
-            </ul>
-          </li>
-        </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <template v-for="item in topmenu">
+              <li v-if="item.type=='link'" class="nav-item">
+                <a v-bind:class="{active:item.active}" class="nav-link" aria-current="page" href="#">{{item.title}}</a>
+              </li>
+              <li v-else-if="item.type=='dropdown'" class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{item.title}}</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                  <li v-for="dropitem in item.dropmenu"><a class="dropdown-item" :href="dropitem.href">{{dropitem.title}}</a></li>
+                </ul>
+              </li>
+            </template>
+
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
-
-  <div class="nav-scroller bg-body shadow-sm">
-    <nav class="nav nav-underline" aria-label="Secondary navigation">
-      <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-      <a class="nav-link" href="#">
-        Friends
-        <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
-      </a>
-      <a class="nav-link" href="#">Explore</a>
-      <a class="nav-link" href="#">Suggestions</a>
-      <a class="nav-link" href="#">Link</a>
-      <a class="nav-link" href="#">Link</a>
-      <a class="nav-link" href="#">Link</a>
-      <a class="nav-link" href="#">Link</a>
-      <a class="nav-link" href="#">Link</a>
     </nav>
-  </div>
-
-  <main class="container">
-    <div class="d-flex align-items-center p-3 my-3 text-white bg-purple rounded shadow-sm">
-      <img class="me-3" src="./assets/brand/bootstrap-logo-white.svg" alt="" width="48" height="38">
-      <div class="lh-1">
-        <h1 class="h6 mb-0 text-white lh-1">Bootstrap</h1>
-        <small>Since 2011</small>
-      </div>
+    <!-- 즐겨찾기 -->
+    <div class="nav-scroller bg-body shadow-sm">
+      <nav class="nav nav-underline" aria-label="Secondary navigation">
+        <a class="nav-link" href="#">
+          알림
+          <span class="badge bg-light text-dark rounded-pill align-text-bottom">4</span>
+        </a>
+        <a class="nav-link" href="#">
+          Friends
+          <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
+        </a>
+        <a class="nav-link active" aria-current="page" href="#">즐겨찾기#1</a>
+        <a class="nav-link" href="#">즐겨찾기#2</a>
+        <a class="nav-link" href="#">즐겨찾기#3</a>
+        <a class="nav-link" href="#">즐겨찾기#4</a>
+        <a class="nav-link" href="#">즐겨찾기#5</a>
+        <a class="nav-link" href="#">즐겨찾기#6</a>
+        <a class="nav-link" href="#">즐겨찾기#7</a>
+      </nav>
     </div>
+    <!-- 컨텐츠 -->
+    <main class="container">
+      <!-- 권한받은 어드민 -->
+      <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">간편 리스트 : 권한받은 어드민</h6>
 
-    <div class="my-3 p-3 bg-body rounded shadow-sm">
-      <h6 class="border-bottom pb-2 mb-0">Recent updates</h6>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+        <div v-for="admin in my_admins_permitted" class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff"/>
+            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
 
-        <p class="pb-3 mb-0 small lh-sm border-bottom">
-          <strong class="d-block text-gray-dark">@username</strong>
-          Some representative placeholder content, with some information about this user. Imagine this being some sort of status update, perhaps?
-        </p>
-      </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
-
-        <p class="pb-3 mb-0 small lh-sm border-bottom">
-          <strong class="d-block text-gray-dark">@username</strong>
-          Some more representative placeholder content, related to this other user. Another status update, perhaps.
-        </p>
-      </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"/><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
-
-        <p class="pb-3 mb-0 small lh-sm border-bottom">
-          <strong class="d-block text-gray-dark">@username</strong>
-          This user also gets some representative placeholder content. Maybe they did something interesting, and you really want to highlight this in the recent updates.
-        </p>
-      </div>
-      <small class="d-block text-end mt-3">
-        <a href="#">All updates</a>
-      </small>
-    </div>
-
-    <div class="my-3 p-3 bg-body rounded shadow-sm">
-      <h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
-
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Full Name</strong>
-            <a href="#">Follow</a>
-          </div>
-          <span class="d-block">@username</span>
+          <p class="pb-3 mb-0 small lh-sm border-bottom">
+            <strong class="d-block text-gray-dark">{{admin.title}}</strong>
+            {{admin.text}}
+          </p>
         </div>
-      </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
 
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Full Name</strong>
-            <a href="#">Follow</a>
+        <small class="d-block text-end mt-3">
+          <a href="#">모두 보기</a>
+        </small>
+      </div>
+      <!-- 간편 리스트 : 권한 받을 어드민 -->
+      <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">간편 리스트 : 권한 받을 어드민</h6>
+
+        <div v-for="admin in my_admins_not_permitted" class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff"/>
+            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+
+          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+              <strong class="text-gray-dark">{{admin.title}}</strong>
+              <a href="#">권한 신청</a>
+            </div>
+            <span class="d-block">{{admin.text}}</span>
           </div>
-          <span class="d-block">@username</span>
         </div>
-      </div>
-      <div class="d-flex text-muted pt-3">
-        <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
 
-        <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
-          <div class="d-flex justify-content-between">
-            <strong class="text-gray-dark">Full Name</strong>
-            <a href="#">Follow</a>
+        <small class="d-block text-end mt-3">
+          <a href="#">모두 보기</a>
+        </small>
+      </div>
+      <!-- 상세 리스트 : 어드민 전체 리스트 - 검색 -->
+      <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-2">상세 리스트 : 어드민 전체 리스트 - 검색</h6>
+        <div class="d-flex mb-2 border-bottom">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text">검색</span>
+            </div>
+            <input class="form-control me-2 bg-secondary text-light" type="search" placeholder="어드민 검색하세요." v-model="txt_filter_admin_services" >
           </div>
-          <span class="d-block">@username</span>
+
+          <!-- <input class="form-control me-2 text-primary" type="search" placeholder="어드민 검색하세요." v-model="txt_filter_admin_services" > -->
         </div>
-      </div>
-      <small class="d-block text-end mt-3">
-        <a href="#">All suggestions</a>
-      </small>
-    </div>
 
-    <div class="album py-5 bg-light">
-      <div class="container">
+        <div class="container">
+          <div v-if="filtered_admin_services.length" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div v-for="admin in filtered_admin_services" class="col">
+              <div class="card shadow-sm">
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <title>{{admin.title}}</title>
+                  <rect width="100%" height="100%" fill="#55595c"/>
+                  <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{admin.title}}</text>
+                </svg>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          <div v-for="card in cards" class="col">
-            <div class="card shadow-sm">
-              <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                <title>{{card.title}}</title>
-                <rect width="100%" height="100%" fill="#55595c"/>
-                <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{card.title}}</text>
-              </svg>
-
-              <div class="card-body">
-                <p class="card-text">{{card.text}}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                <div class="card-body">
+                  <p class="card-text">{{admin.text}}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">보기</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">권한 신청</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">권한 연장</button>
+                    </div>
+                    <small class="text-muted">by 시스템팀</small>
                   </div>
-                  <small class="text-muted">9 mins</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-else class="row p-3">
+            검색된 어드민은 없습니다.
+          </div>
+        </div>
+      </div>
+
+      <!-- 예제 -->
+      <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-0">간편 리스트 : 권한받은 어드민</h6>
+
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff"/>
+            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+
+          <p class="pb-3 mb-0 small lh-sm border-bottom">
+            <strong class="d-block text-gray-dark">통합 멤버 어드민</strong>
+            Some representative placeholder content, with some information about this user. Imagine this being some sort of status update, perhaps?
+          </p>
+        </div>
+
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <title>Placeholder</title>
+            <rect width="100%" height="100%" fill="#007bff"/>
+            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
+          </svg>
+
+          <p class="pb-3 mb-0 small lh-sm border-bottom">
+            <strong class="d-block text-gray-dark">@username</strong>
+            Some representative placeholder content, with some information about this user. Imagine this being some sort of status update, perhaps?
+          </p>
+        </div>
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
+
+          <p class="pb-3 mb-0 small lh-sm border-bottom">
+            <strong class="d-block text-gray-dark">@username</strong>
+            Some more representative placeholder content, related to this other user. Another status update, perhaps.
+          </p>
+        </div>
+        <div class="d-flex text-muted pt-3">
+          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"/><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
+
+          <p class="pb-3 mb-0 small lh-sm border-bottom">
+            <strong class="d-block text-gray-dark">@username</strong>
+            This user also gets some representative placeholder content. Maybe they did something interesting, and you really want to highlight this in the recent updates.
+          </p>
+        </div>
+        <small class="d-block text-end mt-3">
+          <a href="#">모두 보기</a>
+        </small>
+      </div>
+      <div class="my-3 p-3 bg-body rounded shadow-sm">
+        <h6 class="border-bottom pb-2 mb-2">상세 리스트 : 어드민 전체 리스트 - 노출</h6>
+        <div class="container">
+
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div v-for="card in admin_services" class="col">
+              <div class="card shadow-sm">
+                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                  <title>{{card.title}}</title>
+                  <rect width="100%" height="100%" fill="#55595c"/>
+                  <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{card.title}}</text>
+                </svg>
+
+                <div class="card-body">
+                  <p class="card-text">{{card.text}}</p>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                    </div>
+                    <small class="text-muted">9 mins</small>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
+    </main>
+
+
+
   </div>
 
 
-  <script src="./assets/js/bootstrap.bundle.min.js"></script>
+  
   <script>
     var app = new Vue({
       el: '#app',
       data: {
         topmenu : [
-          {title:'Dashboard', type:'link', href:'#Dashboard'},
-          {title:'Notifications', type:'link', href:'#Notifications'},
-          {title:'Profile', type:'link', href:'#Profile'},
-          {title:'Switch account', type:'link', href:'#Switch account'},
+          {title:'Dashboard', active:true, type:'link', href:'#Dashboard'},
+          {title:'Notifications', active:false, type:'link', href:'#Notifications'},
+          {title:'Profile', active:false, type:'link', href:'#Profile'},
+          {title:'Switch account', active:false, type:'link', href:'#Switch account'},
           {
-            title:'Settings', type:'dropdown', href:'#Settings', dropmenu: [
+            title:'Settings', active:false, type:'dropdown', href:'#Settings', dropmenu: [
               {title:'Action', type:'link', href:'#Action'},
               {title:'Another action', type:'link', href:'#Another action'},
               {title:'Something else here', type:'link', href:'#Something else here'},
             ]
           }
         ],
-        cards : [
-          {
-            title:'테스트',
+        txt_filter_admin_services: '',
+
+        admin_services : [
+          {id:1, title:'통합멤버어드민',text: '설명: 통합멤버어드민'}
+          ,{id:2, title:'CS 어드민',text: '설명: CS 어드민'}
+          ,{id:3, title:'빌링어드민',text: '설명: 빌링어드민'}
+          ,{id:4, title:'통합관리자',text: '설명: 통합관리자'}
+          ,{id:5, title:'BI 어드민',text: '설명: BI 어드민'}
+          ,{
+            id:6, title:'테스트 어드민',
             text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
           }
-          ,{title:'Thumbnail',text: '뭔가요?'}
-          ,{title:'Thumbnail',text: '오른쪽.'}
-          ,{title:'Thumbnail',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          ,{title:'Thumbnail',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          ,{title:'Thumbnail',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          ,{title:'Thumbnail',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          ,{title:'Thumbnail',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          ,{title:'Thumbnail',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-        ]
+          // ,{id:7, title:'간략한 이미지',text: '뭔가요?'}
+          // ,{id:8, title:'간략한 이미지',text: '오른쪽.'}
+          // ,{id:9, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
+          // ,{id:10, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
+          // ,{id:11, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
+          // ,{id:12, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
+          // ,{id:13, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
+          ,{id:14, title:'123456',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
+        ],
+        myadmin : [1,6,4]
       },
-      methods: {},
-      computed: {},
+      methods: {
+        search_admin_service: function(){
+          console.log('search_admin_service');
+        }
+      },
+      computed: {
+        filtered_admin_services: function(){
+
+          var txt = _.toLower(_.trim(this.txt_filter_admin_services));
+
+          if (!txt) {
+            return this.admin_services;
+          } else {
+            return _.filter(this.admin_services, function(o) {
+              var title = _.toLower(o.title);
+              return title.indexOf(txt) >= 0;
+            });
+          }
+        },
+        my_admins_permitted: function(){
+          var ids = this.myadmin;
+          return _.filter(this.admin_services, function(o) {
+            return _.includes(ids, o.id);
+          });
+        },
+        my_admins_not_permitted: function(){
+          var ids = this.myadmin;
+          return _.filter(this.admin_services, function(o) {
+            return ! _.includes(ids, o.id);
+          });
+        }
+      },
       watch: {},
     });
   </script>
