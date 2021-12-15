@@ -133,10 +133,10 @@
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <template v-for="item in topmenu">
               <li v-if="item.type=='link'" class="nav-item">
-                <a v-bind:class="{active:item.active}" class="nav-link" aria-current="page" href="#">{{item.title}}</a>
+                <a :href="item.href" :class="{active:item.active}" class="nav-link" aria-current="page">{{item.title}}</a>
               </li>
               <li v-else-if="item.type=='dropdown'" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{item.title}}</a>
+                <a v-bind:class="{active:item.active}" class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{item.title}}</a>
                 <ul class="dropdown-menu" aria-labelledby="dropdown01">
                   <li v-for="dropitem in item.dropmenu"><a class="dropdown-item" :href="dropitem.href">{{dropitem.title}}</a></li>
                 </ul>
@@ -292,13 +292,13 @@ $( document ).ready(function() {
     el: '#app_layout',
     data: {
       topmenu : [
-        {title:'Dashboard', active:true, type:'link', href:'#Dashboard'}
-        ,{title:'Notifications', active:false, type:'link', href:'#Notifications'}
-        ,{title:'Profile', active:false, type:'link', href:'#Profile'}
-        ,{title:'Switch account', active:false, type:'link', href:'#Switch account'}
-        ,{title:'Settings', active:false, type:'dropdown', href:'#Settings', dropmenu: [
-            {title:'Action', type:'link', href:'#Action'},
-            {title:'Another action', type:'link', href:'#Another action'},
+        {title:'Dashboard', active:true, type:'link', href:'?Dashboard', page_rules:['html/iadmin/index.html?Dashboard']}
+        ,{title:'Notifications', active:false, type:'link', href:'?Notifications', page_rules:['html/iadmin/index.html?Notifications']}
+        ,{title:'Profile', active:false, type:'link', href:'?Profile', page_rules:['html/iadmin/index.html?Profile']}
+        ,{title:'Switch account', active:false, type:'link', href:'?Switch account', page_rules:['html/iadmin/index.html?Switch']}
+        ,{title:'Settings', active:false, type:'dropdown', href:'#Settings', page_rules:['html/iadmin/index.html?Action','html/iadmin/index.html?Another','html/iadmin/index.html?Something'], dropmenu: [
+            {title:'Action', type:'link', href:'?Action'},
+            {title:'Another action', type:'link', href:'?Another action'},
             {title:'Something else here', type:'link', href:'#Something else here'},
           ]
         }
@@ -315,6 +315,17 @@ $( document ).ready(function() {
         ,{title:'즐겨찾기#7', href:'#7', balloon:''}
       ]
     },
+    methods: {},
+    mounted: function(){
+      var url = window.location.href;
+      _.forEach(this.topmenu, function(item){
+        var active = false;
+        _.forEach(item.page_rules, function(role){
+          if (url.indexOf(role) >= 0) active=true;
+        })
+        item.active = active;
+      });
+    }
   });
 
   window.vue_content = new Vue({
