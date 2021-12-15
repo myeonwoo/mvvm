@@ -108,9 +108,14 @@
     .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
       opacity: 0;
     }
+
+    [v-cloak] {
+      display: none;
+      /*background-color: red;*/
+    }
   </style>
 
-  <div id="app">
+  <div id="app" v-cloak>
     <!-- 상단 메뉴 -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
       <div class="container-fluid">
@@ -132,29 +137,18 @@
                 </ul>
               </li>
             </template>
-
           </ul>
         </div>
       </div>
     </nav>
-    <!-- 즐겨찾기 -->
-    <div class="nav-scroller bg-body shadow-sm">
+    <!-- 즐겨찾기 : bookmark -->
+    <div v-if="bookmark.length" class="nav-scroller bg-body shadow-sm">
       <nav class="nav nav-underline" aria-label="Secondary navigation">
-        <a class="nav-link" href="#">
-          알림
-          <span class="badge bg-light text-dark rounded-pill align-text-bottom">4</span>
+        <a v-for="item in bookmark" class="nav-link" :href="item.href">
+          {{item.title}}
+          <span v-if="item.balloon" class="badge bg-light text-dark rounded-pill align-text-bottom">{{item.balloon}}</span>
         </a>
-        <a class="nav-link" href="#">
-          Friends
-          <span class="badge bg-light text-dark rounded-pill align-text-bottom">27</span>
-        </a>
-        <a class="nav-link active" aria-current="page" href="#">즐겨찾기#1</a>
-        <a class="nav-link" href="#">즐겨찾기#2</a>
-        <a class="nav-link" href="#">즐겨찾기#3</a>
-        <a class="nav-link" href="#">즐겨찾기#4</a>
-        <a class="nav-link" href="#">즐겨찾기#5</a>
-        <a class="nav-link" href="#">즐겨찾기#6</a>
-        <a class="nav-link" href="#">즐겨찾기#7</a>
+
       </nav>
     </div>
     <!-- 컨텐츠 -->
@@ -170,15 +164,19 @@
             <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
           </svg>
 
-          <p class="pb-3 mb-0 small lh-sm border-bottom">
-            <strong class="d-block text-gray-dark">{{admin.title}}</strong>
-            {{admin.text}}
-          </p>
+          <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
+            <div class="d-flex justify-content-between">
+              <strong class="text-gray-dark">{{admin.title}}</strong>
+              <a href="#" @click.prevent="search_admin_service(admin)">상세 리스트 검색</a>
+            </div>
+            <span class="d-block">{{admin.subtitle}}</span>
+          </div>
         </div>
 
         <small class="d-block text-end mt-3">
-          <a href="#">모두 보기</a>
+          <a href="#">펼치기</a>
         </small>
+
       </div>
       <!-- 간편 리스트 : 권한 받을 어드민 -->
       <div class="my-3 p-3 bg-body rounded shadow-sm">
@@ -194,14 +192,14 @@
           <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
             <div class="d-flex justify-content-between">
               <strong class="text-gray-dark">{{admin.title}}</strong>
-              <a href="#">권한 신청</a>
+              <a href="#" @click.prevent="search_admin_service(admin)">상세 리스트 검색</a>
             </div>
-            <span class="d-block">{{admin.text}}</span>
+            <span class="d-block">{{admin.subtitle}}</span>
           </div>
         </div>
 
         <small class="d-block text-end mt-3">
-          <a href="#">모두 보기</a>
+          <a href="#">펼치기</a>
         </small>
       </div>
       <!-- 상세 리스트 : 어드민 전체 리스트 - 검색 -->
@@ -210,12 +208,10 @@
         <div class="d-flex mb-2 border-bottom">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text">검색</span>
+              <span class="input-group-text">검색 입력</span>
             </div>
-            <input class="form-control me-2 bg-secondary text-light" type="search" placeholder="어드민 검색하세요." v-model="txt_filter_admin_services" >
+            <input class="form-control me-2 bg-light" type="search" placeholder="어드민 검색하세요." v-model="text_admin_search_word" >
           </div>
-
-          <!-- <input class="form-control me-2 text-primary" type="search" placeholder="어드민 검색하세요." v-model="txt_filter_admin_services" > -->
         </div>
 
         <div class="container">
@@ -229,14 +225,13 @@
                 </svg>
 
                 <div class="card-body">
-                  <p class="card-text">{{admin.text}}</p>
+                  <p class="card-text">{{admin.subtitle}}</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">보기</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">권한 신청</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">권한 연장</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" @click="show_modalRequestAuthorityMember(admin)">가이드</button>
+                      <button type="button" class="btn btn-sm btn-outline-secondary" @click="gotoAdminPage(admin)">보기</button>
                     </div>
-                    <small class="text-muted">by 시스템팀</small>
+                    <small class="text-muted">by {{admin.manager}}</small>
                   </div>
                 </div>
               </div>
@@ -247,87 +242,32 @@
           </div>
         </div>
       </div>
-
-      <!-- 예제 -->
-      <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <h6 class="border-bottom pb-2 mb-0">간편 리스트 : 권한받은 어드민</h6>
-
-        <div class="d-flex text-muted pt-3">
-          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff"/>
-            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-          </svg>
-
-          <p class="pb-3 mb-0 small lh-sm border-bottom">
-            <strong class="d-block text-gray-dark">통합 멤버 어드민</strong>
-            Some representative placeholder content, with some information about this user. Imagine this being some sort of status update, perhaps?
-          </p>
-        </div>
-
-        <div class="d-flex text-muted pt-3">
-          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
-            <title>Placeholder</title>
-            <rect width="100%" height="100%" fill="#007bff"/>
-            <text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text>
-          </svg>
-
-          <p class="pb-3 mb-0 small lh-sm border-bottom">
-            <strong class="d-block text-gray-dark">@username</strong>
-            Some representative placeholder content, with some information about this user. Imagine this being some sort of status update, perhaps?
-          </p>
-        </div>
-        <div class="d-flex text-muted pt-3">
-          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#e83e8c"/><text x="50%" y="50%" fill="#e83e8c" dy=".3em">32x32</text></svg>
-
-          <p class="pb-3 mb-0 small lh-sm border-bottom">
-            <strong class="d-block text-gray-dark">@username</strong>
-            Some more representative placeholder content, related to this other user. Another status update, perhaps.
-          </p>
-        </div>
-        <div class="d-flex text-muted pt-3">
-          <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#6f42c1"/><text x="50%" y="50%" fill="#6f42c1" dy=".3em">32x32</text></svg>
-
-          <p class="pb-3 mb-0 small lh-sm border-bottom">
-            <strong class="d-block text-gray-dark">@username</strong>
-            This user also gets some representative placeholder content. Maybe they did something interesting, and you really want to highlight this in the recent updates.
-          </p>
-        </div>
-        <small class="d-block text-end mt-3">
-          <a href="#">모두 보기</a>
-        </small>
-      </div>
-      <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <h6 class="border-bottom pb-2 mb-2">상세 리스트 : 어드민 전체 리스트 - 노출</h6>
-        <div class="container">
-
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            <div v-for="card in admin_services" class="col">
-              <div class="card shadow-sm">
-                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
-                  <title>{{card.title}}</title>
-                  <rect width="100%" height="100%" fill="#55595c"/>
-                  <text x="50%" y="50%" fill="#eceeef" dy=".3em">{{card.title}}</text>
-                </svg>
-
-                <div class="card-body">
-                  <p class="card-text">{{card.text}}</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </main>
 
 
+    <!-- Button trigger modal -->
+    <button type="button" class="d-none btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalRequestAuthorityMember">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div id="modalRequestAuthorityMember" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">가이드 : {{modals.guide.title}}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" v-html="modals.guide.desc">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
 
   </div>
 
@@ -338,50 +278,123 @@
       el: '#app',
       data: {
         topmenu : [
-          {title:'Dashboard', active:true, type:'link', href:'#Dashboard'},
-          {title:'Notifications', active:false, type:'link', href:'#Notifications'},
-          {title:'Profile', active:false, type:'link', href:'#Profile'},
-          {title:'Switch account', active:false, type:'link', href:'#Switch account'},
-          {
-            title:'Settings', active:false, type:'dropdown', href:'#Settings', dropmenu: [
+          {title:'Dashboard', active:true, type:'link', href:'#Dashboard'}
+          ,{title:'Notifications', active:false, type:'link', href:'#Notifications'}
+          ,{title:'Profile', active:false, type:'link', href:'#Profile'}
+          ,{title:'Switch account', active:false, type:'link', href:'#Switch account'}
+          ,{title:'Settings', active:false, type:'dropdown', href:'#Settings', dropmenu: [
               {title:'Action', type:'link', href:'#Action'},
               {title:'Another action', type:'link', href:'#Another action'},
               {title:'Something else here', type:'link', href:'#Something else here'},
             ]
           }
         ],
-        txt_filter_admin_services: '',
-
-        admin_services : [
-          {id:1, title:'통합멤버어드민',text: '설명: 통합멤버어드민'}
-          ,{id:2, title:'CS 어드민',text: '설명: CS 어드민'}
-          ,{id:3, title:'빌링어드민',text: '설명: 빌링어드민'}
-          ,{id:4, title:'통합관리자',text: '설명: 통합관리자'}
-          ,{id:5, title:'BI 어드민',text: '설명: BI 어드민'}
-          ,{
-            id:6, title:'테스트 어드민',
-            text: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-          }
-          // ,{id:7, title:'간략한 이미지',text: '뭔가요?'}
-          // ,{id:8, title:'간략한 이미지',text: '오른쪽.'}
-          // ,{id:9, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          // ,{id:10, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          // ,{id:11, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          // ,{id:12, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          // ,{id:13, title:'간략한 이미지',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
-          ,{id:14, title:'123456',text: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.'}
+        bookmark : [
+          {title:'알림', href:'#알림', balloon:'4'}
+          ,{title:'Friends', href:'#Friends', balloon:'27'}
+          ,{title:'즐겨찾기#1', href:'#1', balloon:null}
+          ,{title:'즐겨찾기#2', href:'#2', balloon:false}
+          ,{title:'즐겨찾기#3', href:'#3', balloon:''}
+          ,{title:'즐겨찾기#4', href:'#4', balloon:''}
+          ,{title:'즐겨찾기#5', href:'#5', balloon:''}
+          ,{title:'즐겨찾기#6', href:'#6', balloon:''}
+          ,{title:'즐겨찾기#7', href:'#7', balloon:''}
         ],
-        myadmin : [1,6,4]
+        text_admin_search_word: '',
+        admin_services : [
+          {id:1, title:'제목: 통합멤버어드민', manager:'플랫폼서비스개발팀', href:'https://member.dangi.co.kr/adm', subtitle: 'subtitle: 통합멤버 어드민', guide:'통합멤버 어드민 가이드 내용 입력해주세요.'}
+          ,{id:2, title:'제목: CS 어드민', manager:'플랫폼서비스개발팀', href:'https://admin-cs.dangi.co.kr/admin/index', subtitle: 'subtitle: CS 어드민', guide:'CS 어드민 가이드 내용 입력해주세요.'}
+          ,{id:3, title:'제목: 빌링어드민', manager:'플랫폼서비스개발팀', href:'https://billadm.dangi.co.kr/', subtitle: 'subtitle: 빌링어드민', guide:'빌링어드민 가이드 내용 입력해주세요.'}
+          ,{id:4, title:'제목: 통합관리자', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: 통합 관리자', guide:'통합 관리자 가이드 내용 입력해주세요.'}
+          ,{id:5, title:'제목: BI 어드민', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: BI어드민', guide:'BI어드민 가이드 내용 입력해주세요.'}
+          ,{id:6, title:'제목: 영단기 어드민', manager:'단기서비스개발팀', href:'https://eng.conects.com/adm', subtitle: 'subtitle: 영단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://eng.conects.com/" target="_blank">영단기</a> <a href="https://eng.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
+          }
+          ,{id:14, title:'긴문장', manager:'단기 서비스 개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
+        ],
+        myadmin : [1,6,4],
+        modals : {
+          guide: {modal_instance:null, title:'', desc:''}
+        }
       },
       methods: {
-        search_admin_service: function(){
-          console.log('search_admin_service');
+        search_admin_service: function(admin){
+          this.text_admin_search_word = admin.title;
+        },
+        show_modalRequestAuthorityMember: function(admin) {
+          this.modals.guide.title = admin.title;
+          this.modals.guide.desc = admin.guide;
+          this.modals.guide.modal_instance.show();
+        },
+
+        gotoAdminPage: function(admin) {
+          var a = document.createElement("a");
+          a.setAttribute("target",  '_blank');
+          a.setAttribute("href", admin.href);
+          a.click();
+        },
+        gotoAdminLoginForm: function(user_id, user_pw){
+          var form = document.createElement("form");
+          form.setAttribute("method", 'post');
+          form.setAttribute("action", 'https://my.conects.com/admin/login?redirect_url=https://eng.conects.com/adm/login/in');
+
+          var redirect_url = document.createElement("input");
+          redirect_url.setAttribute("type", "hidden");
+          redirect_url.setAttribute("name", 'redirect_url');
+          redirect_url.setAttribute("value", 'https://eng.conects.com/adm/login/in');
+          form.appendChild(redirect_url);
+
+          var input_user_id = document.createElement("input");
+          input_user_id.setAttribute("type", "hidden");
+          input_user_id.setAttribute("name", 'user_id');
+          input_user_id.setAttribute("value", 'mw.lim');
+          form.appendChild(input_user_id);
+
+          var input_user_pw = document.createElement("input");
+          input_user_pw.setAttribute("type", "hidden");
+          input_user_pw.setAttribute("name", 'user_pw');
+          input_user_pw.setAttribute("value", user_pw);
+          form.appendChild(input_user_pw);
+
+          //Move the submit function to another variable so that it doesn't get overwritten.
+          form._submit_function_ = form.submit;
+
+          document.body.appendChild(form);
+          form._submit_function_();
+        },
+        submitAdminLoginForm: function(user_id, user_pw){
+          var form = document.createElement("form");
+          form.setAttribute("method", 'post');
+          form.setAttribute("action", 'https://my.conects.com/admin/login/ldap_in');
+
+          var redirect_url = document.createElement("input");
+          redirect_url.setAttribute("type", "hidden");
+          redirect_url.setAttribute("name", 'redirect_url');
+          redirect_url.setAttribute("value", 'https://eng.conects.com/adm/login/in');
+          form.appendChild(redirect_url);
+
+          var input_user_id = document.createElement("input");
+          input_user_id.setAttribute("type", "hidden");
+          input_user_id.setAttribute("name", 'user_id');
+          input_user_id.setAttribute("value", user_id);
+          form.appendChild(input_user_id);
+
+          var input_user_pw = document.createElement("input");
+          input_user_pw.setAttribute("type", "hidden");
+          input_user_pw.setAttribute("name", 'user_pw');
+          input_user_pw.setAttribute("value", user_pw);
+          form.appendChild(input_user_pw);
+
+          //Move the submit function to another variable so that it doesn't get overwritten.
+          form._submit_function_ = form.submit;
+
+          document.body.appendChild(form);
+          form._submit_function_();
         }
       },
       computed: {
         filtered_admin_services: function(){
 
-          var txt = _.toLower(_.trim(this.txt_filter_admin_services));
+          var txt = _.toLower(_.trim(this.text_admin_search_word));
 
           if (!txt) {
             return this.admin_services;
@@ -406,7 +419,11 @@
         }
       },
       watch: {},
+      mounted: function(){
+        this.modals.guide.modal_instance = new bootstrap.Modal(document.getElementById('modalRequestAuthorityMember'), {keyboard: false});
+      }
     });
+
   </script>
 </body>
 </html>
