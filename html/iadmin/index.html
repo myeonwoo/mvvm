@@ -17,10 +17,13 @@
   <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
   <!-- lodash -->
   <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+  <!-- Jquery -->
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
 </head>
 <body class="bg-light">
-  <!-- Custom styles for this template -->
+
+  <!-- 템플릿 스타일 조정 : Custom styles for this template -->
   <style>
     .bd-placeholder-img {
       font-size: 1.125rem;
@@ -116,7 +119,8 @@
     }
   </style>
 
-  <div id="app" v-cloak>
+  <!-- header -->
+  <div id="app_layout" v-cloak>
     <!-- 상단 메뉴 -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
       <div class="container-fluid">
@@ -152,6 +156,10 @@
 
       </nav>
     </div>
+  </div>
+
+  <!-- body -->
+  <div id="app_content" v-cloak>
     <!-- 컨텐츠 -->
     <main class="container">
       <!-- 권한받은 어드민 -->
@@ -269,162 +277,168 @@
         </div>
       </div>
     </div>
-
   </div>
-
-
   
-  <script>
-    var app = new Vue({
-      el: '#app',
-      data: {
-        topmenu : [
-          {title:'Dashboard', active:true, type:'link', href:'#Dashboard'}
-          ,{title:'Notifications', active:false, type:'link', href:'#Notifications'}
-          ,{title:'Profile', active:false, type:'link', href:'#Profile'}
-          ,{title:'Switch account', active:false, type:'link', href:'#Switch account'}
-          ,{title:'Settings', active:false, type:'dropdown', href:'#Settings', dropmenu: [
-              {title:'Action', type:'link', href:'#Action'},
-              {title:'Another action', type:'link', href:'#Another action'},
-              {title:'Something else here', type:'link', href:'#Something else here'},
-            ]
-          }
-        ],
-        bookmark : [
-          {title:'알림', href:'#알림', balloon:'4'}
-          ,{title:'Friends', href:'#Friends', balloon:'27'}
-          ,{title:'즐겨찾기#1', href:'#1', balloon:null}
-          ,{title:'즐겨찾기#2', href:'#2', balloon:false}
-          ,{title:'즐겨찾기#3', href:'#3', balloon:''}
-          ,{title:'즐겨찾기#4', href:'#4', balloon:''}
-          ,{title:'즐겨찾기#5', href:'#5', balloon:''}
-          ,{title:'즐겨찾기#6', href:'#6', balloon:''}
-          ,{title:'즐겨찾기#7', href:'#7', balloon:''}
-        ],
-        text_admin_search_word: '',
-        admin_services : [
-          {id:1, title:'제목: 통합멤버어드민', manager:'플랫폼서비스개발팀', href:'https://member.dangi.co.kr/adm', subtitle: 'subtitle: 통합멤버 어드민', guide:'통합멤버 어드민 가이드 내용 입력해주세요.'}
-          ,{id:2, title:'제목: CS 어드민', manager:'플랫폼서비스개발팀', href:'https://admin-cs.dangi.co.kr/admin/index', subtitle: 'subtitle: CS 어드민', guide:'CS 어드민 가이드 내용 입력해주세요.'}
-          ,{id:3, title:'제목: 빌링어드민', manager:'플랫폼서비스개발팀', href:'https://billadm.dangi.co.kr/', subtitle: 'subtitle: 빌링어드민', guide:'빌링어드민 가이드 내용 입력해주세요.'}
-          ,{id:4, title:'제목: 통합관리자', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: 통합 관리자', guide:'통합 관리자 가이드 내용 입력해주세요.'}
-          ,{id:5, title:'제목: BI 어드민', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: BI어드민', guide:'BI어드민 가이드 내용 입력해주세요.'}
-          ,{id:6, title:'제목: 영단기 어드민', manager:'단기서비스개발팀', href:'https://eng.conects.com/adm', subtitle: 'subtitle: 영단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://eng.conects.com/" target="_blank">영단기</a> <a href="https://eng.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
-          }
-          ,{id:14, title:'긴문장', manager:'단기 서비스 개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
-        ],
-        myadmin : [1,6,4],
-        modals : {
-          guide: {modal_instance:null, title:'', desc:''}
+<script>
+$( document ).ready(function() {
+
+  window.vue_layout = new Vue({
+    el: '#app_layout',
+    data: {
+      topmenu : [
+        {title:'Dashboard', active:true, type:'link', href:'#Dashboard'}
+        ,{title:'Notifications', active:false, type:'link', href:'#Notifications'}
+        ,{title:'Profile', active:false, type:'link', href:'#Profile'}
+        ,{title:'Switch account', active:false, type:'link', href:'#Switch account'}
+        ,{title:'Settings', active:false, type:'dropdown', href:'#Settings', dropmenu: [
+            {title:'Action', type:'link', href:'#Action'},
+            {title:'Another action', type:'link', href:'#Another action'},
+            {title:'Something else here', type:'link', href:'#Something else here'},
+          ]
         }
-      },
-      methods: {
-        search_admin_service: function(admin){
-          this.text_admin_search_word = admin.title;
-        },
-        show_modalRequestAuthorityMember: function(admin) {
-          this.modals.guide.title = admin.title;
-          this.modals.guide.desc = admin.guide;
-          this.modals.guide.modal_instance.show();
-        },
+      ],
+      bookmark : [
+        {title:'알림', href:'#알림', balloon:'4'}
+        ,{title:'Friends', href:'#Friends', balloon:'27'}
+        ,{title:'즐겨찾기#1', href:'#1', balloon:null}
+        ,{title:'즐겨찾기#2', href:'#2', balloon:false}
+        ,{title:'즐겨찾기#3', href:'#3', balloon:''}
+        ,{title:'즐겨찾기#4', href:'#4', balloon:''}
+        ,{title:'즐겨찾기#5', href:'#5', balloon:''}
+        ,{title:'즐겨찾기#6', href:'#6', balloon:''}
+        ,{title:'즐겨찾기#7', href:'#7', balloon:''}
+      ]
+    },
+  });
 
-        gotoAdminPage: function(admin) {
-          var a = document.createElement("a");
-          a.setAttribute("target",  '_blank');
-          a.setAttribute("href", admin.href);
-          a.click();
-        },
-        gotoAdminLoginForm: function(user_id, user_pw){
-          var form = document.createElement("form");
-          form.setAttribute("method", 'post');
-          form.setAttribute("action", 'https://my.conects.com/admin/login?redirect_url=https://eng.conects.com/adm/login/in');
-
-          var redirect_url = document.createElement("input");
-          redirect_url.setAttribute("type", "hidden");
-          redirect_url.setAttribute("name", 'redirect_url');
-          redirect_url.setAttribute("value", 'https://eng.conects.com/adm/login/in');
-          form.appendChild(redirect_url);
-
-          var input_user_id = document.createElement("input");
-          input_user_id.setAttribute("type", "hidden");
-          input_user_id.setAttribute("name", 'user_id');
-          input_user_id.setAttribute("value", 'mw.lim');
-          form.appendChild(input_user_id);
-
-          var input_user_pw = document.createElement("input");
-          input_user_pw.setAttribute("type", "hidden");
-          input_user_pw.setAttribute("name", 'user_pw');
-          input_user_pw.setAttribute("value", user_pw);
-          form.appendChild(input_user_pw);
-
-          //Move the submit function to another variable so that it doesn't get overwritten.
-          form._submit_function_ = form.submit;
-
-          document.body.appendChild(form);
-          form._submit_function_();
-        },
-        submitAdminLoginForm: function(user_id, user_pw){
-          var form = document.createElement("form");
-          form.setAttribute("method", 'post');
-          form.setAttribute("action", 'https://my.conects.com/admin/login/ldap_in');
-
-          var redirect_url = document.createElement("input");
-          redirect_url.setAttribute("type", "hidden");
-          redirect_url.setAttribute("name", 'redirect_url');
-          redirect_url.setAttribute("value", 'https://eng.conects.com/adm/login/in');
-          form.appendChild(redirect_url);
-
-          var input_user_id = document.createElement("input");
-          input_user_id.setAttribute("type", "hidden");
-          input_user_id.setAttribute("name", 'user_id');
-          input_user_id.setAttribute("value", user_id);
-          form.appendChild(input_user_id);
-
-          var input_user_pw = document.createElement("input");
-          input_user_pw.setAttribute("type", "hidden");
-          input_user_pw.setAttribute("name", 'user_pw');
-          input_user_pw.setAttribute("value", user_pw);
-          form.appendChild(input_user_pw);
-
-          //Move the submit function to another variable so that it doesn't get overwritten.
-          form._submit_function_ = form.submit;
-
-          document.body.appendChild(form);
-          form._submit_function_();
+  window.vue_content = new Vue({
+    el: '#app_content',
+    data: {
+      text_admin_search_word: '',
+      admin_services : [
+        {id:1, title:'제목: 통합멤버어드민', manager:'플랫폼서비스개발팀', href:'https://member.dangi.co.kr/adm', subtitle: 'subtitle: 통합멤버 어드민', guide:'통합멤버 어드민 가이드 내용 입력해주세요.'}
+        ,{id:2, title:'제목: CS 어드민', manager:'플랫폼서비스개발팀', href:'https://admin-cs.dangi.co.kr/admin/index', subtitle: 'subtitle: CS 어드민', guide:'CS 어드민 가이드 내용 입력해주세요.'}
+        ,{id:3, title:'제목: 빌링어드민', manager:'플랫폼서비스개발팀', href:'https://billadm.dangi.co.kr/', subtitle: 'subtitle: 빌링어드민', guide:'빌링어드민 가이드 내용 입력해주세요.'}
+        ,{id:4, title:'제목: 통합관리자', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: 통합 관리자', guide:'통합 관리자 가이드 내용 입력해주세요.'}
+        ,{id:5, title:'제목: BI 어드민', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: BI어드민', guide:'BI어드민 가이드 내용 입력해주세요.'}
+        ,{id:6, title:'제목: 영단기 어드민', manager:'단기서비스개발팀', href:'https://eng.conects.com/adm', subtitle: 'subtitle: 영단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://eng.conects.com/" target="_blank">영단기</a> <a href="https://eng.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
         }
-      },
-      computed: {
-        admins_filtered: function(){
-
-          var txt = _.toLower(_.trim(this.text_admin_search_word));
-
-          if (!txt) {
-            return this.admin_services;
-          } else {
-            return _.filter(this.admin_services, function(o) {
-              var title = _.toLower(o.title);
-              return title.indexOf(txt) >= 0;
-            });
-          }
-        },
-        admins_permitted: function(){
-          var ids = this.myadmin;
-          return _.filter(this.admin_services, function(o) {
-            return _.includes(ids, o.id);
-          });
-        },
-        admins_not_permitted: function(){
-          var ids = this.myadmin;
-          return _.filter(this.admin_services, function(o) {
-            return ! _.includes(ids, o.id);
-          });
-        }
-      },
-      watch: {},
-      mounted: function(){
-        this.modals.guide.modal_instance = new bootstrap.Modal(document.getElementById('modalRequestAuthorityMember'), {keyboard: false});
+        ,{id:14, title:'긴문장', manager:'단기 서비스 개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
+      ],
+      myadmin : [1,6,4],
+      modals : {
+        guide: {modal_instance:null, title:'', desc:''}
       }
-    });
+    },
+    methods: {
+      search_admin_service: function(admin){
+        this.text_admin_search_word = admin.title;
+      },
+      show_modalRequestAuthorityMember: function(admin) {
+        this.modals.guide.title = admin.title;
+        this.modals.guide.desc = admin.guide;
+        this.modals.guide.modal_instance.show();
+      },
 
-  </script>
+      gotoAdminPage: function(admin) {
+        var a = document.createElement("a");
+        a.setAttribute("target",  '_blank');
+        a.setAttribute("href", admin.href);
+        a.click();
+      },
+      gotoAdminLoginForm: function(user_id, user_pw){
+        var form = document.createElement("form");
+        form.setAttribute("method", 'post');
+        form.setAttribute("action", 'https://my.conects.com/admin/login?redirect_url=https://eng.conects.com/adm/login/in');
+
+        var redirect_url = document.createElement("input");
+        redirect_url.setAttribute("type", "hidden");
+        redirect_url.setAttribute("name", 'redirect_url');
+        redirect_url.setAttribute("value", 'https://eng.conects.com/adm/login/in');
+        form.appendChild(redirect_url);
+
+        var input_user_id = document.createElement("input");
+        input_user_id.setAttribute("type", "hidden");
+        input_user_id.setAttribute("name", 'user_id');
+        input_user_id.setAttribute("value", 'mw.lim');
+        form.appendChild(input_user_id);
+
+        var input_user_pw = document.createElement("input");
+        input_user_pw.setAttribute("type", "hidden");
+        input_user_pw.setAttribute("name", 'user_pw');
+        input_user_pw.setAttribute("value", user_pw);
+        form.appendChild(input_user_pw);
+
+        //Move the submit function to another variable so that it doesn't get overwritten.
+        form._submit_function_ = form.submit;
+
+        document.body.appendChild(form);
+        form._submit_function_();
+      },
+      submitAdminLoginForm: function(user_id, user_pw){
+        var form = document.createElement("form");
+        form.setAttribute("method", 'post');
+        form.setAttribute("action", 'https://my.conects.com/admin/login/ldap_in');
+
+        var redirect_url = document.createElement("input");
+        redirect_url.setAttribute("type", "hidden");
+        redirect_url.setAttribute("name", 'redirect_url');
+        redirect_url.setAttribute("value", 'https://eng.conects.com/adm/login/in');
+        form.appendChild(redirect_url);
+
+        var input_user_id = document.createElement("input");
+        input_user_id.setAttribute("type", "hidden");
+        input_user_id.setAttribute("name", 'user_id');
+        input_user_id.setAttribute("value", user_id);
+        form.appendChild(input_user_id);
+
+        var input_user_pw = document.createElement("input");
+        input_user_pw.setAttribute("type", "hidden");
+        input_user_pw.setAttribute("name", 'user_pw');
+        input_user_pw.setAttribute("value", user_pw);
+        form.appendChild(input_user_pw);
+
+        //Move the submit function to another variable so that it doesn't get overwritten.
+        form._submit_function_ = form.submit;
+
+        document.body.appendChild(form);
+        form._submit_function_();
+      }
+    },
+    computed: {
+      admins_filtered: function(){
+
+        var txt = _.toLower(_.trim(this.text_admin_search_word));
+
+        if (!txt) {
+          return this.admin_services;
+        } else {
+          return _.filter(this.admin_services, function(o) {
+            var title = _.toLower(o.title);
+            return title.indexOf(txt) >= 0;
+          });
+        }
+      },
+      admins_permitted: function(){
+        var ids = this.myadmin;
+        return _.filter(this.admin_services, function(o) {
+          return _.includes(ids, o.id);
+        });
+      },
+      admins_not_permitted: function(){
+        var ids = this.myadmin;
+        return _.filter(this.admin_services, function(o) {
+          return ! _.includes(ids, o.id);
+        });
+      }
+    },
+    mounted: function(){
+      this.modals.guide.modal_instance = new bootstrap.Modal(document.getElementById('modalRequestAuthorityMember'), {keyboard: false});
+    }
+  });
+  
+})
+
+</script>
 </body>
 </html>
