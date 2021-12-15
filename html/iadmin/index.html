@@ -176,14 +176,17 @@
           <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
             <div class="d-flex justify-content-between">
               <strong class="text-gray-dark">{{admin.title}}</strong>
-              <a href="#" @click.prevent="search_admin_service(admin)">상세 리스트 검색</a>
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary" @click.prevent="search_admin_service(admin)">상세 리스트 검색</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" @click="gotoAdminPage(admin)">보기</button>
+              </div>
             </div>
             <span class="d-block">{{admin.subtitle}}</span>
           </div>
         </div>
 
         <small class="d-block text-end mt-3">
-          <a href="#">펼치기</a>
+          <a href="javascript:alert('작업중');void(0);">펼치기</a>
         </small>
 
       </div>
@@ -201,14 +204,17 @@
           <div class="pb-3 mb-0 small lh-sm border-bottom w-100">
             <div class="d-flex justify-content-between">
               <strong class="text-gray-dark">{{admin.title}}</strong>
-              <a href="#" @click.prevent="search_admin_service(admin)">상세 리스트 검색</a>
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary" @click.prevent="search_admin_service(admin)">상세 리스트 검색</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary" @click="gotoAdminPage(admin)">보기</button>
+              </div>
             </div>
             <span class="d-block">{{admin.subtitle}}</span>
           </div>
         </div>
 
         <small class="d-block text-end mt-3">
-          <a href="#">펼치기</a>
+          <a href="javascript:alert('작업중');void(0);">펼치기</a>
         </small>
       </div>
       <!-- 상세 리스트 : 어드민 전체 리스트 - 검색 -->
