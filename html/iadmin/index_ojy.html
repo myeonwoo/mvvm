@@ -1,0 +1,181 @@
+<!-- offcanvas-navbar/index.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.88.1">
+  <title>통합 어드민 관리</title>
+
+
+  <!-- Bootstrap core CSS -->
+  <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
+  <script src="./assets/js/bootstrap.bundle.min.js"></script>
+
+  <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
+  <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+
+  <!-- jQuery CDN - Slim version (=without AJAX) -->  
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <!-- 공통 gnb -->
+  <header id="common_gnb">
+    
+    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">통합 어드민</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">오지윤</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+  </header>
+  <!-- // 공통 gnb -->
+  <style>
+    #common_container{}
+    #common_container #sidebar,
+    #common_container #common_center,
+    #common_container #common_right{min-height: calc(100vh - 56px)!important;padding-top:30px;padding-bottom:30px}
+    #common_container #sidebar{padding-top:30px;padding-bottom:30px;background:#f7f7f7;position:relative;transition: all 0.3s;}
+    #common_container #sidebar h4{margin-bottom:20px}
+    #common_container #sidebar .close_sidebar{position:absolute;top:10px;right:10px;z-index:10;text-indent: -9999px;overflow: hidden;}
+    #common_container #sidebar.hide{display:none}
+
+    #common_container #common_center h4{margin: 40px 0 20px;}
+    #common_container #common_center h4:first-child{margin-top:0}
+    #common_container #common_center .list-group{box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);}
+    #common_container #common_center .list-group li{display: flex;}
+    #common_container #common_center .list-group em{line-height: 24px;font-style: normal;width: 100%;}
+    #common_container #common_center .list-group span{margin-right: 5px;height:24px;line-height: 16px;width: 10%;overflow: hidden;-webkit-line-clamp: 1;text-overflow: ellipsis;}
+    #common_container #common_center .list-group button{text-indent:-9999px;overflow: hidden;vertical-align: bottom;}
+    
+    #common_container #common_right{padding-top:30px;padding-bottom:30px}
+    #common_container #common_center .border{border: 1px solid #f7f7f7;padding:10px}
+  </style>
+  <div id="common_container">
+    <div class="container-fluid">
+      <div class="row">
+
+        <!-- 왼쪽 메뉴 -->
+        <div id="sidebar" class="min-vh-100 col-3">
+          <h4>즐겨찾는 메뉴</h4>
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">통합 어드민</h5>
+                <small>즐겨찾기 설정</small>
+              </div>
+              <p class="mb-1">어드민 설명 블라블라</p>
+              <small>상태값...?</small>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">빌링 어드민</h5>
+                <small class="text-muted">3 days ago</small>
+              </div>
+              <p class="mb-1">Some placeholder content in a paragraph.</p>
+              <small class="text-muted">And some muted small print.</small>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action">
+              <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">List group item heading</h5>
+                <small class="text-muted">3 days ago</small>
+              </div>
+              <p class="mb-1">Some placeholder content in a paragraph.</p>
+              <small class="text-muted">And some muted small print.</small>
+            </a>
+          </div>
+
+          <button type="button" class="btn-close close_sidebar" aria-label="Close">닫기</button>
+        </div>
+        <!-- // 왼쪽 메뉴 -->
+        
+        <!-- 컨텐츠 -->
+        <div id="common_center" class="col min-vh-100">
+          <!-- 알림 -->   
+          <h4>알림</h4>
+          <ul class="list-group content_notice">
+            <li class="list-group-item justify-content-between" aria-disabled="true">
+              <span class="badge rounded-pill bg-success">승인완료</span>
+              <em class="flex-shrink-1">통합 어드민 권한 신청</em>
+              <button type="button" class="btn-close" aria-label="Close">닫기</button>
+            </li>
+            <li class="list-group-item justify-content-between" aria-disabled="true">
+              <span class="badge rounded-pill bg-secondary">승인거절</span>
+              <em>통합 어드민-단기 어드민 권한 신청</em>
+              <button type="button" class="btn-close" aria-label="Close">닫기</button>
+            </li>
+            <li class="list-group-item justify-content-between" aria-disabled="true">
+              <span class="badge rounded-pill bg-warning text-dark">승인보류</span>
+              <em>통합 어드민 권한 신청 승인통합 어드민 권한 신청 승인통합 어드민 권한 신청 승인통합 어드민 권한 신청 승인</em>
+              <button type="button" class="btn-close" aria-label="Close">닫기</button>
+            </li>
+            <li class="list-group-item justify-content-between" aria-disabled="true">
+              <span class="badge rounded-pill bg-danger">공지</span>
+              <em class="flex-shrink-1">통합 어드민 권한 신청</em>
+              <button type="button" class="btn-close" aria-label="Close">닫기</button>
+            </li>
+          </ul>  
+          <!-- // 알림 -->
+
+          <h4>내용</h4>
+          
+
+        </div>
+        <!-- // 컨텐츠 -->
+
+        <!-- 오른쪽 영역 
+        <div id="common_right" class="col min-vh-100">    
+
+        </div>
+        -->
+
+
+      </div>
+      
+    </div>
+</div>
+  
+  <footer></footer>
+
+
+  
+  <script>
+    $(document).ready(function () {
+      // 왼쪽 메뉴 닫기
+      $('.close_sidebar').on('click', function () {
+          $('#sidebar').toggleClass('hide');
+      });
+
+      // 알림 영역 삭제 버튼
+      $('.content_notice li button').on('click', function () {
+          //$('button').closest().hide();
+          console.log('ddd');
+      });
+
+    });
+
+  </script>
+</body>
+</html>
