@@ -15,181 +15,409 @@
 
     <!-- Bootstrap core CSS -->
     <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./assets/css/css_ose.css" rel="stylesheet">
-
-    <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+    <link href="./assets/css/ose/css_ose.css" rel="stylesheet">
+    <link href="./assets/css/ose/sidebars.css" rel="stylesheet">
+    <script src="./assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Vuejs -->
+    <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
+    <!-- lodash -->
     <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
-
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+    </style>
 
 </head>
 <body>
-<div id="app">
-    <header>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark" aria-label="Sixth navbar example">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">커넥츠 관리자 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample06" aria-controls="navbarsExample06" aria-expanded="true" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="navbar-collapse collapse" id="navbarsExample06" style="">
-                    <ul class="navbar-nav me-auto mb-2 mb-xl-0">
-                        <li v-for="(value, index) in nav" v-if="value.type !== 'dropdown'" class="nav-item">
-                            <a class="nav-link" aria-current="page" :href="value.href" target="_blank">{{value.title}}</a>
+<div id="app_common" v-cloak>
+    <header class="navbar navbar-dark bg-dark flex-md-nowrap p-2 shadow">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="#">통합 어드민</a>
+        <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <input class="form-control form-control-dark w-100" type="text" placeholder="Search 바로가기" aria-label="Search">
+        <div class="col-md-3 text-end login">
+            <button type="button" class="btn btn-outline-primary me-2">Login</button>
+            <button type="button" class="btn btn-primary">Sign-up</button>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 사이드 배너 -->
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="">
+                <div class="dropdown pt-3">
+                    <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <strong>OOO님 반갑습니다.</strong>
+                    </a>
+                    <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                        <li><a class="dropdown-item" href="#">New project...</a></li>
+                        <li><a class="dropdown-item" href="#">Settings</a></li>
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">Sign out</a></li>
+                    </ul>
+                </div>
+                <div class="position-sticky pt-3">
+                    <ul class="list-unstyled ps-0">
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                                Home
+                            </button>
+                            <div class="collapse show" id="home-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#" class="link-dark rounded">Overview</a></li>
+                                    <li><a href="#" class="link-dark rounded">Updates</a></li>
+                                    <li><a href="#" class="link-dark rounded">Reports</a></li>
+                                </ul>
+                            </div>
                         </li>
-                        <li v-else class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="dropdown06" data-bs-toggle="dropdown" aria-expanded="false">{{value.title}}</a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdown06">
-                                <li v-for="item in value.dropmenu"><a class="dropdown-item" :href="item.href" target="_blank">{{item.title}}</a></li>
-                            </ul>
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                                Dashboard
+                            </button>
+                            <div class="collapse" id="dashboard-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#" class="link-dark rounded">Overview</a></li>
+                                    <li><a href="#" class="link-dark rounded">Weekly</a></li>
+                                    <li><a href="#" class="link-dark rounded">Monthly</a></li>
+                                    <li><a href="#" class="link-dark rounded">Annually</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
+                                Orders
+                            </button>
+                            <div class="collapse" id="orders-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#" class="link-dark rounded">New</a></li>
+                                    <li><a href="#" class="link-dark rounded">Processed</a></li>
+                                    <li><a href="#" class="link-dark rounded">Shipped</a></li>
+                                    <li><a href="#" class="link-dark rounded">Returned</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="border-top my-3"></li>
+                        <li class="mb-1">
+                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
+                                Account
+                            </button>
+                            <div class="collapse" id="account-collapse">
+                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                    <li><a href="#" class="link-dark rounded">New...</a></li>
+                                    <li><a href="#" class="link-dark rounded">Profile</a></li>
+                                    <li><a href="#" class="link-dark rounded">Settings</a></li>
+                                    <li><a href="#" class="link-dark rounded">Sign out</a></li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
-                    <form>
-                        <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-                    </form>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <main class="flex-shrink-0">
-        <div class="container">
-            <h1 class="mt-5">Sticky footer with fixed navbar</h1>
-            <p class="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code class="small">padding-top: 60px;</code> on the <code class="small">main &gt; .container</code>.</p>
-            <p>Back to <a href="/docs/5.1/examples/sticky-footer/">the default sticky footer</a> minus the navbar.</p>
+            </nav>
+            <!-- //사이드 배너 -->
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <h2 class="mt-4">메인화면</h2>
+                <div class="row mb-3">
+                    <div class="col-xxl-4 themed-grid-col">
+                        <div class="my-3 p-3 bg-body rounded shadow-sm">
+                            <h6 class="border-bottom pb-2 mb-0">관리자 권한 리스트</h6>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <a href="#">바로가기 &gt;</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <a href="#">바로가기 &gt;</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <a href="#">바로가기 &gt;</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <small class="d-block text-end mt-3">
+                                <a href="#">더보기 &gt;</a>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 themed-grid-col">
+                        <div class="my-3 p-3 bg-body rounded shadow-sm">
+                            <h6 class="border-bottom pb-2 mb-0">즐겨찾기 리스트</h6>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <span class="btn-list">
+                                            <a href="#">바로가기 &gt;</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <span class="btn-list">
+                                            <a href="#">바로가기 &gt;</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <span class="btn-list">
+                                            <a href="#">바로가기 &gt;</a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <small class="d-block text-end mt-3">
+                                <a href="#">더보기 &gt;</a>
+                            </small>
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 themed-grid-col">
+                        <div class="my-3 p-3 bg-body rounded shadow-sm">
+                            <h6 class="border-bottom pb-2 mb-0">최근 사용한 페이지 리스트</h6>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <a href="#">바로가기 &gt;</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <a href="#">바로가기 &gt;</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex text-muted pt-2">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                                        <a href="#">바로가기 &gt;</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <small class="d-block text-end mt-3">
+                                <a href="#">더보기 &gt;</a>
+                            </small>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-3 p-3 bg-body rounded shadow-sm">
+                    <h6 class="border-bottom pb-3 mb-0 pt-3">전체 리스트</h6>
+                    <div class="search-box">
+                        <form class="d-flex">
+                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <div class="d-flex text-muted pt-2">
+                        <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                            <div class="d-flex justify-content-between">
+                                <strong class="text-gray-dark">공단기 어드민 </strong>
+                                <span class="btn-list">
+                                    <a class="active" href="#">즐겨찾기 </a>
+                                    <a href="#">권한받기 </a>
+                                    <a href="#">바로가기 &gt;</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex text-muted pt-2">
+                        <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                            <div class="d-flex justify-content-between">
+                                <strong class="text-gray-dark">공단기 어드민 </strong>
+                                <span class="btn-list">
+                                    <a href="#">즐겨찾기 </a>
+                                    <a class="active" href="#">권한받기 </a>
+                                    <a href="#">바로가기 &gt;</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex text-muted pt-2">
+                        <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                            <div class="d-flex justify-content-between">
+                                <strong class="text-gray-dark">공단기 어드민 </strong>
+                                <span class="btn-list">
+                                    <a href="#">즐겨찾기 </a>
+                                    <a href="#">권한받기 </a>
+                                    <a href="#">바로가기 &gt;</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- // 전체리스트 -->
+                <!-- 질문리스트 -->
+                <div class="row g-3 mt-5">
+                    <div class="col-lg-6 themed-grid-col">
+                        <h2>공지사항</h2>
+                        <p>그룹웨어 통합 공지사항 입니다. 블라블라 블라 블라블라 블라 블라블라 블라 </p>
+                        <ul class="icon-list">
+                            <li><a href="/docs/5.1/getting-started/introduction/">Bootstrap quick start guide</a></li>
+                            <li><a href="/docs/5.1/getting-started/webpack/">Bootstrap Webpack guide</a></li>
+                            <li><a href="/docs/5.1/getting-started/parcel/">Bootstrap Parcel guide</a></li>
+                            <li><a href="/docs/5.1/getting-started/contribute/">Contributing to Bootstrap</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 themed-grid-col">
+                        <h2>자주찾는 질문 리스트</h2>
+                        <p>Ready to beyond the starter template? Check out these open source projects that you can quickly duplicate to a new GitHub repository.</p>
+                        <ul class="icon-list">
+                            <li><a href="https://github.com/twbs/bootstrap-npm-starter" rel="noopener" target="_blank">Bootstrap npm starter</a></li>
+                            <li class="text-muted">Bootstrap Parcel starter (coming soon!)</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- //질문리스트 -->
+            </main>
         </div>
-    </main>
-    <div class="b-example-divider"></div>
-    <footer>
-        <div class="container">
-            <footer class="py-3 my-4">
-                <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Home</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">About</a></li>
-                </ul>
-                <p class="text-center text-muted">© 2021 Company, Inc</p>
-            </footer>
-        </div>
-    </footer>
+    </div>
 </div>
-<script src="./assets/js/bootstrap.bundle.min.js"></script>
+</div>
 <script>
-    var app = new Vue({
-        el: '#app',
-        data: {
-            nav : [
-                {title:'공부서점',subtxt: '분철최저가, 당일출고', type:'link', href:'https://book.conects.com/'},
-                {title:'커넥츠',subtxt: '역대급 실시간 LIVE', type:'link', href:'http://conects.com/'},
-                {
-                    title: '유·초등', type: 'dropdown', href: '#Settings', dropmenu: [
-                        {title: '키즈스콜레', type: 'link', href: 'https://www.kidsschole.com/main/main/renew'},
-                        {title: '일간대치동', type: 'link', href: 'https://kr.tutor.com/elementary/main'},
-                        {title: '튜터닷컴', type: 'link', href: 'https://kr.tutor.com/'},
-                    ]
-                            },
-                {
-                    title:'대입·수능', type:'dropdown', href:'#Settings', dropmenu: [
-                        {h3:'대입학원',title:'스카이에듀X숨마투스학원', type:'link', href:'https://skyeduac.conects.com/'},
-                        {h3:'대입학원',title:'남양주 스카이에듀 기숙학원', type:'link', href:'https://nyjskyedu.conects.com'},
-                        {h3:'대입학원',title:'수원 스카이에듀학원', type:'link', href:'https://swskyedu.conects.com'},
-                        {h3:'대입학원',title:'수원 스카이에듀학원 단과', type:'link', href:'https://swdskyedu.conects.com'},
-                        {h3:'대입학원',title:'강동 스카이에듀학원', type:'link', href:'https://gdskyedu.conects.com'},
-                        {h3:'대입학원',title:'강동 스카이에듀학원 단과', type:'link', href:'https://gddskyedu.conects.com/'},
-                        {h3:'대입학원',title:'숨마투스학원 선릉 예체능관', type:'link', href:'https://artskyedu.conects.com/'},
-                        {h3:'대입학원',title:'스카이에듀 공교육', type:'link', href:'https://skyeduac.conects.com/public-edu'},
-                        {h3:'대입학원',title:'수시컨설팅', type:'link', href:'https://rightway.conects.com/'},
-                    ]
-                },
-                {
-                    title:'어학·회화·유학', type:'dropdown', href:'#Settings', dropmenu: [
-                        {title:'영단기토익', type:'link', href:'https://eng.conects.com/'},
-                        {title:'영단기토스', type:'link', href:'https://eng.conects.com/tos/promotion/freepass2020'},
-                        {title:'영단기오픽', type:'link', href:'https://eng.conects.com/tos/promotion/opic/freepass2020'},
-                        {title:'영단기텝스', type:'link', href:'https://eng.conects.com/main/teps'},
-                        {title:'영단기토플', type:'link', href:'https://eng.conects.com/toefl'},
-                        {title:'영단기G-Telp', type:'link', href:'https://eng.conects.com/g_telp'},
-                        {title:'커넥츠스피킹', type:'link', href:'https://speaking.conects.com'},
-                        {title:'GMAT/GRE단기', type:'link', href:'https://gmat.conects.com'},
-                        {title:'중단기', type:'link', href:'https://china.conects.com'},
-                        {title:'일단기', type:'link', href:'https://japan.conects.com'},
-                        {title:'프린스턴리뷰', type:'link', href:'https://www.princetonreviewprep.com'},
-                    ]
-                },
-                {
-                    title:'대학생·취업', type:'dropdown', href:'#Settings', dropmenu: [
-                        {title:'공기업단기', type:'link', href:'https://public.conects.com/'},
-                    ]
-                },
-                {
-                    title:'자격증', type:'dropdown', href:'#Settings', dropmenu: [
-                        {title:'자단기', type:'link', href:'https://ja.conects.com/'},
-                        {title:'전기단기', type:'link', href:'https://elec.conects.com/'},
-                    ]
-                },
-                {
-                    title:'공무원', type:'dropdown', href:'#Settings', dropmenu: [
-                        {h4:'행정직', title:'공단기', type:'link', href:'https://gong.conects.com/'},
-                        {h4:'행정직', title:'교행단기', type:'link', href:'https://gong.conects.com/public'},
-                        {h4:'행정직', title:'세무관세단기', type:'link', href:'https://gong.conects.com/tax'},
-                        {h4:'행정직', title:'사복단기', type:'link', href:'https://gong.conects.com/social'},
-                        {h4:'행정직', title:'법검단기', type:'link', href:'https://bupgum.conects.com/'},
-                        {h4:'행정직', title:'교정보호단기', type:'link', href:'https://gong.conects.com/corrections'},
-                        {h4:'행정직', title:'출관단기', type:'link', href:'https://gong.conects.com/immigration'},
-                        {h4:'기술직', title:'기술단기', type:'link', href:'https://gong.conects.com/tech'},
-                        {h4:'기술직', title:'간호보건단기', type:'link', href:'https://gong.conects.com/health'},
-                        {h4:'기술직', title:'계리단기', type:'link', href:'https://gong.conects.com/post'},
-                        {h4:'군무원', title:'군단기', type:'link', href:'https://gong.conects.com/gun'},
-                        {h4:'경찰/소방', title:'경단기', type:'link', href:'https://gyung.conects.com/'},
-                        {h4:'경찰/소방', title:'경찰승진단기', type:'link', href:'https://gyung.conects.com/freepass/gyungpro_freepass'},
-                        {h4:'경찰/소방', title:'경찰간부단기', type:'link', href:'https://gyung.conects.com/freepass/police'},
-                        {h4:'경찰/소방', title:'소방단기', type:'link', href:'https://sobang.conects.com/'},
-                        {h4:'경찰/소방', title:'소방승진단기', type:'link', href:'https://sobang.conects.com/freepass/pro_freepass'},
-                        {h3:'공무원 학원' ,h4:'노량진', title:'공단기학원', type:'link', href:'https://gong.conects.com/gong/main/academy'},
-                        {h3:'공무원 학원' ,h4:'노량진', title:'경단기학원', type:'link', href:'https://gyung.conects.com/offline/main'},
-                        {h3:'공무원 학원' ,h4:'노량진', title:'경찰간부학원', type:'link', href:'https://gyung.conects.com/offline/main'},
-                        {h3:'공무원 학원' ,h4:'노량진', title:'소방단기학원', type:'link', href:'https://sobang.conects.com/academy/academy_main'},
-                        {h3:'공무원 학원' ,h4:'노량진', title:'법검단기학원', type:'link', href:'https://bupgum.conects.com/academy/academy_main'},
-                        {h3:'공무원 학원' ,h4:'노량진', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/plab_selfstudy'},
-                        {h3:'공무원 학원' ,h4:'신림', title:'경찰독학관', type:'link', href:'https://gyung.conects.com/offline/main/sillim'},
-                        {h3:'공무원 학원' ,h4:'대구', title:'한국공무원학원', type:'link', href:'https://www.testb.co.kr'},
-                        {h3:'공무원 학원' ,h4:'대구', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/conects_plab'},
-                        {h3:'공무원 학원' ,h4:'대구', title:'경찰독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/conects_plab'},
-                        {h3:'공무원 학원' ,h4:'부산', title:'공단기학원', type:'link', href:'https://gong.conects.com/gong/main/academy/BU'},
-                        {h3:'공무원 학원' ,h4:'부산', title:'경단기학원', type:'link', href:'https://gyung.conects.com/academy/busan/introduce'},
-                        {h3:'공무원 학원' ,h4:'부산', title:'소방단기학원', type:'link', href:'https://sobang.conects.com/academy/academy_main'},
-                        {h3:'공무원 학원' ,h4:'부산', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/academy/promotion/self_study_2022'},
-                        {h3:'공무원 학원' ,h4:'부산', title:'경찰독학관', type:'link', href:'https://gong.conects.com/gong/academy/promotion/self_study_2022'},
-                        {h3:'공무원 학원' ,h4:'프랩 24', title:'프랩24 공단기', type:'link', href:'https://gong24.conects.com'},
-                        {h3:'공무원 학원' ,h4:'프랩 24', title:'프랩24 경단기', type:'link', href:'https://gyung24.conects.com'},
-                    ]
-                },
-                {
-                    title:'전문직', type:'dropdown', href:'#Settings', dropmenu: [
-                        {title:'PEET단기', type:'link', href:'https://PEET.conects.com/'},
-                        {title:'MD단기', type:'link', href:'https://md.conects.com/'},
-                        {title:'공인단기', type:'link', href:'https://gongin.conects.com/'},
-                        {title:'노무사단기', type:'link', href:'https://nomu.conects.com/'},
-                        {title:'법무사단기', type:'link', href:'https://bupmu.conects.com/'},
-                        {title:'변호사단기', type:'link', href:'https://lawyer.conects.com/'},
-                        {h3:'전문학원', title:'PEET/MD학원', type:'link', href:'https://peet.conects.com/offmdp/main/main'},
-                        {h3:'전문학원', title:'프랩24 PEET학원', type:'link', href:'https://peet24.conects.com/'},
-                        {h3:'전문학원', title:'노무사단기학원', type:'link', href:'https://nomu.conects.com/main/offline'},
-                        {h3:'전문학원', title:'법무사단기학원', type:'link', href:'https://bupmu.conects.com/main/offline'},
-                    ]
-                },
-                {
-                    title:'커넥츠 프랩 독학관', type:'dropdown', href:'#Settings', dropmenu: [
-                        {title:'커넥츠프랩', type:'link', href:'https://plab.conects.com'},
-                    ]
-                }
-            ],
-        },
-        methods: {},
-        computed: {},
-        watch: {},
+    $(function (){
+
+        window.vue_layout = new Vue({
+            el: '#app_common',
+            data: {
+                topmenu : [
+                    {title:'단기리스트', active:false, type:'link', href:'?dangi', page_rules:['html/iadmin/index_ose.html?dangi']}
+                ],
+                dangi : [
+                    {title:'공부서점',subtxt: '분철최저가, 당일출고', type:'link', href:'https://book.conects.com/'},
+                    {title:'커넥츠',subtxt: '역대급 실시간 LIVE', type:'link', href:'http://conects.com/'},
+                    {
+                        title: '유·초등', type: 'dropdown', href: '#Settings', dropmenu: [
+                            {title: '키즈스콜레', type: 'link', href: 'https://www.kidsschole.com/main/main/renew'},
+                            {title: '일간대치동', type: 'link', href: 'https://kr.tutor.com/elementary/main'},
+                            {title: '튜터닷컴', type: 'link', href: 'https://kr.tutor.com/'},
+                        ]
+                                },
+                    {
+                        title:'대입·수능', type:'dropdown', href:'#Settings', dropmenu: [
+                            {h3:'대입학원',title:'스카이에듀X숨마투스학원', type:'link', href:'https://skyeduac.conects.com/'},
+                            {h3:'대입학원',title:'남양주 스카이에듀 기숙학원', type:'link', href:'https://nyjskyedu.conects.com'},
+                            {h3:'대입학원',title:'수원 스카이에듀학원', type:'link', href:'https://swskyedu.conects.com'},
+                            {h3:'대입학원',title:'수원 스카이에듀학원 단과', type:'link', href:'https://swdskyedu.conects.com'},
+                            {h3:'대입학원',title:'강동 스카이에듀학원', type:'link', href:'https://gdskyedu.conects.com'},
+                            {h3:'대입학원',title:'강동 스카이에듀학원 단과', type:'link', href:'https://gddskyedu.conects.com/'},
+                            {h3:'대입학원',title:'숨마투스학원 선릉 예체능관', type:'link', href:'https://artskyedu.conects.com/'},
+                            {h3:'대입학원',title:'스카이에듀 공교육', type:'link', href:'https://skyeduac.conects.com/public-edu'},
+                            {h3:'대입학원',title:'수시컨설팅', type:'link', href:'https://rightway.conects.com/'},
+                        ]
+                    },
+                    {
+                        title:'어학·회화·유학', type:'dropdown', href:'#Settings', dropmenu: [
+                            {title:'영단기토익', type:'link', href:'https://eng.conects.com/'},
+                            {title:'영단기토스', type:'link', href:'https://eng.conects.com/tos/promotion/freepass2020'},
+                            {title:'영단기오픽', type:'link', href:'https://eng.conects.com/tos/promotion/opic/freepass2020'},
+                            {title:'영단기텝스', type:'link', href:'https://eng.conects.com/main/teps'},
+                            {title:'영단기토플', type:'link', href:'https://eng.conects.com/toefl'},
+                            {title:'영단기G-Telp', type:'link', href:'https://eng.conects.com/g_telp'},
+                            {title:'커넥츠스피킹', type:'link', href:'https://speaking.conects.com'},
+                            {title:'GMAT/GRE단기', type:'link', href:'https://gmat.conects.com'},
+                            {title:'중단기', type:'link', href:'https://china.conects.com'},
+                            {title:'일단기', type:'link', href:'https://japan.conects.com'},
+                            {title:'프린스턴리뷰', type:'link', href:'https://www.princetonreviewprep.com'},
+                        ]
+                    },
+                    {
+                        title:'대학생·취업', type:'dropdown', href:'#Settings', dropmenu: [
+                            {title:'공기업단기', type:'link', href:'https://public.conects.com/'},
+                        ]
+                    },
+                    {
+                        title:'자격증', type:'dropdown', href:'#Settings', dropmenu: [
+                            {title:'자단기', type:'link', href:'https://ja.conects.com/'},
+                            {title:'전기단기', type:'link', href:'https://elec.conects.com/'},
+                        ]
+                    },
+                    {
+                        title:'공무원', type:'dropdown', href:'#Settings', dropmenu: [
+                            {h4:'행정직', title:'공단기', type:'link', href:'https://gong.conects.com/'},
+                            {h4:'행정직', title:'교행단기', type:'link', href:'https://gong.conects.com/public'},
+                            {h4:'행정직', title:'세무관세단기', type:'link', href:'https://gong.conects.com/tax'},
+                            {h4:'행정직', title:'사복단기', type:'link', href:'https://gong.conects.com/social'},
+                            {h4:'행정직', title:'법검단기', type:'link', href:'https://bupgum.conects.com/'},
+                            {h4:'행정직', title:'교정보호단기', type:'link', href:'https://gong.conects.com/corrections'},
+                            {h4:'행정직', title:'출관단기', type:'link', href:'https://gong.conects.com/immigration'},
+                            {h4:'기술직', title:'기술단기', type:'link', href:'https://gong.conects.com/tech'},
+                            {h4:'기술직', title:'간호보건단기', type:'link', href:'https://gong.conects.com/health'},
+                            {h4:'기술직', title:'계리단기', type:'link', href:'https://gong.conects.com/post'},
+                            {h4:'군무원', title:'군단기', type:'link', href:'https://gong.conects.com/gun'},
+                            {h4:'경찰/소방', title:'경단기', type:'link', href:'https://gyung.conects.com/'},
+                            {h4:'경찰/소방', title:'경찰승진단기', type:'link', href:'https://gyung.conects.com/freepass/gyungpro_freepass'},
+                            {h4:'경찰/소방', title:'경찰간부단기', type:'link', href:'https://gyung.conects.com/freepass/police'},
+                            {h4:'경찰/소방', title:'소방단기', type:'link', href:'https://sobang.conects.com/'},
+                            {h4:'경찰/소방', title:'소방승진단기', type:'link', href:'https://sobang.conects.com/freepass/pro_freepass'},
+                            {h3:'공무원 학원' ,h4:'노량진', title:'공단기학원', type:'link', href:'https://gong.conects.com/gong/main/academy'},
+                            {h3:'공무원 학원' ,h4:'노량진', title:'경단기학원', type:'link', href:'https://gyung.conects.com/offline/main'},
+                            {h3:'공무원 학원' ,h4:'노량진', title:'경찰간부학원', type:'link', href:'https://gyung.conects.com/offline/main'},
+                            {h3:'공무원 학원' ,h4:'노량진', title:'소방단기학원', type:'link', href:'https://sobang.conects.com/academy/academy_main'},
+                            {h3:'공무원 학원' ,h4:'노량진', title:'법검단기학원', type:'link', href:'https://bupgum.conects.com/academy/academy_main'},
+                            {h3:'공무원 학원' ,h4:'노량진', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/plab_selfstudy'},
+                            {h3:'공무원 학원' ,h4:'신림', title:'경찰독학관', type:'link', href:'https://gyung.conects.com/offline/main/sillim'},
+                            {h3:'공무원 학원' ,h4:'대구', title:'한국공무원학원', type:'link', href:'https://www.testb.co.kr'},
+                            {h3:'공무원 학원' ,h4:'대구', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/conects_plab'},
+                            {h3:'공무원 학원' ,h4:'대구', title:'경찰독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/conects_plab'},
+                            {h3:'공무원 학원' ,h4:'부산', title:'공단기학원', type:'link', href:'https://gong.conects.com/gong/main/academy/BU'},
+                            {h3:'공무원 학원' ,h4:'부산', title:'경단기학원', type:'link', href:'https://gyung.conects.com/academy/busan/introduce'},
+                            {h3:'공무원 학원' ,h4:'부산', title:'소방단기학원', type:'link', href:'https://sobang.conects.com/academy/academy_main'},
+                            {h3:'공무원 학원' ,h4:'부산', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/academy/promotion/self_study_2022'},
+                            {h3:'공무원 학원' ,h4:'부산', title:'경찰독학관', type:'link', href:'https://gong.conects.com/gong/academy/promotion/self_study_2022'},
+                            {h3:'공무원 학원' ,h4:'프랩 24', title:'프랩24 공단기', type:'link', href:'https://gong24.conects.com'},
+                            {h3:'공무원 학원' ,h4:'프랩 24', title:'프랩24 경단기', type:'link', href:'https://gyung24.conects.com'},
+                        ]
+                    },
+                    {
+                        title:'전문직', type:'dropdown', href:'#Settings', dropmenu: [
+                            {title:'PEET단기', type:'link', href:'https://PEET.conects.com/'},
+                            {title:'MD단기', type:'link', href:'https://md.conects.com/'},
+                            {title:'공인단기', type:'link', href:'https://gongin.conects.com/'},
+                            {title:'노무사단기', type:'link', href:'https://nomu.conects.com/'},
+                            {title:'법무사단기', type:'link', href:'https://bupmu.conects.com/'},
+                            {title:'변호사단기', type:'link', href:'https://lawyer.conects.com/'},
+                            {h3:'전문학원', title:'PEET/MD학원', type:'link', href:'https://peet.conects.com/offmdp/main/main'},
+                            {h3:'전문학원', title:'프랩24 PEET학원', type:'link', href:'https://peet24.conects.com/'},
+                            {h3:'전문학원', title:'노무사단기학원', type:'link', href:'https://nomu.conects.com/main/offline'},
+                            {h3:'전문학원', title:'법무사단기학원', type:'link', href:'https://bupmu.conects.com/main/offline'},
+                        ]
+                    },
+                    {
+                        title:'커넥츠 프랩 독학관', type:'dropdown', href:'#Settings', dropmenu: [
+                            {title:'커넥츠프랩', type:'link', href:'https://plab.conects.com'},
+                        ]
+                    }
+                ],
+            },
+            methods: {},
+            computed: {},
+            watch: {},
+        });
     });
 </script>
 </body>
