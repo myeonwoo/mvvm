@@ -44,7 +44,7 @@
     .group_common .row .card_common a em{font-size: .7rem;font-style: normal;margin-left: 5px;}
     .group_common .row .card_common a.star{width: 40px;height: 40px;position: absolute;top: 30px;right: 15px;overflow: hidden;z-index: 1;text-indent: -999px;}
     .group_common .row .card_common a.star:before {text-indent: 0;display: block;font-style: normal;content: '\22C6';color: gray;font-size: 100px;position: absolute;left: -5px;top: -67px;}
-    .group_common .row .card_common a.star.on:before{color:pink}
+    .group_common .row .card_common a.star.on:before{color:teal}
     .group_common .row .col-xl-3{flex: 0 0 calc(25% - 1.5rem)}
 	  .group_common .row .list-group{padding-right:0}
     .group_common .row .list-group li{display: flex;}
@@ -54,16 +54,18 @@
     
     .group_common .bg_num_1{border-left: 0.35rem solid #4e73df !important;}
     .group_common .bg_num_2{border-left: 0.35rem solid #f6c23e !important;}
-    .group_common .bg_num_3{border-left: 0.35rem solid #36b9cc !important;}
+    .group_common .bg_num_3{border-left: 0.35rem solid #4d36cc !important;}
     .group_common .bg_num_4{border-left: 0.35rem solid #f63ece !important;}
     .group_common .bg_num_5{border-left: 0.35rem solid #e74a3b !important;}
     .group_common .bg_num_6{border-left: 0.35rem solid #1cc88a !important;}
     .group_common .bg_num_7{border-left: 0.35rem solid #5a5c69 !important;}
+    .group_common .bg-power{background-color: teal;}
     
     #common_footer{height: 50px;line-height: 50px;text-align: center;font-size: 0.75rem;}
   </style>
 </head>
 <body>
+<div id="wapper">
   <!-- 공통 gnb -->
   <header id="common_gnb">
 
@@ -83,24 +85,20 @@
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
           <!-- 오른쪽 메뉴 : 대메뉴 -->
           <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">대시보드</a>
+            <!-- for문으로 만들어보자! -->     
+            <li class="nav-item" v-for="(topmenu_item, i) in topmenu" :key="i">
+              <a class="nav-link" :class="{'active':topmenu_item.active == true}" :href="topmenu_item.href">{{topmenu_item.title}}</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">신청/승인</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">설정</a>
-            </li>
+            
           </ul>
           <!-- 오른쪽 메뉴 : 대메뉴 -->
             
           <!-- 왼쪽 메뉴 : 사용자 메뉴 -->
           <div class="nav-user justify-content-end">
-            <a href="#" class="icon"><img src="https://groupware.stunitas.com/resources/static/portal/common/ico_menu01_jira.png" alt="jira"></a>
-            <a href="#" class="icon"><img src="https://groupware.stunitas.com/resources/static/portal/common/ico_menu01_slack.png" alt="slack"></a>
-            <a href="#" class="icon"><img src="https://groupware.stunitas.com/resources/static/portal/common/ico_menu01_wiki.png" alt="wiki"></a>
-            <a href="#" class="icon"><img src="https://groupware.stunitas.com/resources/static/portal/common/ico_menu01_mail.png" alt="mail"></a>
+            <span v-for="(top_user_item, i) in topmenu_user" :key="i">
+              <a class="icon" target="_blank" :href="top_user_item.href"><img :src="top_user_item.image" :alt="top_user_item.title"></a>
+            </span>
+
             <strong>오지윤<span>님</span></strong>
             <em class="icon"><img src="https://groupware.stunitas.com/resources/static/img/portal/common/thumb_profile.png" alt="사용자 이름"></em>
           </div>
@@ -129,7 +127,7 @@
           <!-- card -->
           <div class="card_common col-xl-3 bg_num_1">
             <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
+              <span class="badge bg-power">권한 있음</span>
               <em>기한 : 2022-03-10</em>
               <strong>통합 어드민</strong>
             </a>
@@ -140,7 +138,7 @@
           <!-- card -->
           <div class="card_common col-xl-3 bg_num_7">        
             <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
+              <span class="badge bg-power">권한 있음</span>
               <strong>이미지 배포 어드민</strong>
             </a>
             <a href="#" class="star on">즐겨찾기</a>
@@ -163,7 +161,7 @@
           <!-- card -->
           <div class="card_common col-xl-3 bg_num_2">
             <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
+              <span class="badge bg-power">권한 있음</span>
               <em>기한 : 2022-03-10</em>
               <strong>통합 멤버 어드민</strong>
             </a>
@@ -174,7 +172,7 @@
           <!-- card -->
           <div class="card_common col-xl-3 bg_num_2">        
             <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
+              <span class="badge bg-power">권한 있음</span>
               <em>기한 : 2022-03-10</em>
               <strong>공단기 어드민</strong>
             </a>
@@ -185,7 +183,7 @@
           <!-- card -->
           <div class="card_common col-xl-3 bg_num_7">        
             <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
+              <span class="badge bg-power">권한 있음</span>
               <strong>이미지 배포 어드민</strong>
             </a>
             <a href="#" class="star">즐겨찾기</a>
@@ -195,7 +193,7 @@
           <!-- card -->
           <div class="card_common col-xl-3 bg_num_2">        
             <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
+              <span class="badge bg-power">권한 있음</span>
               <em>기한 : 2022-03-10</em>
               <strong>경단기 어드민</strong>
             </a>
@@ -206,7 +204,7 @@
           <!-- card -->
           <div class="card_common col-xl-3 bg_num_2">        
             <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
+              <span class="badge bg-power">권한 있음</span>
               <em>기한 : 2022-03-10</em>
               <strong>법검단기 어드민</strong>
             </a>
@@ -227,76 +225,21 @@
         
         <!-- content -->
         <div class="row">
+
           <!-- card -->
-          <div class="card_common col-xl-3 bg_num_1">
-            <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
-              <em>기한 : 2022-03-10</em>
-              <strong>통합 어드민</strong>
+          <div class="card_common col-xl-3" v-for="(admin_list_item, i) in admin_list" :key="i" :class="admin_list_item.color">
+            <a :href="admin_list_item.href" target="_blank">
+              <span class="badge" :class="{'bg-power':admin_list_item.power==true , 'bg-secondary':admin_list_item.power==false}">권한 있음</span>
+              <template v-if="admin_list_item.deadline == true">
+                <em>기한 : {{admin_list_item.d_day}}</em>
+              </template>
+              <strong>{{admin_list_item.title}}</strong>
             </a>
-            <a href="#" class="star">즐겨찾기</a>
+            <a href="javascript:void(0);" :class="[admin_list_item.bookmark? 'star on' : 'star']" @click="find_data">즐겨찾기</a>
+            <!-- <a href="javascript:void(0);" :class="[admin_list_item.bookmark? 'star on' : 'star']" @click="bookmark_toggle(admin_list_item)">즐겨찾기</a> -->
           </div>
           <!-- // card -->
-          
-          <!-- card -->
-          <div class="card_common col-xl-3 bg_num_2">        
-            <a href="#">
-              <span class="badge bg-secondary">권한 없음</span>
-              <strong>통합 멤버 어드민</strong>
-            </a>
-            <a href="#" class="star">즐겨찾기</a>
-          </div>
-          <!-- // card -->
-          
-          <!-- card -->
-          <div class="card_common col-xl-3 bg_num_3">        
-            <a href="#">
-              <span class="badge bg-secondary">권한 없음</span>
-              <strong>CS 어드민</strong>
-            </a>
-            <a href="#" class="star">즐겨찾기</a>
-          </div>
-          <!-- // card -->
-          
-          <!-- card -->
-          <div class="card_common col-xl-3 bg_num_4">        
-            <a href="#">
-              <span class="badge bg-secondary">권한 없음</span>
-              <strong>빌링 어드민</strong>
-            </a>
-            <a href="#" class="star">즐겨찾기</a>
-          </div>
-          <!-- // card -->
-          
-          <!-- card -->
-          <div class="card_common col-xl-3 bg_num_5">        
-            <a href="#">
-              <span class="badge bg-secondary">권한 없음</span>
-              <strong>BI 어드민</strong>
-            </a>
-            <a href="#" class="star">즐겨찾기</a>
-          </div>
-          <!-- // card -->
-          
-          <!-- card -->
-          <div class="card_common col-xl-3 bg_num_6">        
-            <a href="#">
-              <span class="badge bg-secondary">권한 없음</span>
-              <strong>커넥츠북</strong>
-            </a>
-            <a href="#" class="star">즐겨찾기</a>
-          </div>
-          <!-- // card -->          
-          
-          <!-- card -->
-          <div class="card_common col-xl-3 bg_num_7">        
-            <a href="#">
-              <span class="badge bg-secondary">권한 없음</span>
-              <strong>이미지 배포 어드민</strong>
-            </a>
-            <a href="#" class="star">즐겨찾기</a>
-          </div>
-          <!-- // card -->
+
         </div>
         <!-- // content -->
       </div>
@@ -316,26 +259,20 @@
         
         <!-- content -->
         <div class="row">
+
           <!-- card -->
-          <div class="card_common col-xl-3 bg_num_2">
-            <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
-              <em>기한 : 2022-03-10</em>
-              <strong>통합 어드민</strong>
+          <div class="card_common col-xl-3" v-for="(dangi_admin_list_item, i) in dangi_admin_list" :key="i" :class="dangi_admin_list_item.color">
+            <a :href="dangi_admin_list_item.href">
+              <span class="badge" :class="{'bg-power':dangi_admin_list_item.power==true , 'bg-secondary':dangi_admin_list_item.power==false}">권한 있음</span>
+              <template v-if="dangi_admin_list_item.deadline == true">
+                <em>기한 : {{dangi_admin_list_item.d_day}}</em>
+              </template>
+              <strong>{{dangi_admin_list_item.title}}</strong>
             </a>
-            <a href="#" class="star">즐겨찾기</a>
+            <a href="javascript:void(0);" :class="[dangi_admin_list_item.bookmark? 'star on' : 'star']" @click="bookmark_toggle_dangi(dangi_admin_list_item)">즐겨찾기</a>
           </div>
           <!-- // card -->
           
-          <!-- card -->
-          <div class="card_common col-xl-3 bg_num_2">        
-            <a href="#">
-              <span class="badge bg-primary">권한 있음</span>
-              <strong>통합 어드민</strong>
-            </a>
-            <a href="#" class="star on"></a>
-          </div>
-          <!-- // card -->
         </div>
         <!-- // content -->
       </div>
@@ -379,14 +316,146 @@
   </div>
   
   <footer id="common_footer">ST Unitas Copyright 2021. ALL RIGHTS RESERVED</footer>
-
+</div>
 
   
   <script>
     $(document).ready(function () {
-      $('.card_common .star').click( function() {
-        $(this).toggleClass('on');
-      } );
+
+      window.vue_layout = new Vue({
+        el: '#wapper',
+        data: {
+          topmenu : [
+            {title:'대시보드', active:true, href:'?Dashboard', page_rules:['html/iadmin/index.html?Dashboard']},
+            {title:'신청/승인', active:false, href:'?Notifications', page_rules:['html/iadmin/index.html?Notifications']},
+            {title:'설정', active:false, href:'?Settings', page_rules:['html/iadmin/index.html?Settings']}
+          ],
+          topmenu_user : [
+            {title:'mail', href:'https://webmail.stunitas.com/owa/#path=/mail', image:'https://groupware.stunitas.com/resources/static/portal/common/ico_menu01_mail.png'},
+            {title:'jira', href:'http://jira.stunitas.com:8080/secure/Dashboard.jspa', image:'https://groupware.stunitas.com/resources/static/portal/common/ico_menu01_jira.png'},
+            {title:'wiki', href:'http://wiki.stunitas.com:8090', image:'https://groupware.stunitas.com/resources/static/portal/common/ico_menu01_wiki.png'},
+            {title:'slack', href:'https://stunitas.slack.com', image:'https://groupware.stunitas.com/resources/static/portal/common/ico_menu01_slack.png'}
+          ],
+          admin_list : [
+            // {title:'이름', power(단기권한 유/무):true/false, deadline(만료 유/무):true/false, d_day(만료일):'2022-06-30', bookmark(즐겨찾기 유/무):true/false, href:'링크', color:'클래스명'}
+            {id:1, type:'big', title:'통합 관리자 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:true, href:'https://member.dangi.co.kr/adm', color:'bg_num_1'},
+            {id:2, type:'big', title:'통합 멤버 어드민', power:true, deadline:true, d_day:'2022-06-30', bookmark:true, href:'https://member.dangi.co.kr/adm', color:'bg_num_2'},
+            {id:3, type:'big', title:'CS 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:true, href:'https://admin-cs.dangi.co.kr/', color:'bg_num_3'},
+            {id:4, type:'big', title:'빌링 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'https://admin-cs.dangi.co.kr/', color:'bg_num_4'},
+            {id:5, type:'big', title:'BI 어드민', power:true, deadline:true, d_day:'2022-06-30', bookmark:false, href:'https://member.dangi.co.kr/adm', color:'bg_num_5'},
+            {id:6, type:'big', title:'커넥츠북 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'http://qa-adm-dev.dangi.co.kr/deploy/index/dangicokr', color:'bg_num_6'},
+            {id:7, type:'big', title:'이미지 배포 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'http://qa-adm-dev.dangi.co.kr/deploy/index/dangicokr', color:'bg_num_7'}
+          ],
+          dangi_admin_list : [
+            /*
+            {
+              title:'이름', 
+              power(단기권한 유/무):true/false, 
+              deadline(만료 유/무):true/false, 
+              d_day(만료일):'2022-06-30', 
+              bookmark(즐겨찾기 유/무):true/false, 
+              href:'링크', 
+              color:'클래스명'
+              type: 'big/small' big - 대분류(7개의 어드민..) / small - 소분류(단기 어드민)
+            }
+            */
+            {id:8, type:'small', title:'GDNY 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:true, href:'?GDNY 어드민', color:'bg_num_2'},
+            {id:9, type:'small', type:'small', title:'GMAT단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?GMAT단기 어드민', color:'bg_num_2'},
+            {id:0, type:'small', type:'small', title:'GRE단기 어드민', power:true, deadline:true, d_day:'2022-06-30', bookmark:true, href:'?GRE단기 어드민', color:'bg_num_2'},
+            {id:11, type:'small', title:'MD단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?MD단기 어드민', color:'bg_num_2'},
+            {id:12, type:'small', title:'OTP 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:true, href:'?OTP 어드민', color:'bg_num_2'},
+            {id:13, type:'small', title:'PEET단기 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?PEET단기 어드민', color:'bg_num_2'},
+            {id:14, type:'small', title:'PEET단기 프랩24 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?PEET단기 프랩24 어드민', color:'bg_num_2'},
+            {id:15, type:'small', title:'PSAT단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:true, href:'?PSAT단기 어드민', color:'bg_num_2'},
+            {id:16, type:'small', title:'STEM 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?STEM 어드민', color:'bg_num_2'},
+            {id:17, type:'small', title:'TACA 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?TACA 어드민', color:'bg_num_2'},
+            {id:18, type:'small', title:'간호보건단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:true, href:'?간호보건단기 어드민', color:'bg_num_2'},
+            {id:19, type:'small', title:'감평사단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:true, href:'?감평사단기 어드민', color:'bg_num_2'},
+            {id:20, type:'small', title:'강훈련 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?강훈련 어드민', color:'bg_num_2'},
+            {id:21, type:'small', title:'경단기 프랩24 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?경단기 프랩24 어드민', color:'bg_num_2'},
+            {id:22, type:'small', title:'경찰승진단기 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?경찰승진단기 어드민', color:'bg_num_2'},
+            {id:23, type:'small', title:'경찰간부단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?경찰간부단기 어드민', color:'bg_num_2'},
+            {id:24, type:'small', title:'경단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?경단기 어드민', color:'bg_num_2'},
+            {id:25, type:'small', title:'계리단기 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?계리단기 어드민', color:'bg_num_2'},
+            {id:26, type:'small', title:'공기업단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?공기업단기 어드민', color:'bg_num_2'},
+            {id:27, type:'small', title:'공단기 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?공단기 어드민', color:'bg_num_2'},
+            {id:28, type:'small', title:'공단기 프랩24 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?공단기 프랩24 어드민', color:'bg_num_2'},
+            {id:29, type:'small', title:'공무원영어기초 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?공무원영어기초 어드민', color:'bg_num_2'},
+            {id:30, type:'small', title:'공부공간 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?공부공간 어드민', color:'bg_num_2'},
+            {id:31, type:'small', title:'공인단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?공인단기 어드민', color:'bg_num_2'},
+            {id:32, type:'small', title:'관세사단기 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?관세사단기 어드민', color:'bg_num_2'},
+            {id:33, type:'small', title:'교정보호단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?교정보호단기 어드민', color:'bg_num_2'},
+            {id:34, type:'small', title:'교행단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?교행단기 어드민', color:'bg_num_2'},
+            {id:35, type:'small', title:'군단기 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?군단기 어드민', color:'bg_num_2'},
+            {id:36, type:'small', title:'금융단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?금융단기 어드민', color:'bg_num_2'},
+            {id:37, type:'small', title:'기보커넥츠 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?기보커넥츠 어드민', color:'bg_num_2'},
+            {id:38, type:'small', title:'기술단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?기술단기 어드민', color:'bg_num_2'},
+            {id:39, type:'small', title:'노무사단기 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?노무사단기 어드민', color:'bg_num_2'},
+            {id:40, type:'small', title:'다이렉트잉글리시 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?다이렉트잉글리시 어드민', color:'bg_num_2'},
+            {id:41, type:'small', title:'디바이스단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?디바이스단기 어드민', color:'bg_num_2'},
+            {id:42, type:'small', title:'라이브아카데미 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?라이브아카데미 어드민', color:'bg_num_2'},
+            {id:43, type:'small', title:'러닝커넥츠 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?러닝커넥츠 어드민', color:'bg_num_2'},
+            {id:44, type:'small', title:'모의고사 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?모의고사 어드민', color:'bg_num_2'},
+            {id:45, type:'small', title:'문성용 소리드림 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?문성용 소리드림 어드민', color:'bg_num_2'},
+            {id:46, type:'small', title:'바로영어 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?바로영어 어드민', color:'bg_num_2'},
+            {id:47, type:'small', title:'법검단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?법검단기 어드민', color:'bg_num_2'},
+            {id:48, type:'small', title:'법무사단기 어드민', power:true, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?법무사단기 어드민', color:'bg_num_2'},
+            {id:49, type:'small', title:'사복단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?사복단기 어드민', color:'bg_num_2'},
+            {id:50, type:'small', title:'변호사단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?변호사단기 어드민', color:'bg_num_2'},
+            {id:51, type:'small', title:'뷰티클래스 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?뷰티클래스 어드민', color:'bg_num_2'},
+            {id:52, type:'small', title:'세마디영어 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?세마디영어 어드민', color:'bg_num_2'},
+            {id:53, type:'small', title:'세무관세사단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?세무관세사단기 어드민', color:'bg_num_2'},
+            {id:54, type:'small', title:'세무사단기 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?세무사단기 어드민', color:'bg_num_2'},
+            {id:55, type:'small', title:'소방단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?소방단기 어드민', color:'bg_num_2'},
+            {id:56, type:'small', title:'소방승진단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?소방승진단기 어드민', color:'bg_num_2'},
+            {id:57, type:'small', title:'숨마투스 단기 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?숨마투스 단기 어드민', color:'bg_num_2'},
+            {id:58, type:'small', title:'숨마투스 토익 단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?숨마투스 토익 단기 어드민', color:'bg_num_2'},
+            {id:59, type:'small', title:'스카이공무원 단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?스카이공무원 단기 어드민', color:'bg_num_2'},
+            {id:60, type:'small', title:'스카이에듀 오프라인 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?스카이에듀 오프라인 어드민', color:'bg_num_2'},
+            {id:61, type:'small', title:'스카이에듀 단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?스카이에듀 단기 어드민', color:'bg_num_2'},
+            {id:62, type:'small', title:'스콜레 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?스콜레 어드민', color:'bg_num_2'},
+            {id:63, type:'small', title:'스터디그룹 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?스터디그룹 어드민', color:'bg_num_2'},
+            {id:64, type:'small', title:'스픽단기 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?스픽단기 어드민', color:'bg_num_2'},
+            {id:65, type:'small', title:'영단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?영단기 어드민', color:'bg_num_2'},
+            {id:66, type:'small', title:'영단기 학원 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?영단기 학원 어드민', color:'bg_num_2'},
+            {id:67, type:'small', title:'일단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?일단기 어드민', color:'bg_num_2'},
+            {id:68, type:'small', title:'임용단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?임용단기 어드민', color:'bg_num_2'},
+            {id:69, type:'small', title:'자격증단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?자격증단기 어드민', color:'bg_num_2'},
+            {id:70, type:'small', title:'제2외국어단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?제2외국어단기 어드민', color:'bg_num_2'},
+            {id:71, type:'small', title:'주택단기 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?주택단기 어드민', color:'bg_num_2'},
+            {id:72, type:'small', title:'중단기 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?중단기 어드민', color:'bg_num_2'},
+            {id:73, type:'small', title:'출관단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?출관단기 어드민', color:'bg_num_2'},
+            {id:74, type:'small', title:'취미단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?취미단기 어드민', color:'bg_num_2'},
+            {id:75, type:'small', title:'취미클래스 어드민', power:true, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?취미클래스 어드민', color:'bg_num_2'},
+            {id:76, type:'small', title:'취업단기 어드민', power:false, deadline:true, d_day:'2022-06-30', bookmark:false, href:'?취업단기 어드민', color:'bg_num_2'},
+            {id:77, type:'small', title:'커넥츠 스피킹 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?커넥츠 스피킹 어드민', color:'bg_num_2'},
+            {id:78, type:'small', title:'커넥츠메인 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?커넥츠메인 어드민', color:'bg_num_2'},
+            {id:79, type:'small', title:'키즈스콜레 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?키즈스콜레 어드민', color:'bg_num_2'},
+            {id:80, type:'small', title:'튜터 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?튜터 어드민', color:'bg_num_2'},
+            {id:81, type:'small', title:'튜터닷컴 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?튜터닷컴 어드민', color:'bg_num_2'},
+            {id:82, type:'small', title:'펜단기(탭단기) 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?펜단기(탭단기) 어드민', color:'bg_num_2'},
+            {id:83, type:'small', title:'편입단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?편입단기 어드민', color:'bg_num_2'},
+            {id:84, type:'small', title:'해경단기 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?해경단기 어드민', color:'bg_num_2'},
+            {id:85, type:'small', title:'화상과외 어드민', power:false, deadline:false, d_day:'2022-06-30', bookmark:false, href:'?화상과외 어드민', color:'bg_num_2'}
+          ]
+        },
+        methods: {
+          // 즐겨찾기 버튼 on/off
+          bookmark_toggle(admin_list_item){
+            admin_list_item.bookmark = !admin_list_item.bookmark
+          },
+          // 즐겨찾기 버튼 on/off
+          bookmark_toggle_dangi(dangi_admin_list_item){
+            dangi_admin_list_item.bookmark = !dangi_admin_list_item.bookmark
+          },
+          find_data(){
+            if(admin_list_item.match('deadline') === 'true'){
+              console.log('dd')
+            }
+          }
+        }
+      });
+
     });
 
   </script>
