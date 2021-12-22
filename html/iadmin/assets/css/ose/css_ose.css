@@ -27,7 +27,7 @@ main .btn-list a.active:first-child{border-color: #ffafaf;color: #e18080}
 .search-box .btn-outline-success{color: #979797; border-color: #d7d7d7}
 .search-box .btn-outline-success:hover{color: #000; border-color: #000;background-color: #fff;}
 small.text-end a{color: #000;text-decoration: none;}
-small.text-end a:hover{color: #000;text-decoration: none;}
+small.text-end a:hover{color: #000;text-decoration: underline;}
 
 nav .btn-toggle:hover, nav .btn-toggle:focus{background-color: #c7c7c7;}
 .btn-toggle[aria-expanded="true"]{background-color: #c7c7c7;color: #c7c7c7}
@@ -36,10 +36,28 @@ nav .btn-toggle:hover, nav .btn-toggle:focus{background-color: #c7c7c7;}
     box-shadow: none;
 }
 
+/* 검색바 하단 리스트 */
+header .search-cont input{box-shadow: none;border-inline: none;}
+header .search-cont{position: relative;}
+header .search-cont .form-control:focus+.search-list{display: block;}
+header .search-cont .search-list{display: none;width: calc(100% + 2px);position: absolute;left: -1px;top:35px;background-color: #fff;border: 1px solid #000;border-top-width: 0px;padding: 10px 20px;}
+header .search-cont .search-list ul{margin: 0;padding: 0;}
+header .search-cont .search-list ul li{overflow: hidden;}
+header .search-cont .search-list ul li.active{background-color: #f0f0f0;}
+header .search-cont .search-list ul li a{display: block;color: #000;font-size: 14px;line-height: 30px;text-decoration: none;}
+header .search-cont .search-list ul li span{float: right;display: none}
+header .search-cont .search-list ul li:focus,
+header .search-cont .search-list ul li:hover{background-color: #f0f0f0;}
+header .search-cont .search-list ul li:focus span,
+header .search-cont .search-list ul li:hover span{display: block;}
+
 @media (max-width: 768px){
     .login {
         position: absolute;
         left: 120px;
-        top: 0.5rem;;
+        top: 0.5rem;
+    }
+    header .search-cont{
+        margin-top: 0.5rem;
     }
 }
