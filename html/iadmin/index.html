@@ -186,9 +186,9 @@
   <div id="app_content" v-cloak>
     <!-- 컨텐츠 -->
     <main class="container">
-      <!-- 권한받은 어드민 -->
+      <!-- 즐겨찾는 어드민 -->
       <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <h6 class="border-bottom pb-2 mb-0">간편 리스트 : 권한받은 어드민</h6>
+        <h6 class="border-bottom pb-2 mb-0 text-primary">간편 리스트 : 즐겨찾는 어드민</h6>
 
         <div v-for="admin in admins_permitted" class="d-flex text-muted pt-3">
           <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
@@ -220,9 +220,9 @@
         </small>
 
       </div>
-      <!-- 간편 리스트 : 권한 받을 어드민 -->
+      <!-- 간편 리스트 : 즐겨 찾지 않는 어드민 -->
       <div class="my-3 p-3 bg-body rounded shadow-sm">
-        <h6 class="border-bottom pb-2 mb-0">간편 리스트 : 권한 받을 어드민</h6>
+        <h6 class="border-bottom pb-2 mb-0 text-danger">나머지 어드민</h6>
 
         <div v-for="admin in admins_not_permitted" class="d-flex text-muted pt-3">
           <svg class="bd-placeholder-img flex-shrink-0 me-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 32x32" preserveAspectRatio="xMidYMid slice" focusable="false">
