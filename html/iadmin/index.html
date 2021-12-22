@@ -203,6 +203,12 @@
               <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-outline-secondary" @click.prevent="search_admin_service(admin)">상세 리스트 검색</button>
                 <button type="button" class="btn btn-sm btn-outline-secondary" @click="gotoAdminPage(admin)">보기</button>
+                <button @click="remove_bookmark_admin(admin)" type="button" class="btn btn-sm btn-danger">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                    <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                  </svg>
+                </button>
               </div>
             </div>
             <span class="d-block">{{admin.subtitle}}</span>
@@ -231,6 +237,12 @@
               <div class="btn-group">
                 <button type="button" class="btn btn-sm btn-outline-secondary" @click.prevent="search_admin_service(admin)">상세 리스트 검색</button>
                 <button type="button" class="btn btn-sm btn-outline-secondary" @click="gotoAdminPage(admin)">보기</button>
+                <button @click="set_bookmark_admin(admin)" type="button" class="btn btn-sm btn-outline-danger">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                    <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                  </svg>
+                </button>
               </div>
             </div>
             <span class="d-block">{{admin.subtitle}}</span>
@@ -275,6 +287,19 @@
                   <p class="card-text">{{admin.subtitle}}</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
+                      <button v-if="myadmin.includes(admin.id)" @click="remove_bookmark_admin(admin)" type="button" class="btn btn-sm btn-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                          <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
+                          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                        </svg>
+                      </button>
+                      <button v-else @click="set_bookmark_admin(admin)" type="button" class="btn btn-sm btn-outline-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bookmark-star" viewBox="0 0 16 16">
+                          <path d="M7.84 4.1a.178.178 0 0 1 .32 0l.634 1.285a.178.178 0 0 0 .134.098l1.42.206c.145.021.204.2.098.303L9.42 6.993a.178.178 0 0 0-.051.158l.242 1.414a.178.178 0 0 1-.258.187l-1.27-.668a.178.178 0 0 0-.165 0l-1.27.668a.178.178 0 0 1-.257-.187l.242-1.414a.178.178 0 0 0-.05-.158l-1.03-1.001a.178.178 0 0 1 .098-.303l1.42-.206a.178.178 0 0 0 .134-.098L7.84 4.1z"/>
+                          <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5V2zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1H4z"/>
+                        </svg>
+                      </button>
+
                       <button type="button" class="btn btn-sm btn-outline-secondary" @click="show_modalRequestAuthorityMember(admin)">가이드</button>
                       <button type="button" class="btn btn-sm btn-outline-secondary" @click="gotoAdminPage(admin)">보기</button>
                     </div>
@@ -413,7 +438,7 @@ $( document ).ready(function() {
         }
         ,{id:7, title:'제목: 중단기 어드민', tag:'#단기어드민', manager:'단기서비스개발팀', href:'https://china.conects.com/adm', subtitle: 'subtitle: 중단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://china.conects.com/" target="_blank">중단기</a> <a href="https://china.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
         }
-        ,{id:14, title:'긴문장', tag:'#단기어드민', manager:'단기 서비스 개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
+        ,{id:14, title:'긴문장', tag:'#단기어드민', manager:'단기서비스개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
       ],
 
       /* 로컬 데이타 */
@@ -439,8 +464,22 @@ $( document ).ready(function() {
       ]
     },
     methods: {
+      valert: function(msg) {
+        alert(msg);
+      },
       search_admin_service: function(admin){
         this.text_admin_search_word = admin.title;
+      },
+      /* 즐겨찾는 어드민 설정 */
+      set_bookmark_admin: function(admin) {
+        this.myadmin = _.union(this.myadmin, [admin.id]);
+      },
+      remove_bookmark_admin: function(admin) {
+        var id = admin.id;
+
+        this.myadmin = _.filter(this.myadmin, function(o) {
+          return o != id;
+        });
       },
       show_modalRequestAuthorityMember: function(admin) {
         this.modals.guide.title = admin.title;
