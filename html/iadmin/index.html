@@ -427,7 +427,7 @@ $( document ).ready(function() {
   window.vue_content = new Vue({
     el: '#app_content',
     data: {
-      /* 백단 데이타 */
+      /* 어드민 리스트 */
       admin_services : [
         {id:1, title:'제목: 통합멤버어드민', tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'https://member.dangi.co.kr/adm', subtitle: 'subtitle: 통합멤버 어드민', guide:'통합멤버 어드민 가이드 내용 입력해주세요.'}
         ,{id:2, title:'제목: CS 어드민', tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'https://admin-cs.dangi.co.kr/admin/index', subtitle: 'subtitle: CS 어드민', guide:'CS 어드민 가이드 내용 입력해주세요.'}
@@ -441,10 +441,13 @@ $( document ).ready(function() {
         ,{id:14, title:'긴문장', tag:'#단기어드민', manager:'단기서비스개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
       ],
 
-      /* 로컬 데이타 */
+      /* 어드민 리스트 검색할 태그 문자열 */
       text_admin_tag: '',
+      /* 어드민 리스트 검색할 문자열 */
       text_admin_search_word: '',
+      /* 내의 즐겨찾기 어드민 id 리스트 */
       myadmin : [1,6,4],
+      /* 모달 관련 데이타 */
       modals : {
         guide: {modal_instance:null, title:'', desc:''}
       }
@@ -467,13 +470,15 @@ $( document ).ready(function() {
       valert: function(msg) {
         alert(msg);
       },
+      /* 해당 어드민으로 검색하기 */
       search_admin_service: function(admin){
         this.text_admin_search_word = admin.title;
       },
-      /* 즐겨찾는 어드민 설정 */
+      /* 어드민 즐겨찾기 설정하기 */
       set_bookmark_admin: function(admin) {
         this.myadmin = _.union(this.myadmin, [admin.id]);
       },
+      /* 어드민 즐겨찾기 해제하기 */
       remove_bookmark_admin: function(admin) {
         var id = admin.id;
 
@@ -481,18 +486,20 @@ $( document ).ready(function() {
           return o != id;
         });
       },
+      /* 어드민 가이드 모달 오픈하기 */
       show_modalRequestAuthorityMember: function(admin) {
         this.modals.guide.title = admin.title;
         this.modals.guide.desc = admin.guide;
         this.modals.guide.modal_instance.show();
       },
-
+      /* 어드민 페이지로 이동하기 */
       gotoAdminPage: function(admin) {
         var a = document.createElement("a");
         a.setAttribute("target",  '_blank');
         a.setAttribute("href", admin.href);
         a.click();
       },
+      /* 그룹웨어 어드민 로그인 페이지로 이동하기 */
       gotoAdminLoginForm: function(user_id, user_pw){
         var form = document.createElement("form");
         form.setAttribute("method", 'post');
@@ -522,6 +529,7 @@ $( document ).ready(function() {
         document.body.appendChild(form);
         form._submit_function_();
       },
+      /* 그룹웨어 어드민 로그인 form 제출하기 */
       submitAdminLoginForm: function(user_id, user_pw){
         var form = document.createElement("form");
         form.setAttribute("method", 'post');
