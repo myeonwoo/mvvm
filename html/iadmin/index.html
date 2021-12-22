@@ -14,7 +14,13 @@
   <link href="./assets/css/bootstrap.min.css" rel="stylesheet">
   <script src="./assets/js/bootstrap.bundle.min.js"></script>
   <!-- Vuejs -->
-  <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
+  <!-- <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script> -->
+  <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue@^2"></script> -->
+  <!-- include vue-treeselect & its styles. you can change the version tag to better suit your needs. -->
+  <script src="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.umd.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@riophae/vue-treeselect@^0.4.0/dist/vue-treeselect.min.css">
+
   <!-- lodash -->
   <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
   <!-- Jquery -->
@@ -129,7 +135,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+        <div class="navbar-collapse offcanvas-collapse">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <template v-for="item in topmenu">
               <li v-if="item.type=='link'" class="nav-item">
@@ -139,6 +145,23 @@
                 <a v-bind:class="{active:item.active}" class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{item.title}}</a>
                 <ul class="dropdown-menu" aria-labelledby="dropdown01">
                   <li v-for="dropitem in item.dropmenu"><a class="dropdown-item" :href="dropitem.href">{{dropitem.title}}</a></li>
+                </ul>
+              </li>
+            </template>
+          </ul>
+        </div>
+        <div class="navbar-collapse offcanvas-collapse">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <template v-for="item in menus_first_level">
+              <li v-if="get_child_menus(item.id).length < 1" class="nav-item">
+                <a :href="item.href" :class="{active:item.active}" class="nav-link" aria-current="page">{{item.title}}</a>
+              </li>
+              <li v-else class="nav-item dropdown">
+                <a v-bind:class="{active:item.active}" class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-expanded="false">{{item.title}}</a>
+                <ul class="dropdown-menu" aria-labelledby="dropdown01">
+                  <li v-for="dropitem in get_child_menus(item.id)">
+                    <a class="dropdown-item" :href="dropitem.href">{{dropitem.title}}</a>
+                  </li>
                 </ul>
               </li>
             </template>
@@ -156,6 +179,7 @@
 
       </nav>
     </div>
+
   </div>
 
   <!-- body -->
@@ -223,7 +247,15 @@
         <div class="d-flex mb-2 border-bottom">
           <div class="input-group mb-3">
             <div class="input-group-prepend">
-              <span class="input-group-text">검색 입력</span>
+              <span class="input-group-text">태그 검색</span>
+            </div>
+            <select class="form-select" v-model="text_admin_tag">
+              <option value="" selected>태그문자를 선택해주세요.</option>
+              <option value="#시스템어드민">#시스템어드민</option>
+              <option value="#단기어드민">#단기어드민</option>
+            </select>
+            <div class="input-group-prepend">
+              <span class="input-group-text">제목 검색</span>
             </div>
             <input class="form-control me-2 bg-light" type="search" placeholder="어드민 검색하세요." v-model="text_admin_search_word" >
           </div>
@@ -257,6 +289,9 @@
           </div>
         </div>
       </div>
+
+      select 예제
+      <treeselect v-model="ex1_select" :multiple="true" :options="ex1_options" />
     </main>
 
 
@@ -284,26 +319,47 @@
       </div>
     </div>
   </div>
+
+  <div>
+    <main class="container">
+      Footer 풋터푸터.. <br>
+      Lorem ipsum, dolor, sit amet consectetur adipisicing elit. Doloremque beatae, dolore, assumenda quas voluptates distinctio atque laudantium, ut error tempore quam placeat vel vitae possimus ipsum repellat eius magni voluptate exercitationem perferendis consequatur odit porro blanditiis debitis? Nulla modi obcaecati non unde distinctio, eligendi voluptate, sequi vel accusamus quaerat, velit. Saepe ab at quia cumque. Tenetur impedit dolor laudantium nulla earum ea. Animi natus mollitia dicta omnis a, velit id similique, debitis quas necessitatibus perspiciatis deserunt ducimus exercitationem assumenda modi minus eum dolore fugiat sed quos veritatis unde saepe inventore suscipit sint! Reiciendis tenetur ut ex numquam sapiente, sunt minima a quas, rem inventore perferendis fuga nesciunt perspiciatis consequuntur porro deserunt, tempora ratione unde. Eum odit aperiam dolor alias id harum! Accusamus voluptate consectetur non eligendi. Quibusdam, magni consequatur quidem, earum aspernatur aliquam tempore harum maxime minima, veniam vero! Neque quas eos at, assumenda. Corporis beatae, nam aliquam odit ut maxime aliquid, non dolorem quo libero, eos ullam velit ducimus? Adipisci, eos cupiditate? Ipsum sunt quibusdam, asperiores cumque tempore accusamus tenetur mollitia quas, quam repellat voluptatem et expedita sequi voluptatum. Suscipit porro maiores repellat. Molestiae labore culpa nesciunt, quasi voluptatem atque, rem perferendis asperiores. Molestiae, eum. Ut facere doloribus maxime.
+    </main>
+  </div>
   
 <script>
 $( document ).ready(function() {
+  // register the component
+  Vue.component('treeselect', VueTreeselect.Treeselect);
 
   window.vue_layout = new Vue({
-    el: '#app_layout',
-    data: {
-      topmenu : [
-        {title:'Dashboard', active:true, type:'link', href:'?Dashboard', page_rules:['html/iadmin/index.html?Dashboard']}
-        ,{title:'Notifications', active:false, type:'link', href:'?Notifications', page_rules:['html/iadmin/index.html?Notifications']}
-        ,{title:'Profile', active:false, type:'link', href:'?Profile', page_rules:['html/iadmin/index.html?Profile']}
-        ,{title:'Switch account', active:false, type:'link', href:'?Switch account', page_rules:['html/iadmin/index.html?Switch']}
-        ,{title:'Settings', active:false, type:'dropdown', href:'#Settings', page_rules:['html/iadmin/index.html?Action','html/iadmin/index.html?Another','html/iadmin/index.html?Something'], dropmenu: [
-            {title:'Action', type:'link', href:'?Action'},
-            {title:'Another action', type:'link', href:'?Another action'},
-            {title:'Something else here', type:'link', href:'#Something else here'},
+    el: '#app_layout'
+    ,data: {
+      user: {id:1, user_id:'gd.hong', user_name:'홍길동'}
+      ,options2:[]
+      ,topmenu : [
+        {title:'Dashboard', active:true, type:'link', href:'?Dashboard', page_rules:['iadmin/index.html?Dashboard']}
+        ,{title:'Notifications', active:false, type:'link', href:'?Notifications', page_rules:['iadmin/index.html?Notifications']}
+        ,{title:'Profile', active:false, type:'link', href:'?Profile', page_rules:['iadmin/index.html?Profile']}
+        ,{title:'Switch account', active:false, type:'link', href:'?Switch account', page_rules:['iadmin/index.html?Switch']}
+        ,{title:'Settings', active:false, type:'dropdown', href:'#Settings', page_rules:['iadmin/index.html?Action','iadmin/index.html?Another','iadmin/index.html?Something'], dropmenu: [
+            {title:'Action', type:'link', href:'?Action'}
+            ,{title:'Another action', type:'link', href:'?Another action'}
+            ,{title:'Something else here', type:'link', href:'#Something else here'}
           ]
         }
-      ],
-      bookmark : [
+      ]
+      ,menus : [
+        {id:1, parent_id:null, title:'Dashboard', active:true, type:'link', href:'?Dashboard', page_rules:['iadmin/index.html?Dashboard']}
+        ,{id:2, parent_id:null, title:'Notifications', active:false, type:'link', href:'?Notifications', page_rules:['iadmin/index.html?Notifications']}
+        ,{id:3, parent_id:null, title:'Profile', active:false, type:'link', href:'?Profile', page_rules:['iadmin/index.html?Profile']}
+        ,{id:4, parent_id:null, title:'Switch account', active:false, type:'link', href:'?Switch account', page_rules:['iadmin/index.html?Switch']}
+        ,{id:5, parent_id:null, title:'Settings', active:false, type:'dropdown', href:'#Settings', page_rules:['iadmin/index.html?Action','iadmin/index.html?Another','iadmin/index.html?Something']}
+        ,{id:6, parent_id:5, title:'Action', type:'link', href:'?Action'}
+        ,{id:7, parent_id:5, title:'Another action', type:'link', href:'?Another action'}
+        ,{id:8, parent_id:5, title:'Something else here', type:'link', href:'#Something else here'}
+      ]
+      ,bookmark : [
         {title:'알림', href:'#알림', balloon:'4'}
         ,{title:'Friends', href:'#Friends', balloon:'27'}
         ,{title:'즐겨찾기#1', href:'#1', balloon:null}
@@ -314,9 +370,22 @@ $( document ).ready(function() {
         ,{title:'즐겨찾기#6', href:'#6', balloon:''}
         ,{title:'즐겨찾기#7', href:'#7', balloon:''}
       ]
-    },
-    methods: {},
-    mounted: function(){
+    }
+    ,methods: {
+      get_child_menus: function(id) {
+        return _.filter(this.menus, function(o){
+          return o.parent_id == id;
+        })
+      }
+    }
+    ,computed: {
+      menus_first_level: function(){
+        return _.filter(this.menus, function(o){
+          return ! o.parent_id;
+        })
+      }
+    }
+    ,mounted: function(){
       var url = window.location.href;
       _.forEach(this.topmenu, function(item){
         var active = false;
@@ -325,27 +394,49 @@ $( document ).ready(function() {
         })
         item.active = active;
       });
+
+      this.options2 = this.options;
     }
   });
 
   window.vue_content = new Vue({
     el: '#app_content',
     data: {
-      text_admin_search_word: '',
+      /* 백단 데이타 */
       admin_services : [
-        {id:1, title:'제목: 통합멤버어드민', manager:'플랫폼서비스개발팀', href:'https://member.dangi.co.kr/adm', subtitle: 'subtitle: 통합멤버 어드민', guide:'통합멤버 어드민 가이드 내용 입력해주세요.'}
-        ,{id:2, title:'제목: CS 어드민', manager:'플랫폼서비스개발팀', href:'https://admin-cs.dangi.co.kr/admin/index', subtitle: 'subtitle: CS 어드민', guide:'CS 어드민 가이드 내용 입력해주세요.'}
-        ,{id:3, title:'제목: 빌링어드민', manager:'플랫폼서비스개발팀', href:'https://billadm.dangi.co.kr/', subtitle: 'subtitle: 빌링어드민', guide:'빌링어드민 가이드 내용 입력해주세요.'}
-        ,{id:4, title:'제목: 통합관리자', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: 통합 관리자', guide:'통합 관리자 가이드 내용 입력해주세요.'}
-        ,{id:5, title:'제목: BI 어드민', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: BI어드민', guide:'BI어드민 가이드 내용 입력해주세요.'}
-        ,{id:6, title:'제목: 영단기 어드민', manager:'단기서비스개발팀', href:'https://eng.conects.com/adm', subtitle: 'subtitle: 영단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://eng.conects.com/" target="_blank">영단기</a> <a href="https://eng.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
+        {id:1, title:'제목: 통합멤버어드민', tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'https://member.dangi.co.kr/adm', subtitle: 'subtitle: 통합멤버 어드민', guide:'통합멤버 어드민 가이드 내용 입력해주세요.'}
+        ,{id:2, title:'제목: CS 어드민', tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'https://admin-cs.dangi.co.kr/admin/index', subtitle: 'subtitle: CS 어드민', guide:'CS 어드민 가이드 내용 입력해주세요.'}
+        ,{id:3, title:'제목: 빌링어드민', tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'https://billadm.dangi.co.kr/', subtitle: 'subtitle: 빌링어드민', guide:'빌링어드민 가이드 내용 입력해주세요.'}
+        ,{id:4, title:'제목: 통합관리자', tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: 통합 관리자', guide:'통합 관리자 가이드 내용 입력해주세요.'}
+        ,{id:5, title:'제목: BI 어드민', tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: BI어드민', guide:'BI어드민 가이드 내용 입력해주세요.'}
+        ,{id:6, title:'제목: 영단기 어드민', tag:'#단기어드민', manager:'단기서비스개발팀', href:'https://eng.conects.com/adm', subtitle: 'subtitle: 영단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://eng.conects.com/" target="_blank">영단기</a> <a href="https://eng.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
         }
-        ,{id:14, title:'긴문장', manager:'단기 서비스 개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
+        ,{id:7, title:'제목: 중단기 어드민', tag:'#단기어드민', manager:'단기서비스개발팀', href:'https://china.conects.com/adm', subtitle: 'subtitle: 중단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://china.conects.com/" target="_blank">중단기</a> <a href="https://china.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
+        }
+        ,{id:14, title:'긴문장', tag:'#단기어드민', manager:'단기 서비스 개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
       ],
+
+      /* 로컬 데이타 */
+      text_admin_tag: '',
+      text_admin_search_word: '',
       myadmin : [1,6,4],
       modals : {
         guide: {modal_instance:null, title:'', desc:''}
       }
+
+      ,ex1_select: ['#어학-중단기']
+      ,ex1_options: [
+        {
+          id: '#어학all',
+          label: '#어학-all',
+          children: [
+            {id: '#어학-영단기',label: '#어학-영단기',}
+            , {id: '#어학-중단기',label: '#어학-중단기',}
+            , {id: '#어학-일단기',label: '#어학-일단기',}
+          ],
+        }
+        , {id: '멤버어드민',label: '멤버어드민'}
+      ]
     },
     methods: {
       search_admin_service: function(admin){
@@ -424,17 +515,31 @@ $( document ).ready(function() {
     },
     computed: {
       admins_filtered: function(){
+        var txt_tag = this.text_admin_tag;
 
-        var txt = _.toLower(_.trim(this.text_admin_search_word));
+        var txt_search = _.toLower(_.trim(this.text_admin_search_word));
+        var admins = this.admin_services;
+        var admins_result = [];
 
-        if (!txt) {
-          return this.admin_services;
+        if (!txt_search) {
+          admins_result = admins;
         } else {
-          return _.filter(this.admin_services, function(o) {
+          admins_result = _.filter(admins, function(o) {
             var title = _.toLower(o.title);
-            return title.indexOf(txt) >= 0;
+            return title.indexOf(txt_search) >= 0;
           });
         }
+
+        if (txt_tag) {
+          admins_result = _.filter(admins_result, function(o) {
+            var tag = _.toLower(o.tag);
+            console.log([tag,txt_tag]);
+            return tag.indexOf(txt_tag) >= 0;
+          });          
+        }
+
+
+        return admins_result;
       },
       admins_permitted: function(){
         var ids = this.myadmin;

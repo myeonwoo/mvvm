@@ -1,0 +1,200 @@
+페이지
+#1. 유니타스 어드민 등록 페이지
+  - 리스트 조회/등록
+  - 어드민 정보 (링크, 가이드)
+#2. 나의 유니타스 어드민 관리 페이지
+  - 전체 리스트 조회
+  - 즐겨찾는 어드민 리스트 조회
+  - 로그인된 사용자관련 정보 포함 어드민 리스트 조회 
+
+
+API
+  - GET: 등록된 어드민 리스트 조회
+  - POST: 어드민 등록
+  - GET: 즐겨찾는 나의 어드민 리스트
+  - POST: 즐겨찾는 어드민 설정
+  - 
+
+
+{
+  result_code: 1000
+  ,result_type: 'array'
+  , result: []
+}
+
+
+
+
+
+{id:"value", parent_id:"value", title:"value", subtitle:"value", manager:"value", tag:"value", link:"value", guide:"value", order:"value", yn_used:"value"}
+{id:"value"
+,parent_id:"value"
+,title:"value"
+,subtitle:"value"
+,manager:"value"
+,tag:"value"
+,link:"value"
+,guide:"value"
+,order:"value"
+,yn_used:"value"}
+
+0. 공통 컨텐츠
+    CREATE TABLE `IADMIN_USER` (
+      `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+      `user_id` varchar(40) NOT NULL COMMENT '회원 아이디',
+      `user_name` varchar(40) NOT NULL COMMENT '계정 이름',
+      `role` enum('super','developer','planner') NOT NULL DEFAULT 'planner' COMMENT '계정 역활',
+      `level` int(11) DEFAULT '1' COMMENT '레벨',
+      `yn_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '삭제여부 (1: Y,  0: N)',
+      `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
+      PRIMARY KEY (`id`)
+    ) COMMENT='사이트 회원정보';
+1. 개별 어드민 관리(등록/수정) 페이지
+    CREATE TABLE `ADMIN` (
+      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+      `title` varchar(255) NOT NULL COMMENT '제목',
+      `subtitle` varchar(255) NOT NULL COMMENT '부제목',
+      `manager` varchar(255) NOT NULL COMMENT '관리자',
+      `hashtag` varchar(255) NOT NULL COMMENT '메타데이터 태그',
+      `href` varchar(255) NOT NULL COMMENT '페이지 링크',
+      `guide` text COMMENT '어드민 가이드 내용',
+      `order` int(10) DEFAULT NULL COMMENT '정렬순서',
+      `yn_used` tinyint(4) NOT NULL COMMENT '사용여부 (1: Y,  0: N)',
+      `yn_deleted` tinyint(4) DEFAULT NULL COMMENT '삭제여부 (1: Y,  0: N)',
+      `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+      PRIMARY KEY (`id`)
+    ) COMMENT='개별 어드민 등록';
+2. 사용자별 즐겨찾기 관리(등록/수정) 페이지
+    CREATE TABLE `ADMIN_FAVORITE` (
+      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+      `admin_id` int(11) DEFAULT NULL COMMENT 'FOREIGN KEY(ADMIN)',
+      `user_id` int(10) DEFAULT NULL COMMENT 'FOREIGN KEY(IADMIN_USER)',
+      `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+      PRIMARY KEY (`id`)
+    ) COMMENT='즐겨 사용하는 어드민';
+3. I어드민 상단 메뉴 관리(등록/수정) 페이지
+    CREATE TABLE `IADMIN_PAGE_MANU` (
+      `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+      `parent_id` int(11) DEFAULT NULL COMMENT '계층적 구조로 부모 id',
+      `title` varchar(255) NOT NULL DEFAULT '제목',
+      `href` varchar(255) NOT NULL DEFAULT '페이지 링크',
+      `yn_used` tinyint(4) NOT NULL COMMENT '사용여부 (1: Y,  0: N)',
+      `order` int(10) DEFAULT NULL COMMENT '정렬순서',
+      `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+      PRIMARY KEY (`content_category_id`),
+      KEY `IDX_parent_id` (`parent_id`)
+    ) COMMENT='I어드민 페이지 등록';
+
+
+나의 
+
+
+select  products_sorted.*, @pv as pv, initialisation.*
+from (select * from products order by parent_id, id) products_sorted, (select @pv := '19') initialisation
+where true and find_in_set(parent_id, @pv) and length(@pv := concat(@pv, ',', id));
+
+select  data_sorted.*, @pv as pv, initialisation.*
+from (select * from CONTENT_CATEGORY order by parent_id, content_category_id) data_sorted, (select @pv := '19') initialisation
+where true and find_in_set(parent_id, @pv) and length(@pv := concat(@pv, ',', content_category_id));
+
+
+CREATE TABLE `USER` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` varchar(40) NOT NULL COMMENT '회원 아이디',
+  `user_name` varchar(40) NOT NULL COMMENT '계정 이름',
+  `edited_by` varchar(40) NOT NULL COMMENT '수정한 어드민 계정 아이디',
+  `usage_type` enum('unitas','conects') NOT NULL DEFAULT 'unitas' COMMENT '계정이 사용되는 타입(unitas: 에스티유니타스 그룹ID, conects: 서비스 회원ID)',
+  `role` enum('super','developer','planner','guest') NOT NULL DEFAULT 'guest' COMMENT '계정 역활',
+  `level` int(11) DEFAULT '10' COMMENT '레벨',
+  `yn_deleted` tinyint(4) NOT NULL DEFAULT '0' COMMENT '삭제여부 (1: Y,  0: N)',
+  `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성 일시',
+  `dt_expire` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '유효한 일시',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=utf8 COMMENT='사이트 회원정보';
+CREATE TABLE `CONTENT_CATEGORY` (
+  `content_category_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL COMMENT '부모 content_category_id',
+  `order` int(10) DEFAULT NULL COMMENT '정렬순서',
+  `subject` varchar(150) NOT NULL DEFAULT '',
+  `yn_used` tinyint(4) NOT NULL COMMENT '사용여부 (1: Y,  0: N)',
+  `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+  PRIMARY KEY (`content_category_id`),
+  KEY `IDX_parent_id` (`parent_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8 COMMENT='여러 컨텐츠 카테고리 관련 테이블';
+
+CREATE TABLE `CONTENT` (
+  `content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `content_category_id` int(11) NOT NULL COMMENT '카테고리 아이디',
+  `teacher_id` int(11) DEFAULT NULL COMMENT '선생님 아이디',
+  `numeric1` int(11) DEFAULT NULL COMMENT '숫자 1',
+  `subject` varchar(255) DEFAULT '미정' COMMENT '제목',
+  `position_x` int(11) DEFAULT '0' COMMENT '컨텐츠 위치 (x)',
+  `position_y` int(11) DEFAULT '0' COMMENT '컨텐츠 위치 (y)',
+  `position_type` enum('absolute','fixed','quick') DEFAULT 'absolute' COMMENT '위치 타입 (absolute: 고정,   fixed:플로팅, quick:퀵스타일)',
+  `background` varchar(45) DEFAULT '' COMMENT 'css 스타일 background  - HEX value',
+  `position_el_selector` varchar(255) DEFAULT '' COMMENT '컨텐츠 위치: element selector (ID, class, element 혼용)',
+  `desc_main` text COMMENT '설명: 메인',
+  `desc_intro` text COMMENT '설명: 소개',
+  `desc_extra1` text COMMENT '추가 설명 1',
+  `url_main_page` varchar(255) DEFAULT '' COMMENT '주용되는 페이지 주소',
+  `url_search` varchar(255) NOT NULL DEFAULT '' COMMENT '주소 url 의 뒤 search 파라메터 정보',
+  `img1_url` varchar(255) DEFAULT NULL COMMENT '1번 이미지',
+  `img1_link` varchar(500) DEFAULT NULL COMMENT '1번 이미지 링크: 메인',
+  `img1_link_type` enum('link','imagemap') DEFAULT 'link' COMMENT '1번 이미지 속성 (1 link 2 imagemap)',
+  `img1_link_html` text COMMENT '1번 이미지 속성 참고하는 html',
+  `img1_link_target` enum('_blank','_self') DEFAULT '_self' COMMENT '1번 이미지 속성 타겟 (1: _blank,  0: self)',
+  `img1_width` int(11) DEFAULT '100' COMMENT '1번 이미지 넓이',
+  `img1_style_close` tinyint(4) DEFAULT '0' COMMENT '1번이미지 닫기 스타일 여부',
+  `img2_url` varchar(255) DEFAULT NULL COMMENT '이미지: 추가1',
+  `img2_link` varchar(500) DEFAULT NULL COMMENT '2번 이미지 링크: 메인',
+  `img2_link_type` enum('link','imagemap') DEFAULT 'link' COMMENT '1번 이미지 속성 (1 link 2 imagemap)',
+  `img2_link_html` text COMMENT '2번 이미지 속성 참고하는 html',
+  `img2_link_target` enum('_blank','_self') DEFAULT '_self' COMMENT '2번 이미지 속성 타겟 (1: _blank,  0: self)',
+  `img2_width` int(11) DEFAULT '100' COMMENT '2번 이미지 넓이',
+  `img2_style_close` tinyint(4) DEFAULT '0' COMMENT '2번이미지 닫기 스타일 여부',
+  `img3_url` varchar(255) DEFAULT NULL COMMENT '이미지: 추가3',
+  `img3_link` varchar(500) DEFAULT NULL COMMENT '3번 이미지 링크: 메인',
+  `img3_link_type` enum('link','imagemap') DEFAULT 'link' COMMENT '1번 이미지 속성 (1 link 2 imagemap)',
+  `img3_link_html` text COMMENT '3번 이미지 속성 참고하는 html',
+  `img3_link_target` enum('_blank','_self') DEFAULT '_self' COMMENT '3번 이미지 속성 타겟 (1: _blank,  0: self)',
+  `img3_width` int(11) DEFAULT '100' COMMENT '3번 이미지 넓이',
+  `img3_style_close` tinyint(4) DEFAULT '0' COMMENT '3번이미지 닫기 스타일 여부',
+  `img4_url` varchar(255) DEFAULT NULL COMMENT '이미지: 추가4',
+  `img4_link` varchar(500) DEFAULT NULL COMMENT '4번 이미지 링크: 메인',
+  `img4_link_type` enum('link','imagemap') DEFAULT NULL COMMENT '4번 이미지 속성 (1 link 2 imagemap)',
+  `img4_link_html` text COMMENT '4번 이미지 속성 참고하는 html',
+  `img4_link_target` enum('_blank','_self') DEFAULT NULL COMMENT '4번 이미지 속성 타겟 (1: _blank, 0: self)',
+  `img4_width` int(11) DEFAULT NULL COMMENT '4번 이미지 넓이',
+  `img4_style_close` tinyint(4) DEFAULT NULL COMMENT '4번이미지 닫기 스타일 여부',
+  `img5_url` varchar(255) DEFAULT NULL COMMENT '이미지: 추가5',
+  `img5_link` varchar(500) DEFAULT NULL COMMENT '5번 이미지 링크: 메인',
+  `img5_link_type` enum('link','imagemap') DEFAULT 'link' COMMENT '5번 이미지 속성 (1 link 2 imagemap)',
+  `img5_link_html` text COMMENT '5번 이미지 속성 참고하는 html',
+  `img5_link_target` enum('_blank','_self') DEFAULT '_self' COMMENT '5번 이미지 속성 타겟 (1: _blank, 0: self)',
+  `img5_width` int(11) DEFAULT '100' COMMENT '5번 이미지 넓이',
+  `img5_style_close` tinyint(4) DEFAULT '0' COMMENT '5번이미지 닫기 스타일 여부',
+  `img6_url` varchar(255) DEFAULT NULL COMMENT '이미지: 추가6',
+  `img6_link` varchar(500) DEFAULT NULL COMMENT '6번 이미지 링크: 메인',
+  `img6_link_type` enum('link','imagemap') DEFAULT 'link' COMMENT '6번 이미지 속성 (1 link 2 imagemap)',
+  `img6_link_html` text COMMENT '6번 이미지 속성 참고하는 html',
+  `img6_link_target` enum('_blank','_self') DEFAULT '_self' COMMENT '6번 이미지 속성 타겟 (1: _blank, 0: self)',
+  `img6_width` int(11) DEFAULT '100' COMMENT '6번 이미지 넓이',
+  `img6_style_close` tinyint(4) DEFAULT '0' COMMENT '6번이미지 닫기 스타일 여부',
+  `movie1_key` varchar(255) DEFAULT '' COMMENT '1번 무료 영상 관련 키',
+  `movie1_url` varchar(500) DEFAULT '' COMMENT '1번 무료 영상 url',
+  `cnt_view` int(11) DEFAULT '0' COMMENT '1번 무료 영상 관련 키',
+  `order` int(11) DEFAULT '100' COMMENT '정렬순서',
+  `yn_used` tinyint(4) DEFAULT NULL COMMENT '사용여부 (1: Y,  0: N)',
+  `yn_deleted` tinyint(4) DEFAULT NULL COMMENT '삭제여부 (1: Y,  0: N)',
+  `yn_cookie` tinyint(4) DEFAULT NULL COMMENT '일정기간 안보기 사용여부 (1: Y, 0: N)',
+  `dt_dday` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+  `dt_start` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+  `dt_end` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+  `dt_created` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '생성일시',
+  `dt_start2` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '포스터 노출 시작날짜',
+  `dt_end2` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '포스터 노출 종료날짜',
+  `desc_extra2` text,
+  PRIMARY KEY (`content_id`),
+  KEY `ix01_content` (`content_category_id`),
+  KEY `IDX_CONTENTCNT` (`content_category_id`,`dt_start`,`dt_end`)
+) ENGINE=InnoDB AUTO_INCREMENT=5069 DEFAULT CHARSET=utf8 COMMENT='여러 컨텐츠 관련 테이블';
