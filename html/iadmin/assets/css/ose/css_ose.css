@@ -13,32 +13,20 @@ main{overflow: hidden;min-height: 1000px;}
     vertical-align: -.125em;
     fill: currentColor;
 }
-
 /* 메인 본문 */
+.container-fluid{padding-top: 56px;}
 .navbar .navbar-toggler {top: 0.5rem;right:0.5rem;}
-main.flex-shrink-0{}
-main.flex-shrink-0 h1{margin-bottom: 50px;}
-main .small .justify-content-between{line-height: 30px;}
-main .small .justify-content-between a{display: inline-block;line-height: 30px;color: #979797;text-decoration: none;border: 1px solid #d7d7d7;padding:0 10px;border-radius: 10px;}
-main .small .justify-content-between a:hover{border-color: #000;color: #000;}
-main .btn-list a.active{border-color: #0a58ca;color: #0a58ca}
-main .btn-list a.active:first-child{border-color: #ffafaf;color: #e18080}
-.search-box{float: right;width: 299px;margin-top: -50px;}
-.search-box .btn-outline-success{color: #979797; border-color: #d7d7d7}
-.search-box .btn-outline-success:hover{color: #000; border-color: #000;background-color: #fff;}
-small.text-end a{color: #000;text-decoration: none;}
-small.text-end a:hover{color: #000;text-decoration: underline;}
+.btn-un-link{color: #000;text-decoration: none;}
+.btn-un-link:hover{color: #000;text-decoration: underline;}
 
-nav .btn-toggle:hover, nav .btn-toggle:focus{background-color: #c7c7c7;}
-.btn-toggle[aria-expanded="true"]{background-color: #c7c7c7;color: #c7c7c7}
-.btn-check:focus+.btn, .btn:focus {
-    outline: 0;
-    box-shadow: none;
-}
+main .red-line{border-left: 4px solid #f00;text-indent: 10px;}
+main .yellow-line{border-left: 4px solid #ffd600;text-indent: 10px;}
+main .blue-line{border-left: 4px solid #0005ff;text-indent: 10px;}
+main .pink-line{border-left: 4px solid #ff8c8c;text-indent: 10px;}
 
-/* 검색바 하단 리스트 */
+/* 상단 서치바 리스트 */
 header .search-cont input{box-shadow: none;border-inline: none;}
-header .search-cont{position: relative;}
+header .search-cont{position: relative;z-index: 10;}
 header .search-cont .form-control:focus+.search-list{display: block;}
 header .search-cont .search-list{display: none;width: calc(100% + 2px);position: absolute;left: -1px;top:35px;background-color: #fff;border: 1px solid #000;border-top-width: 0px;padding: 10px 20px;}
 header .search-cont .search-list ul{margin: 0;padding: 0;}
@@ -52,12 +40,15 @@ header .search-cont .search-list ul li:focus span,
 header .search-cont .search-list ul li:hover span{display: block;}
 
 @media (max-width: 768px){
-    .login {
-        position: absolute;
-        left: 120px;
-        top: 0.5rem;
-    }
     header .search-cont{
         margin-top: 0.5rem;
     }
+    #sidebarMenu{
+        position: fixed;
+        top: 102px;
+        right: 0;
+        left: 0;
+        z-index: 1030;
+    }
+    .container-fluid{padding-top: 102px;}
 }

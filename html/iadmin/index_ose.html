@@ -34,7 +34,7 @@
 </head>
 <body>
 <div id="app_common" v-cloak>
-    <header class="navbar navbar-dark bg-dark flex-md-nowrap p-2 shadow">
+    <header class="navbar navbar-dark bg-dark flex-md-nowrap p-2 shadow fixed-top">
         <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="#">통합 어드민</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -51,10 +51,6 @@
                 </ul>
             </div>
         </div>
-        <div class="col-md-3 text-end login">
-            <button type="button" class="btn btn-outline-primary me-2">Login</button>
-            <button type="button" class="btn btn-primary">Sign-up</button>
-        </div>
     </header>
     <div class="container-fluid">
         <div class="row">
@@ -62,8 +58,7 @@
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="">
                 <div class="dropdown pt-3">
                     <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>OOO님 반갑습니다.</strong>
-                    </a>
+                        <strong>OOO님 반갑습니다.</strong></a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                         <li><a class="dropdown-item" href="#">New project...</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
@@ -137,31 +132,40 @@
                         <div class="my-3 p-3 bg-body rounded shadow-sm">
                             <h6 class="border-bottom pb-2 mb-0">관리자 권한 리스트</h6>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between red-line">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <a href="#">바로가기 &gt;</a>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-danger">★</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between yellow-line">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <a href="#">바로가기 &gt;</a>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-danger">★</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between blue-line">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <a href="#">바로가기 &gt;</a>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-outline-secondary">★</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <small class="d-block text-end mt-3">
-                                <a href="#">더보기 &gt;</a>
+                                <a class="btn-un-link" href="#">더보기 &gt;</a>
                             </small>
                         </div>
                     </div>
@@ -169,37 +173,40 @@
                         <div class="my-3 p-3 bg-body rounded shadow-sm">
                             <h6 class="border-bottom pb-2 mb-0">즐겨찾기 리스트</h6>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <span class="btn-list">
-                                            <a href="#">바로가기 &gt;</a>
-                                        </span>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-outline-secondary">✓</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <span class="btn-list">
-                                            <a href="#">바로가기 &gt;</a>
-                                        </span>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn btn-primary">✓</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <span class="btn-list">
-                                            <a href="#">바로가기 &gt;</a>
-                                        </span>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-outline-secondary">✓</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <small class="d-block text-end mt-3">
-                                <a href="#">더보기 &gt;</a>
+                                <a class="btn-un-link" href="#">더보기 &gt;</a>
                             </small>
                         </div>
                     </div>
@@ -207,76 +214,101 @@
                         <div class="my-3 p-3 bg-body rounded shadow-sm">
                             <h6 class="border-bottom pb-2 mb-0">최근 사용한 페이지 리스트</h6>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <a href="#">바로가기 &gt;</a>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-danger">★</button>
+                                            <button type="button" class="btn btn-outline-secondary">✓</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <a href="#">바로가기 &gt;</a>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-danger">★</button>
+                                            <button type="button" class="btn btn-primary">✓</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                                     <div class="d-flex justify-content-between">
                                         <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <a href="#">바로가기 &gt;</a>
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                            <button type="button" class="btn btn-outline-secondary">★</button>
+                                            <button type="button" class="btn btn-outline-secondary">✓</button>
+                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <small class="d-block text-end mt-3">
-                                <a href="#">더보기 &gt;</a>
+                                <a class="btn-un-link" href="#">더보기 &gt;</a>
                             </small>
                         </div>
                     </div>
                 </div>
                 <div class="my-3 p-3 bg-body rounded shadow-sm">
-                    <h6 class="border-bottom pb-3 mb-0 pt-3">전체 리스트</h6>
-                    <div class="search-box">
-                        <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                    <h6 class="pb-1 mb-0 pt-3">전체 리스트</h6>
+                    <div class="row mt-2 pb-3">
+                        <div class="col-lg-4">
+                            <select class="form-select form-select-m" aria-label=".form-select-sm example">
+                                <option selected>태그검색</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-8">
+                            <form class="d-flex">
+                                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                                <!--<button class="btn btn-outline-secondary" type="submit">Search</button>-->
+                            </form>
+                        </div>
                     </div>
                     <div class="d-flex text-muted pt-2">
-                        <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                        <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                             <div class="d-flex justify-content-between">
                                 <strong class="text-gray-dark">공단기 어드민 </strong>
-                                <span class="btn-list">
-                                    <a class="active" href="#">즐겨찾기 </a>
-                                    <a href="#">권한받기 </a>
-                                    <a href="#">바로가기 &gt;</a>
-                                </span>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-danger">★</button>
+                                    <button type="button" class="btn btn-primary">권한받음</button>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">가이드보기</button>
+                                    <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex text-muted pt-2">
-                        <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                        <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                             <div class="d-flex justify-content-between">
                                 <strong class="text-gray-dark">공단기 어드민 </strong>
-                                <span class="btn-list">
-                                    <a href="#">즐겨찾기 </a>
-                                    <a class="active" href="#">권한받기 </a>
-                                    <a href="#">바로가기 &gt;</a>
-                                </span>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-secondary">★</button>
+                                    <button type="button" class="btn btn-primary">권한받음</button>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">가이드보기</button>
+                                    <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="d-flex text-muted pt-2">
-                        <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                        <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
                             <div class="d-flex justify-content-between">
                                 <strong class="text-gray-dark">공단기 어드민 </strong>
-                                <span class="btn-list">
-                                    <a href="#">즐겨찾기 </a>
-                                    <a href="#">권한받기 </a>
-                                    <a href="#">바로가기 &gt;</a>
-                                </span>
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-secondary">★</button>
+                                    <button type="button" class="btn btn-outline-secondary">권한요청</button>
+                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">가이드보기</button>
+                                    <button type="button" class="btn btn-outline-secondary">바로가기</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -304,6 +336,24 @@
                     </div>
                 </div>
                 <!-- //질문리스트 -->
+                <!-- 가이드 팝업 -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                ...
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- // 가이드 팝업 -->
             </main>
         </div>
     </div>
