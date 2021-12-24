@@ -33,7 +33,7 @@
 
 </head>
 <body>
-<div id="app_common" v-cloak>
+<div id="app_content" v-cloak>
     <header class="navbar navbar-dark bg-dark flex-md-nowrap p-2 shadow fixed-top">
         <a class="navbar-brand col-md-3 col-lg-2 me-0 px-1" href="#">통합 어드민</a>
         <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
@@ -58,7 +58,8 @@
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse" style="">
                 <div class="dropdown pt-3">
                     <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                        <strong>OOO님 반갑습니다.</strong></a>
+                        <strong>OOO님 반갑습니다.</strong>
+                    </a>
                     <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
                         <li><a class="dropdown-item" href="#">New project...</a></li>
                         <li><a class="dropdown-item" href="#">Settings</a></li>
@@ -68,18 +69,11 @@
                     </ul>
                 </div>
                 <div class="position-sticky pt-3">
-                    <ul class="list-unstyled ps-0">
+                    <ul class="list-unstyled ps-0" >
                         <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                            <button class="btn align-items-center p-1 rounded fw-normal">
                                 Home
                             </button>
-                            <div class="collapse show" id="home-collapse">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">Overview</a></li>
-                                    <li><a href="#" class="link-dark rounded">Updates</a></li>
-                                    <li><a href="#" class="link-dark rounded">Reports</a></li>
-                                </ul>
-                            </div>
                         </li>
                         <li class="mb-1">
                             <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
@@ -128,40 +122,21 @@
             <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
                 <h2 class="mt-4">메인화면</h2>
                 <div class="row mb-3">
-                    <div class="col-xxl-4 themed-grid-col">
+                    <!-- 관리자 권한 리스트 -->
+                    <div class="col-xxl-6 themed-grid-col">
                         <div class="my-3 p-3 bg-body rounded shadow-sm">
                             <h6 class="border-bottom pb-2 mb-0">관리자 권한 리스트</h6>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between red-line">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                            <div class="d-flex text-muted pt-2" v-for="item in admin_services" v-if="item.adm">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div :class="{'yellow-line' :item.manager === '플랫폼서비스개발팀', 'blue-line' : item.manager === '단기서비스개발팀', 'd-flex':true ,'justify-content-between':true}">
+                                        <strong class="text-gray-dark fs-5 lh-base">{{item.title}}</strong>
                                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn-danger">★</button>
+                                            <button type="button" class="btn btn-danger" @click="wishClick(item.id)" v-if="myadmin.includes(item.id)">★</button>
+                                            <button type="button" class="btn btn-outline-secondary" @click="wishClick(item.id)" v-else>★</button>
                                             <button type="button" class="btn btn-outline-secondary">바로가기</button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between yellow-line">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn-danger">★</button>
-                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between blue-line">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn-outline-secondary">★</button>
-                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                        </div>
-                                    </div>
+                                    <span class="d-block">{{item.subtitle}}</span>
                                 </div>
                             </div>
                             <small class="d-block text-end mt-3">
@@ -169,40 +144,22 @@
                             </small>
                         </div>
                     </div>
-                    <div class="col-xxl-4 themed-grid-col">
+                    <!-- // 관리자 권한 리스트 -->
+                    <!-- 즐겨찾기 리스트 -->
+                    <div class="col-xxl-6 themed-grid-col">
                         <div class="my-3 p-3 bg-body rounded shadow-sm">
                             <h6 class="border-bottom pb-2 mb-0">즐겨찾기 리스트</h6>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
+                            <div class="d-flex text-muted pt-2" v-for="item in admin_services" v-if="myadmin.includes(item.id)">
+                                <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
+                                    <div :class="{'yellow-line' :item.manager === '플랫폼서비스개발팀', 'blue-line' : item.manager === '단기서비스개발팀', 'd-flex':true ,'justify-content-between':true}">
+                                        <strong class="text-gray-dark fs-5 lh-base">{{item.title}}</strong>
                                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn-outline-secondary">✓</button>
+                                            <button type="button" class="btn btn-primary" v-if="item.adm">✓</button>
+                                            <button type="button" class="btn btn-outline-secondary" v-else>✓</button>
                                             <button type="button" class="btn btn-outline-secondary">바로가기</button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn btn-primary">✓</button>
-                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn-outline-secondary">✓</button>
-                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                        </div>
-                                    </div>
+                                    <span class="d-block">{{item.subtitle}}</span>
                                 </div>
                             </div>
                             <small class="d-block text-end mt-3">
@@ -210,50 +167,7 @@
                             </small>
                         </div>
                     </div>
-                    <div class="col-xxl-4 themed-grid-col">
-                        <div class="my-3 p-3 bg-body rounded shadow-sm">
-                            <h6 class="border-bottom pb-2 mb-0">최근 사용한 페이지 리스트</h6>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn-danger">★</button>
-                                            <button type="button" class="btn btn-outline-secondary">✓</button>
-                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn-danger">★</button>
-                                            <button type="button" class="btn btn-primary">✓</button>
-                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="d-flex text-muted pt-2">
-                                <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                                    <div class="d-flex justify-content-between">
-                                        <strong class="text-gray-dark">공단기 어드민 </strong>
-                                        <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                            <button type="button" class="btn btn-outline-secondary">★</button>
-                                            <button type="button" class="btn btn-outline-secondary">✓</button>
-                                            <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <small class="d-block text-end mt-3">
-                                <a class="btn-un-link" href="#">더보기 &gt;</a>
-                            </small>
-                        </div>
-                    </div>
+                    <!-- // 즐겨찾기 리스트 -->
                 </div>
                 <div class="my-3 p-3 bg-body rounded shadow-sm">
                     <h6 class="pb-1 mb-0 pt-3">전체 리스트</h6>
@@ -273,43 +187,20 @@
                             </form>
                         </div>
                     </div>
-                    <div class="d-flex text-muted pt-2">
-                        <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
+                    <div class="d-flex text-muted pt-2" v-for="item in admin_services">
+                        <div class="pb-2 mb-0 small lh-sm border-bottom w-100">
                             <div class="d-flex justify-content-between">
-                                <strong class="text-gray-dark">공단기 어드민 </strong>
+                                <strong class="text-gray-dark fs-5 lh-base">{{item.title}}</strong>
                                 <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-danger">★</button>
-                                    <button type="button" class="btn btn-primary">권한받음</button>
+                                    <button type="button" class="btn btn-danger" @click="wishClick(item.id)" v-if="myadmin.includes(item.id)">★</button>
+                                    <button type="button" class="btn btn-outline-secondary" @click="wishClick(item.id)" v-else>★</button>
+                                    <button type="button" class="btn btn-primary" v-if="item.adm">권한받음</button>
+                                    <button type="button" class="btn btn-outline-secondary" v-else>권한요청</button>
                                     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">가이드보기</button>
                                     <button type="button" class="btn btn-outline-secondary">바로가기</button>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="d-flex text-muted pt-2">
-                        <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                            <div class="d-flex justify-content-between">
-                                <strong class="text-gray-dark">공단기 어드민 </strong>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary">★</button>
-                                    <button type="button" class="btn btn-primary">권한받음</button>
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">가이드보기</button>
-                                    <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="d-flex text-muted pt-2">
-                        <div class="pb-2 mb-0 small lh-lg border-bottom w-100">
-                            <div class="d-flex justify-content-between">
-                                <strong class="text-gray-dark">공단기 어드민 </strong>
-                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary">★</button>
-                                    <button type="button" class="btn btn-outline-secondary">권한요청</button>
-                                    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">가이드보기</button>
-                                    <button type="button" class="btn btn-outline-secondary">바로가기</button>
-                                </div>
-                            </div>
+                            <span class="d-block">{{item.subtitle}}</span>
                         </div>
                     </div>
                 </div>
@@ -363,119 +254,57 @@
     $(function (){
 
         window.vue_layout = new Vue({
-            el: '#app_common',
+            el: '#app_content',
             data: {
-                topmenu : [
-                    {title:'단기리스트', active:false, type:'link', href:'?dangi', page_rules:['html/iadmin/index_ose.html?dangi']}
-                ],
-                dangi : [
-                    {title:'공부서점',subtxt: '분철최저가, 당일출고', type:'link', href:'https://book.conects.com/'},
-                    {title:'커넥츠',subtxt: '역대급 실시간 LIVE', type:'link', href:'http://conects.com/'},
-                    {
-                        title: '유·초등', type: 'dropdown', href: '#Settings', dropmenu: [
-                            {title: '키즈스콜레', type: 'link', href: 'https://www.kidsschole.com/main/main/renew'},
-                            {title: '일간대치동', type: 'link', href: 'https://kr.tutor.com/elementary/main'},
-                            {title: '튜터닷컴', type: 'link', href: 'https://kr.tutor.com/'},
-                        ]
-                                },
-                    {
-                        title:'대입·수능', type:'dropdown', href:'#Settings', dropmenu: [
-                            {h3:'대입학원',title:'스카이에듀X숨마투스학원', type:'link', href:'https://skyeduac.conects.com/'},
-                            {h3:'대입학원',title:'남양주 스카이에듀 기숙학원', type:'link', href:'https://nyjskyedu.conects.com'},
-                            {h3:'대입학원',title:'수원 스카이에듀학원', type:'link', href:'https://swskyedu.conects.com'},
-                            {h3:'대입학원',title:'수원 스카이에듀학원 단과', type:'link', href:'https://swdskyedu.conects.com'},
-                            {h3:'대입학원',title:'강동 스카이에듀학원', type:'link', href:'https://gdskyedu.conects.com'},
-                            {h3:'대입학원',title:'강동 스카이에듀학원 단과', type:'link', href:'https://gddskyedu.conects.com/'},
-                            {h3:'대입학원',title:'숨마투스학원 선릉 예체능관', type:'link', href:'https://artskyedu.conects.com/'},
-                            {h3:'대입학원',title:'스카이에듀 공교육', type:'link', href:'https://skyeduac.conects.com/public-edu'},
-                            {h3:'대입학원',title:'수시컨설팅', type:'link', href:'https://rightway.conects.com/'},
-                        ]
-                    },
-                    {
-                        title:'어학·회화·유학', type:'dropdown', href:'#Settings', dropmenu: [
-                            {title:'영단기토익', type:'link', href:'https://eng.conects.com/'},
-                            {title:'영단기토스', type:'link', href:'https://eng.conects.com/tos/promotion/freepass2020'},
-                            {title:'영단기오픽', type:'link', href:'https://eng.conects.com/tos/promotion/opic/freepass2020'},
-                            {title:'영단기텝스', type:'link', href:'https://eng.conects.com/main/teps'},
-                            {title:'영단기토플', type:'link', href:'https://eng.conects.com/toefl'},
-                            {title:'영단기G-Telp', type:'link', href:'https://eng.conects.com/g_telp'},
-                            {title:'커넥츠스피킹', type:'link', href:'https://speaking.conects.com'},
-                            {title:'GMAT/GRE단기', type:'link', href:'https://gmat.conects.com'},
-                            {title:'중단기', type:'link', href:'https://china.conects.com'},
-                            {title:'일단기', type:'link', href:'https://japan.conects.com'},
-                            {title:'프린스턴리뷰', type:'link', href:'https://www.princetonreviewprep.com'},
-                        ]
-                    },
-                    {
-                        title:'대학생·취업', type:'dropdown', href:'#Settings', dropmenu: [
-                            {title:'공기업단기', type:'link', href:'https://public.conects.com/'},
-                        ]
-                    },
-                    {
-                        title:'자격증', type:'dropdown', href:'#Settings', dropmenu: [
-                            {title:'자단기', type:'link', href:'https://ja.conects.com/'},
-                            {title:'전기단기', type:'link', href:'https://elec.conects.com/'},
-                        ]
-                    },
-                    {
-                        title:'공무원', type:'dropdown', href:'#Settings', dropmenu: [
-                            {h4:'행정직', title:'공단기', type:'link', href:'https://gong.conects.com/'},
-                            {h4:'행정직', title:'교행단기', type:'link', href:'https://gong.conects.com/public'},
-                            {h4:'행정직', title:'세무관세단기', type:'link', href:'https://gong.conects.com/tax'},
-                            {h4:'행정직', title:'사복단기', type:'link', href:'https://gong.conects.com/social'},
-                            {h4:'행정직', title:'법검단기', type:'link', href:'https://bupgum.conects.com/'},
-                            {h4:'행정직', title:'교정보호단기', type:'link', href:'https://gong.conects.com/corrections'},
-                            {h4:'행정직', title:'출관단기', type:'link', href:'https://gong.conects.com/immigration'},
-                            {h4:'기술직', title:'기술단기', type:'link', href:'https://gong.conects.com/tech'},
-                            {h4:'기술직', title:'간호보건단기', type:'link', href:'https://gong.conects.com/health'},
-                            {h4:'기술직', title:'계리단기', type:'link', href:'https://gong.conects.com/post'},
-                            {h4:'군무원', title:'군단기', type:'link', href:'https://gong.conects.com/gun'},
-                            {h4:'경찰/소방', title:'경단기', type:'link', href:'https://gyung.conects.com/'},
-                            {h4:'경찰/소방', title:'경찰승진단기', type:'link', href:'https://gyung.conects.com/freepass/gyungpro_freepass'},
-                            {h4:'경찰/소방', title:'경찰간부단기', type:'link', href:'https://gyung.conects.com/freepass/police'},
-                            {h4:'경찰/소방', title:'소방단기', type:'link', href:'https://sobang.conects.com/'},
-                            {h4:'경찰/소방', title:'소방승진단기', type:'link', href:'https://sobang.conects.com/freepass/pro_freepass'},
-                            {h3:'공무원 학원' ,h4:'노량진', title:'공단기학원', type:'link', href:'https://gong.conects.com/gong/main/academy'},
-                            {h3:'공무원 학원' ,h4:'노량진', title:'경단기학원', type:'link', href:'https://gyung.conects.com/offline/main'},
-                            {h3:'공무원 학원' ,h4:'노량진', title:'경찰간부학원', type:'link', href:'https://gyung.conects.com/offline/main'},
-                            {h3:'공무원 학원' ,h4:'노량진', title:'소방단기학원', type:'link', href:'https://sobang.conects.com/academy/academy_main'},
-                            {h3:'공무원 학원' ,h4:'노량진', title:'법검단기학원', type:'link', href:'https://bupgum.conects.com/academy/academy_main'},
-                            {h3:'공무원 학원' ,h4:'노량진', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/plab_selfstudy'},
-                            {h3:'공무원 학원' ,h4:'신림', title:'경찰독학관', type:'link', href:'https://gyung.conects.com/offline/main/sillim'},
-                            {h3:'공무원 학원' ,h4:'대구', title:'한국공무원학원', type:'link', href:'https://www.testb.co.kr'},
-                            {h3:'공무원 학원' ,h4:'대구', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/conects_plab'},
-                            {h3:'공무원 학원' ,h4:'대구', title:'경찰독학관', type:'link', href:'https://gong.conects.com/gong/promotion/offline/conects_plab'},
-                            {h3:'공무원 학원' ,h4:'부산', title:'공단기학원', type:'link', href:'https://gong.conects.com/gong/main/academy/BU'},
-                            {h3:'공무원 학원' ,h4:'부산', title:'경단기학원', type:'link', href:'https://gyung.conects.com/academy/busan/introduce'},
-                            {h3:'공무원 학원' ,h4:'부산', title:'소방단기학원', type:'link', href:'https://sobang.conects.com/academy/academy_main'},
-                            {h3:'공무원 학원' ,h4:'부산', title:'공무원독학관', type:'link', href:'https://gong.conects.com/gong/academy/promotion/self_study_2022'},
-                            {h3:'공무원 학원' ,h4:'부산', title:'경찰독학관', type:'link', href:'https://gong.conects.com/gong/academy/promotion/self_study_2022'},
-                            {h3:'공무원 학원' ,h4:'프랩 24', title:'프랩24 공단기', type:'link', href:'https://gong24.conects.com'},
-                            {h3:'공무원 학원' ,h4:'프랩 24', title:'프랩24 경단기', type:'link', href:'https://gyung24.conects.com'},
-                        ]
-                    },
-                    {
-                        title:'전문직', type:'dropdown', href:'#Settings', dropmenu: [
-                            {title:'PEET단기', type:'link', href:'https://PEET.conects.com/'},
-                            {title:'MD단기', type:'link', href:'https://md.conects.com/'},
-                            {title:'공인단기', type:'link', href:'https://gongin.conects.com/'},
-                            {title:'노무사단기', type:'link', href:'https://nomu.conects.com/'},
-                            {title:'법무사단기', type:'link', href:'https://bupmu.conects.com/'},
-                            {title:'변호사단기', type:'link', href:'https://lawyer.conects.com/'},
-                            {h3:'전문학원', title:'PEET/MD학원', type:'link', href:'https://peet.conects.com/offmdp/main/main'},
-                            {h3:'전문학원', title:'프랩24 PEET학원', type:'link', href:'https://peet24.conects.com/'},
-                            {h3:'전문학원', title:'노무사단기학원', type:'link', href:'https://nomu.conects.com/main/offline'},
-                            {h3:'전문학원', title:'법무사단기학원', type:'link', href:'https://bupmu.conects.com/main/offline'},
-                        ]
-                    },
-                    {
-                        title:'커넥츠 프랩 독학관', type:'dropdown', href:'#Settings', dropmenu: [
-                            {title:'커넥츠프랩', type:'link', href:'https://plab.conects.com'},
-                        ]
+                /* 어드민 리스트 */
+                admin_services : [
+                    {id:1, parent_id:null, title:'통합멤버어드민',adm: true, tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'https://member.dangi.co.kr/adm', subtitle: 'subtitle: 통합멤버 어드민', guide:'통합멤버 어드민 가이드 내용 입력해주세요.'}
+                    ,{id:2, parent_id:null, title:'CS 어드민',adm: false, tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'https://admin-cs.dangi.co.kr/admin/index', subtitle: 'subtitle: CS 어드민', guide:'CS 어드민 가이드 내용 입력해주세요.'}
+                    ,{id:3, parent_id:null, title:'빌링어드민',adm: false, tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'https://billadm.dangi.co.kr/', subtitle: 'subtitle: 빌링어드민', guide:'빌링어드민 가이드 내용 입력해주세요.'}
+                    ,{id:4, parent_id:null, title:'통합관리자',adm: false, tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: 통합 관리자', guide:'통합 관리자 가이드 내용 입력해주세요.'}
+                    ,{id:5, parent_id:null, title:'BI 어드민',adm: true, tag:'#시스템어드민', manager:'플랫폼서비스개발팀', href:'#', subtitle: 'subtitle: BI어드민', guide:'BI어드민 가이드 내용 입력해주세요.'}
+                    ,{id:6, parent_id:4, title:'영단기 어드민',adm: false, tag:'#단기어드민', manager:'단기서비스개발팀', href:'https://eng.conects.com/adm', subtitle: 'subtitle: 영단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://eng.conects.com/" target="_blank">영단기</a> <a href="https://eng.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
                     }
+                    ,{id:7, parent_id:4, title:'중단기 어드민',adm: false, tag:'#단기어드민', manager:'단기서비스개발팀', href:'https://china.conects.com/adm', subtitle: 'subtitle: 중단기 어드민', guide: '요청방식 : <br> 서비스 <a href="https://china.conects.com/" target="_blank">중단기</a> <a href="https://china.conects.com/adm" target="_blank">어드민</a>은 단기 서비스 개발팀에서 담당하고 있습니다. 해당 개발팀에게 권한 부여 요청 가능합니다. <br>'
+                    }
+                    ,{id:14, parent_id:4, title:'긴문장',adm: true, tag:'#단기어드민', manager:'단기서비스개발팀', href:'#', subtitle: '긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', guide:'긴문장: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', }
                 ],
+
+                /* 어드민 리스트 검색할 태그 문자열 */
+                text_admin_tag: '',
+                /* 어드민 리스트 검색할 문자열 */
+                text_admin_search_word: '',
+                /* 내의 즐겨찾기 어드민 id 리스트 */
+                myadmin : [1,6,4],
+                /* 모달 관련 데이타 */
+                modals : {
+                    guide: {modal_instance:null, title:'', desc:''}
+                }
+
+                ,ex1_select: ['#어학-중단기']
+                ,ex1_options: [
+                    {
+                        id: '#어학all',
+                        label: '#어학-all',
+                        children: [
+                            {id: '#어학-영단기',label: '#어학-영단기',}
+                            , {id: '#어학-중단기',label: '#어학-중단기',}
+                            , {id: '#어학-일단기',label: '#어학-일단기',}
+                        ],
+                    }
+                    , {id: '멤버어드민',label: '멤버어드민'}
+                ]
             },
-            methods: {},
+            methods: {
+                /* 즐겨찾기 클릭시 */
+                wishClick: function (wish){
+                    if(this.myadmin.includes(wish)) {
+                        this.myadmin.splice(this.myadmin.indexOf(wish), 1);
+                    }else {
+                        this.myadmin.push(wish);
+                    }
+                },
+            },
             computed: {},
             watch: {},
         });
