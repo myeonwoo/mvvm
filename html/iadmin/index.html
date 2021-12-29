@@ -26,6 +26,13 @@
   <!-- Jquery -->
   <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 
+  <!-- wysiwig 관련 : https://github.com/hifarer/vueditor -->
+  <link rel="stylesheet" type="text/css" href="./assets/js/vueditor/style/vueditor.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/2.5.0/vuex.min.js"></script>
+  <script src="./assets/js/vueditor/language/lang.en.js"></script>
+  <script src="./assets/js/vueditor/plugins/emoji.min.js"></script>
+  <script src="./assets/js/vueditor/script/vueditor.min.js"></script>
+
 </head>
 <body class="bg-light">
 
@@ -345,6 +352,8 @@
     </div>
   </div>
 
+  <div id="editor2"></div>
+
   <div>
     <main class="container">
       Footer 풋터푸터.. <br>
@@ -606,8 +615,18 @@ $( document ).ready(function() {
     }
   });
   
-})
+});
 
+let inst = Vueditor.createEditor('#editor2', {
+  lang: lang,
+  toolbar: [
+    'removeFormat', 'undo', 'redo', '|', 'elements', 'fontName', 'fontSize', 'foreColor', 'backColor', 'sourceCode'
+  ],
+  uploadUrl: '',
+  id: 'someid',
+  classList: ['someclass']
+})
+inst.setContent('fill your content here')
 </script>
 </body>
 </html>
