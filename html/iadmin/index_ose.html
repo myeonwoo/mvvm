@@ -70,37 +70,23 @@
                 </div>
                 <div class="position-sticky pt-3">
                     <ul class="list-unstyled ps-0" >
-                        <li class="mb-1">
-                            <button class="btn align-items-center p-1 rounded fw-normal">
-                                Home
-                            </button>
-                        </li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
-                                Dashboard
-                            </button>
-                            <div class="collapse" id="dashboard-collapse">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">Overview</a></li>
-                                    <li><a href="#" class="link-dark rounded">Weekly</a></li>
-                                    <li><a href="#" class="link-dark rounded">Monthly</a></li>
-                                    <li><a href="#" class="link-dark rounded">Annually</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li class="mb-1">
-                            <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="false">
-                                Orders
-                            </button>
-                            <div class="collapse" id="orders-collapse">
-                                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                    <li><a href="#" class="link-dark rounded">New</a></li>
-                                    <li><a href="#" class="link-dark rounded">Processed</a></li>
-                                    <li><a href="#" class="link-dark rounded">Shipped</a></li>
-                                    <li><a href="#" class="link-dark rounded">Returned</a></li>
-                                </ul>
-                            </div>
-                        </li>
+                        <template v-for="item in menus_first_level">
+                            <li v-if="get_child_menus(item.id).length < 1" class="mb-1">
+                                <a :href="item.href" :class="{active:item.active}" class="btn align-items-center rounded gnb-btn">
+                                    {{item.title}}
+                                </a>
+                            </li>
+                            <li v-else class="mb-1">
+                                <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                                    {{item.title}}
+                                </button>
+                                <div class="collapse" id="dashboard-collapse">
+                                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                        <li v-for="dropitem in get_child_menus(item.id)"><a :href="dropitem.href" class="link-dark rounded">{{dropitem.title}}</a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </template>
                         <li class="border-top my-3"></li>
                         <li class="mb-1">
                             <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#account-collapse" aria-expanded="false">
@@ -294,6 +280,12 @@
                 ]
             },
             methods: {
+                /* gnb 2뎁스 메뉴 */
+                get_child_menus: function(id) {
+                    return _.filter(this.admin_services, function(o){
+                        return o.parent_id == id;
+                    })
+                },
                 /* 즐겨찾기 클릭시 */
                 wishClick: function (wish){
                     if(this.myadmin.includes(wish)) {
@@ -303,7 +295,14 @@
                     }
                 },
             },
-            computed: {},
+            computed: {
+                /* 2뎁스  */
+                menus_first_level: function(){
+                    return _.filter(this.admin_services, function(o){
+                        return ! o.parent_id;
+                    })
+                },
+            },
             watch: {},
         });
     });
